@@ -1,0 +1,5 @@
+# macOS
+.DS_Store
+
+# Frozen device builds (published as GitHub release assets)
+build/
