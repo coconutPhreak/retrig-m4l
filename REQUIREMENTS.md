@@ -122,7 +122,10 @@ Agreed 2026-11-09. Items marked ⚑ are provisional defaults until checked again
   - One formula for both: `vs = v0`, `ve = v0 + max(f,0)·(127 − v0) + min(f,0)·(v0 − 1)`.
   - A note played at 127 can't fade up, and one played at 1 can't fade out.
   - Example, v0 = 100: VFAD −80 % ends at 20.8; +80 % ends at 121.6.
-- Fade position is measured by **time through LEN**, not by hit number (decided 2026-11-09): t = elapsed / LEN, where elapsed is the time from the played note to this hit. With a constant rate that is t = i·RATE / LEN for hit i. This keeps working when SFAD changes the rate mid-burst. Accepted side effect: the last hit lands just before the end of LEN, so it stops slightly short of the end velocity (e.g. v0 100, VFAD −80 %, 1/16 over LEN 1/4 gives 100, 80, 60, 41 at CRV 0 % and 100, 68, 46, 31 at CRV 100 %).
+- Fade position has **two modes, switched by the FADE parameter**, kept side by side until SFAD is built and both can be compared by ear (decided 2026-11-09). Then one is kept and FADE is removed.
+  - **LEN:** time through LEN: t = elapsed / LEN; with a constant rate t = i·RATE / LEN. Carries over to SFAD unchanged. The last hit lands just before the end of LEN, so it stops short of the end velocity. In testing, the gap was too big with few hits (4 hits at −100 % end at 26, not 1).
+  - **LAST:** by hit: t = elapsed / (time of the last hit); with a constant rate t = i / (N − 1). The last hit lands exactly on the end velocity (4 hits at −100 %: 100, 67, 34, 1). One hit (N = 1) plays at v0. With SFAD the last hit's time has to be worked out at note-on by running through the burst's schedule once (native objects, no JS).
+  - ⚑ Default: LAST, since that's what testing asked for.
 - `v_lin = vs + (ve−vs)·t`, `v_exp = vs·(ve/vs)^t` (ve is always ≥ 1, so this stays finite), then the CRV blend above, rounded half up and clamped to 1–127. One `expr` per hit.
 - VFAD and CRV are continuous `live.dial` parameters (not whole-number steps), so Push gives coarse turns normally and fine control with Shift held. The display shows whole percentages.
 - ⚑ With LEN = INF there is no fade; velocity stays constant.
@@ -136,10 +139,11 @@ Agreed 2026-11-09. Items marked ⚑ are provisional defaults until checked again
 | LEN | `live.menu` | LEN list | 1/4 |
 | VFAD | `live.dial` (continuous) | −100…+100 % | 0 |
 | CRV | `live.dial` (continuous) | 0…100 % | 0 |
+| FADE | `live.menu` | LEN / LAST | LAST ⚑ (temporary, see Velocity fade) |
 
-VFAD and CRV are read at note-on, like RATE and LEN (decided 2026-11-09): turning them mid-burst changes the next burst.
+VFAD, CRV and FADE are read at note-on, like RATE and LEN (decided 2026-11-09): turning them mid-burst changes the next burst.
 
-One bank, "Retrig": RTRG, RATE, LEN, VFAD, CRV, then three empty slots. Banks are saved at the device level (`parameterbanks`), which a copy-and-paste into the device editor would lose, so the device is built straight to `.amxd`.
+Bank 1, "Retrig": RTRG, RATE, LEN, VFAD, CRV, then three empty slots (for PROB, LOCK, SFAD). Bank 2, "Setup": FADE (later also STRT). Banks are saved at the device level (`parameterbanks`), which a copy-and-paste into the device editor would lose, so the device is built straight to `.amxd`.
 
 ## Later: after the core requirements
 
@@ -182,7 +186,7 @@ An on/off switch that limits RATE to straight divisions (requested 2026-11-09, d
 Design impact on the core build:
 
 - SFAD means the interval changes on every hit, so the hit count N is no longer known at note-on. The timing core would move from a fixed `metro` plus hit count to a `delay` re-armed on every hit (still in ticks) that stops once the elapsed time reaches LEN.
-- That's why VFAD measures its position by time through LEN (see Velocity fade above): it needs no hit count, so it carries over to SFAD unchanged.
+- Both FADE modes need an SFAD version (see Velocity fade above). LEN carries over unchanged, since it needs no hit count. LAST needs the last hit's time, worked out at note-on by running through the burst's schedule once. After SFAD, compare the two modes by ear and keep one.
 - PROB uses a native `random` per repeat in the scheduler thread: no JS.
 
 ## Out of scope and open items
