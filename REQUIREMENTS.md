@@ -151,6 +151,16 @@ Open questions to settle before building:
 - [ ] SFAD range, its end rate (e.g. RATE × 2 at +100 %?) and whether it uses CRV or a curve of its own.
 - [ ] SFAD with LEN = INF: no speed fade (same as VFAD)?
 
+### Stretch: option to disable triplets
+
+An on/off option that keeps RATE off the triplet divisions (requested 2026-11-09).
+
+Open questions:
+
+- [ ] Which values does it remove? Triplets only (1/3, 1/6, 1/12, 1/24, 1/48), or also the quintuplet-style odd ones (1/5, 1/10, 1/20, 1/40, 1/80), leaving only straight values (1/1 … 1/64)?
+- [ ] Where does the switch live? The bank of 8 is full once PROB, LOCK and SFAD are in, so either a second Push bank (e.g. "Setup") or a device setting that isn't a p-lockable parameter. Note that a setting off the bank can't be changed on Push standalone.
+- [ ] How RATE behaves when it's on. Proposed: keep RATE's value list fixed, so existing automation and p-locks keep their meaning, and snap a disabled value to the nearest allowed one (e.g. 1/12 → 1/16) when a burst starts. Changing the menu's own list at runtime would shift what saved p-locks point to.
+
 Design impact on the core build:
 
 - SFAD means the interval changes on every hit, so the hit count N is no longer known at note-on. The timing core would move from a fixed `metro` plus hit count to a `delay` re-armed on every hit (still in ticks) that stops once the elapsed time reaches LEN.
