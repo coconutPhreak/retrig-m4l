@@ -132,7 +132,7 @@ Agreed 2026-11-09. Items marked ⚑ are provisional defaults until checked again
 
 | Param | Object | Values | Default |
 | --- | --- | --- | --- |
-| RTRG | `live.toggle` | Off / On | On |
+| RTRG | `live.toggle` | Off / On | Off (changed from On 2026-11-09: a freshly loaded device passes notes through until you turn it on) |
 | RATE | `live.menu` | RATE list | 1/16 |
 | LEN | `live.menu` | LEN list | 1/4 |
 | VFAD | `live.dial` (continuous) | −100…+100 % | 0 |

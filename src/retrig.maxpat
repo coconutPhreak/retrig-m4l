@@ -465,7 +465,7 @@
 							],
 							"parameter_initial_enable": 1,
 							"parameter_initial": [
-								1
+								0
 							],
 							"parameter_annotation_name": "Retrig on/off"
 						}

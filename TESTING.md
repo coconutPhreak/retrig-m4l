@@ -13,7 +13,7 @@ How to build the device, load it in Live, and what to check. v1 added RTRG, RATE
    This writes `build/Retrig.amxd`.
 2. In Live, make a Drum Rack and load Simpler (or Drum Sampler) on one pad with a short click or rim sample.
 3. Show the pad's chain and drag `build/Retrig.amxd` into it, *before* the instrument.
-4. The device should show five controls: RTRG (on), RATE (1/16), LEN (1/4), and the VFAD and CRV dials (both 0 %).
+4. The device should show RTRG (**off**), RATE (1/16), LEN (1/4), VFAD and CRV (0 %), PROB (100 %), LOCK (off) and PMODE (Repeats). Turn RTRG on before testing retrigs.
 
 After every rebuild, drag the new `Retrig.amxd` in again to replace the old one (or delete and re-add it).
 
