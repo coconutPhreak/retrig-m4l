@@ -140,6 +140,8 @@ Agreed 2026-11-09. Items marked ⚑ are provisional defaults until checked again
 
 VFAD and CRV are read at note-on, like RATE and LEN (decided 2026-11-09): turning them mid-burst changes the next burst.
 
+LEN stays a list (`live.menu`), so it keeps its exact labels (1/64, 1/4, INF). Push moves a list one entry per encoder click, with no acceleration and no Shift fine-tuning, so reaching 128 takes a long turn. A continuous, exponentially scaled LEN dial was considered (2026-11-09) and set aside: it would lose the labels and INF.
+
 One bank, "Retrig": RTRG, RATE, LEN, VFAD, CRV, then three empty slots (for PROB, LOCK, SFAD). A second bank, "Setup", comes with STRT. Banks are saved at the device level (`parameterbanks`), which a copy-and-paste into the device editor would lose, so the device is built straight to `.amxd`.
 
 ## Later: after the core requirements
