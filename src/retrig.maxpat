@@ -58,7 +58,7 @@
 						620.0,
 						20.0
 					],
-					"text": "RETRIG v3 - per-pad retrig (RTRG / RATE / LEN / VFAD / CRV / PROB / LOCK, Setup: PMODE). All timing in the Max scheduler: no JS.",
+					"text": "RETRIG v4 - per-pad retrig. Banks: Retrig (RTRG RATE LEN VFAD CRV PROB TRATE GLIDE), Chance (PROB LOCK PMODE). All timing in the Max scheduler: no JS.",
 					"fontname": "Arial Bold",
 					"fontsize": 10.0,
 					"linecount": 1
@@ -166,7 +166,7 @@
 						560.0,
 						20.0
 					],
-					"text": "6. Each metro bang: note-off for the previous hit, then if i < N (or N = 0): note-on, else stop.",
+					"text": "6. Each delay bang: note-off for the previous hit, then if i < N (or N = 0): note-on, else stop.",
 					"fontname": "Arial Bold",
 					"fontsize": 10.0,
 					"linecount": 1
@@ -705,7 +705,7 @@
 					"id": "t-start",
 					"maxclass": "newobj",
 					"numinlets": 1,
-					"numoutlets": 5,
+					"numoutlets": 7,
 					"patching_rect": [
 						20.0,
 						400.0,
@@ -717,9 +717,11 @@
 						"bang",
 						"bang",
 						"bang",
+						"bang",
+						"bang",
 						"bang"
 					],
-					"text": "t b b b b b",
+					"text": "t b b b b b b b",
 					"fontname": "Arial Bold",
 					"fontsize": 10.0
 				}
@@ -2033,46 +2035,6 @@
 			},
 			{
 				"box": {
-					"id": "m-int-ms",
-					"maxclass": "message",
-					"numinlets": 2,
-					"numoutlets": 1,
-					"patching_rect": [
-						330.0,
-						615.0,
-						87.0,
-						20.0
-					],
-					"outlettype": [
-						""
-					],
-					"text": "interval $1",
-					"fontname": "Arial Bold",
-					"fontsize": 10.0
-				}
-			},
-			{
-				"box": {
-					"id": "m-int-ticks",
-					"maxclass": "message",
-					"numinlets": 2,
-					"numoutlets": 1,
-					"patching_rect": [
-						460.0,
-						615.0,
-						110.0,
-						20.0
-					],
-					"outlettype": [
-						""
-					],
-					"text": "interval $1 ticks",
-					"fontname": "Arial Bold",
-					"fontsize": 10.0
-				}
-			},
-			{
-				"box": {
 					"id": "m-go",
 					"maxclass": "message",
 					"numinlets": 2,
@@ -2093,30 +2055,10 @@
 			},
 			{
 				"box": {
-					"id": "metro",
-					"maxclass": "newobj",
-					"numinlets": 2,
-					"numoutlets": 1,
-					"patching_rect": [
-						20.0,
-						690.0,
-						73.0,
-						20.0
-					],
-					"outlettype": [
-						"bang"
-					],
-					"text": "metro 100",
-					"fontname": "Arial Bold",
-					"fontsize": 10.0
-				}
-			},
-			{
-				"box": {
 					"id": "t-hit",
 					"maxclass": "newobj",
 					"numinlets": 1,
-					"numoutlets": 2,
+					"numoutlets": 3,
 					"patching_rect": [
 						20.0,
 						720.0,
@@ -2125,9 +2067,10 @@
 					],
 					"outlettype": [
 						"bang",
+						"bang",
 						"bang"
 					],
-					"text": "t b b",
+					"text": "t b b b",
 					"fontname": "Arial Bold",
 					"fontsize": 10.0
 				}
@@ -2157,7 +2100,7 @@
 					"id": "t-idx",
 					"maxclass": "newobj",
 					"numinlets": 1,
-					"numoutlets": 4,
+					"numoutlets": 3,
 					"patching_rect": [
 						20.0,
 						775.0,
@@ -2167,10 +2110,9 @@
 					"outlettype": [
 						"int",
 						"int",
-						"int",
 						"int"
 					],
-					"text": "t i i i i",
+					"text": "t i i i",
 					"fontname": "Arial Bold",
 					"fontsize": 10.0
 				}
@@ -2988,7 +2930,7 @@
 					"fontsize": 10.0,
 					"id": "expr-t",
 					"maxclass": "newobj",
-					"text": "expr min(1., $i1 / max($f2 - 1., 1.))",
+					"text": "expr min(1., $f1 / max($f2, 0.0001)) * ($f2 > 0)",
 					"numinlets": 2,
 					"numoutlets": 1,
 					"outlettype": [
@@ -2997,7 +2939,7 @@
 					"patching_rect": [
 						140.0,
 						860.0,
-						230.0,
+						280.0,
 						20.0
 					]
 				}
@@ -3518,6 +3460,1189 @@
 						48.0
 					]
 				}
+			},
+			{
+				"box": {
+					"id": "TRATE",
+					"maxclass": "live.menu",
+					"numinlets": 1,
+					"numoutlets": 3,
+					"outlettype": [
+						"",
+						"",
+						"float"
+					],
+					"parameter_enable": 1,
+					"varname": "TRATE",
+					"patching_rect": [
+						700.0,
+						960.0,
+						56.0,
+						15.0
+					],
+					"presentation": 1,
+					"presentation_rect": [
+						72.0,
+						66.0,
+						52.0,
+						15.0
+					],
+					"saved_attribute_attributes": {
+						"valueof": {
+							"parameter_longname": "TRATE",
+							"parameter_shortname": "TRATE",
+							"parameter_type": 2,
+							"parameter_enum": [
+								"Off",
+								"1/1",
+								"1/2",
+								"1/3",
+								"1/4",
+								"1/5",
+								"1/6",
+								"1/8",
+								"1/10",
+								"1/12",
+								"1/16",
+								"1/20",
+								"1/24",
+								"1/32",
+								"1/40",
+								"1/48",
+								"1/64",
+								"1/80"
+							],
+							"parameter_mmax": 17.0,
+							"parameter_initial_enable": 1,
+							"parameter_initial": [
+								0
+							],
+							"parameter_annotation_name": "Speed fade target: the rate the burst glides to (Off = no speed fade)"
+						}
+					}
+				}
+			},
+			{
+				"box": {
+					"id": "GLIDE",
+					"maxclass": "live.dial",
+					"numinlets": 1,
+					"numoutlets": 2,
+					"outlettype": [
+						"",
+						"float"
+					],
+					"parameter_enable": 1,
+					"varname": "GLIDE",
+					"patching_rect": [
+						780.0,
+						960.0,
+						44.0,
+						47.0
+					],
+					"presentation": 1,
+					"presentation_rect": [
+						130.0,
+						56.0,
+						44.0,
+						47.0
+					],
+					"saved_attribute_attributes": {
+						"valueof": {
+							"parameter_longname": "GLIDE",
+							"parameter_shortname": "GLIDE",
+							"parameter_type": 0,
+							"parameter_unitstyle": 1,
+							"parameter_mmin": 0.0,
+							"parameter_mmax": 128.0,
+							"parameter_exponent": 2.0,
+							"parameter_initial_enable": 1,
+							"parameter_initial": [
+								4.0
+							],
+							"parameter_annotation_name": "Speed fade time: steps to glide from RATE to TRATE (0 = jump)"
+						}
+					}
+				}
+			},
+			{
+				"box": {
+					"id": "lbl-trate",
+					"maxclass": "live.comment",
+					"numinlets": 1,
+					"numoutlets": 0,
+					"text": "TRATE",
+					"patching_rect": [
+						1220.0,
+						300.0,
+						40.0,
+						18.0
+					],
+					"presentation": 1,
+					"presentation_rect": [
+						72.0,
+						50.0,
+						40.0,
+						18.0
+					],
+					"textjustification": 0
+				}
+			},
+			{
+				"box": {
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"id": "i-trate",
+					"maxclass": "newobj",
+					"text": "i",
+					"numinlets": 2,
+					"numoutlets": 1,
+					"outlettype": [
+						"int"
+					],
+					"patching_rect": [
+						700.0,
+						990.0,
+						30.0,
+						20.0
+					]
+				}
+			},
+			{
+				"box": {
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"id": "f-glide",
+					"maxclass": "newobj",
+					"text": "f",
+					"numinlets": 2,
+					"numoutlets": 1,
+					"outlettype": [
+						"float"
+					],
+					"patching_rect": [
+						780.0,
+						1015.0,
+						30.0,
+						20.0
+					]
+				}
+			},
+			{
+				"box": {
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"id": "coll-trate",
+					"maxclass": "newobj",
+					"text": "coll ---trate",
+					"numinlets": 1,
+					"numoutlets": 4,
+					"outlettype": [
+						"",
+						"",
+						"",
+						""
+					],
+					"patching_rect": [
+						700.0,
+						1040.0,
+						101.0,
+						20.0
+					],
+					"saved_object_attributes": {
+						"embed": 1,
+						"precision": 6
+					},
+					"coll_data": {
+						"count": 18,
+						"data": [
+							{
+								"key": 0,
+								"value": [
+									0
+								]
+							},
+							{
+								"key": 1,
+								"value": [
+									1920
+								]
+							},
+							{
+								"key": 2,
+								"value": [
+									960
+								]
+							},
+							{
+								"key": 3,
+								"value": [
+									640
+								]
+							},
+							{
+								"key": 4,
+								"value": [
+									480
+								]
+							},
+							{
+								"key": 5,
+								"value": [
+									384
+								]
+							},
+							{
+								"key": 6,
+								"value": [
+									320
+								]
+							},
+							{
+								"key": 7,
+								"value": [
+									240
+								]
+							},
+							{
+								"key": 8,
+								"value": [
+									192
+								]
+							},
+							{
+								"key": 9,
+								"value": [
+									160
+								]
+							},
+							{
+								"key": 10,
+								"value": [
+									120
+								]
+							},
+							{
+								"key": 11,
+								"value": [
+									96
+								]
+							},
+							{
+								"key": 12,
+								"value": [
+									80
+								]
+							},
+							{
+								"key": 13,
+								"value": [
+									60
+								]
+							},
+							{
+								"key": 14,
+								"value": [
+									48
+								]
+							},
+							{
+								"key": 15,
+								"value": [
+									40
+								]
+							},
+							{
+								"key": 16,
+								"value": [
+									30
+								]
+							},
+							{
+								"key": 17,
+								"value": [
+									24
+								]
+							}
+						]
+					}
+				}
+			},
+			{
+				"box": {
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"id": "t-r1",
+					"maxclass": "newobj",
+					"text": "t f f f",
+					"numinlets": 1,
+					"numoutlets": 3,
+					"outlettype": [
+						"float",
+						"float",
+						"float"
+					],
+					"patching_rect": [
+						700.0,
+						1070.0,
+						59.0,
+						20.0
+					]
+				}
+			},
+			{
+				"box": {
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"id": "mul-glide",
+					"maxclass": "newobj",
+					"text": "* 120.",
+					"numinlets": 2,
+					"numoutlets": 1,
+					"outlettype": [
+						"float"
+					],
+					"patching_rect": [
+						780.0,
+						1040.0,
+						52.0,
+						20.0
+					]
+				}
+			},
+			{
+				"box": {
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"id": "t-g",
+					"maxclass": "newobj",
+					"text": "t f f",
+					"numinlets": 1,
+					"numoutlets": 2,
+					"outlettype": [
+						"float",
+						"float"
+					],
+					"patching_rect": [
+						780.0,
+						1070.0,
+						45.0,
+						20.0
+					]
+				}
+			},
+			{
+				"box": {
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"id": "t-latch",
+					"maxclass": "newobj",
+					"text": "t b b",
+					"numinlets": 1,
+					"numoutlets": 2,
+					"outlettype": [
+						"bang",
+						"bang"
+					],
+					"patching_rect": [
+						620.0,
+						1000.0,
+						45.0,
+						20.0
+					]
+				}
+			},
+			{
+				"box": {
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"id": "m-zero-t",
+					"maxclass": "message",
+					"text": "0.",
+					"numinlets": 2,
+					"numoutlets": 1,
+					"outlettype": [
+						""
+					],
+					"patching_rect": [
+						300.0,
+						430.0,
+						30.0,
+						20.0
+					]
+				}
+			},
+			{
+				"box": {
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"id": "dly",
+					"maxclass": "newobj",
+					"text": "delay 100",
+					"numinlets": 2,
+					"numoutlets": 1,
+					"outlettype": [
+						"bang"
+					],
+					"patching_rect": [
+						20.0,
+						690.0,
+						73.0,
+						20.0
+					]
+				}
+			},
+			{
+				"box": {
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"id": "m-dly-ms",
+					"maxclass": "message",
+					"text": "delaytime $1, bang",
+					"numinlets": 2,
+					"numoutlets": 1,
+					"outlettype": [
+						""
+					],
+					"patching_rect": [
+						330.0,
+						640.0,
+						120.0,
+						20.0
+					]
+				}
+			},
+			{
+				"box": {
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"id": "m-dly-ticks",
+					"maxclass": "message",
+					"text": "delaytime $1 ticks, bang",
+					"numinlets": 2,
+					"numoutlets": 1,
+					"outlettype": [
+						""
+					],
+					"patching_rect": [
+						460.0,
+						640.0,
+						150.0,
+						20.0
+					]
+				}
+			},
+			{
+				"box": {
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"id": "f-trun",
+					"maxclass": "newobj",
+					"text": "f",
+					"numinlets": 2,
+					"numoutlets": 1,
+					"outlettype": [
+						"float"
+					],
+					"patching_rect": [
+						120.0,
+						720.0,
+						30.0,
+						20.0
+					]
+				}
+			},
+			{
+				"box": {
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"id": "t-T",
+					"maxclass": "newobj",
+					"text": "t f f",
+					"numinlets": 1,
+					"numoutlets": 2,
+					"outlettype": [
+						"float",
+						"float"
+					],
+					"patching_rect": [
+						120.0,
+						745.0,
+						45.0,
+						20.0
+					]
+				}
+			},
+			{
+				"box": {
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"id": "t-T2",
+					"maxclass": "newobj",
+					"text": "t f f",
+					"numinlets": 1,
+					"numoutlets": 2,
+					"outlettype": [
+						"float",
+						"float"
+					],
+					"patching_rect": [
+						200.0,
+						770.0,
+						45.0,
+						20.0
+					]
+				}
+			},
+			{
+				"box": {
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"id": "expr-iv",
+					"maxclass": "newobj",
+					"text": "expr ($f3 <= 0) * $f2 + ($f3 > 0) * (($f4 <= 0) * $f3 + ($f4 > 0) * $f2 * pow($f3 / max($f2, 1.), min($f1 / max($f4, 1.), 1.)))",
+					"numinlets": 4,
+					"numoutlets": 1,
+					"outlettype": [
+						""
+					],
+					"patching_rect": [
+						560.0,
+						700.0,
+						620.0,
+						20.0
+					]
+				}
+			},
+			{
+				"box": {
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"id": "t-iv",
+					"maxclass": "newobj",
+					"text": "t f f",
+					"numinlets": 1,
+					"numoutlets": 2,
+					"outlettype": [
+						"float",
+						"float"
+					],
+					"patching_rect": [
+						560.0,
+						725.0,
+						45.0,
+						20.0
+					]
+				}
+			},
+			{
+				"box": {
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"id": "plus-T",
+					"maxclass": "newobj",
+					"text": "+ 0.",
+					"numinlets": 2,
+					"numoutlets": 1,
+					"outlettype": [
+						"float"
+					],
+					"patching_rect": [
+						640.0,
+						750.0,
+						38.0,
+						20.0
+					]
+				}
+			},
+			{
+				"box": {
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"id": "f-ivnext",
+					"maxclass": "newobj",
+					"text": "f",
+					"numinlets": 2,
+					"numoutlets": 1,
+					"outlettype": [
+						"float"
+					],
+					"patching_rect": [
+						560.0,
+						750.0,
+						30.0,
+						20.0
+					]
+				}
+			},
+			{
+				"box": {
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"id": "expr-tlast",
+					"maxclass": "newobj",
+					"text": "expr max($i1 - 1, 0) * $f2",
+					"numinlets": 2,
+					"numoutlets": 1,
+					"outlettype": [
+						""
+					],
+					"patching_rect": [
+						100.0,
+						610.0,
+						170.0,
+						20.0
+					]
+				}
+			},
+			{
+				"box": {
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"id": "t-cont",
+					"maxclass": "newobj",
+					"text": "t b b",
+					"numinlets": 1,
+					"numoutlets": 2,
+					"outlettype": [
+						"bang",
+						"bang"
+					],
+					"patching_rect": [
+						220.0,
+						840.0,
+						45.0,
+						20.0
+					]
+				}
+			},
+			{
+				"box": {
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"id": "t-loop",
+					"maxclass": "newobj",
+					"text": "t b b b b",
+					"numinlets": 1,
+					"numoutlets": 4,
+					"outlettype": [
+						"bang",
+						"bang",
+						"bang",
+						"bang"
+					],
+					"patching_rect": [
+						1300.0,
+						600.0,
+						73.0,
+						20.0
+					]
+				}
+			},
+			{
+				"box": {
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"id": "t-on",
+					"maxclass": "newobj",
+					"text": "t b b",
+					"numinlets": 1,
+					"numoutlets": 2,
+					"outlettype": [
+						"bang",
+						"bang"
+					],
+					"patching_rect": [
+						1300.0,
+						630.0,
+						45.0,
+						20.0
+					]
+				}
+			},
+			{
+				"box": {
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"id": "f-lr1",
+					"maxclass": "newobj",
+					"text": "f",
+					"numinlets": 2,
+					"numoutlets": 1,
+					"outlettype": [
+						"float"
+					],
+					"patching_rect": [
+						1300.0,
+						660.0,
+						30.0,
+						20.0
+					]
+				}
+			},
+			{
+				"box": {
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"id": "f-llen",
+					"maxclass": "newobj",
+					"text": "f",
+					"numinlets": 2,
+					"numoutlets": 1,
+					"outlettype": [
+						"float"
+					],
+					"patching_rect": [
+						1360.0,
+						660.0,
+						30.0,
+						20.0
+					]
+				}
+			},
+			{
+				"box": {
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"id": "expr-on",
+					"maxclass": "newobj",
+					"text": "expr ($f1 > 0) && ($f2 > 0)",
+					"numinlets": 2,
+					"numoutlets": 1,
+					"outlettype": [
+						""
+					],
+					"patching_rect": [
+						1300.0,
+						690.0,
+						170.0,
+						20.0
+					]
+				}
+			},
+			{
+				"box": {
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"id": "gate-lrun",
+					"maxclass": "newobj",
+					"text": "gate 1",
+					"numinlets": 2,
+					"numoutlets": 1,
+					"outlettype": [
+						""
+					],
+					"patching_rect": [
+						1300.0,
+						760.0,
+						52.0,
+						20.0
+					]
+				}
+			},
+			{
+				"box": {
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"id": "gate-lout",
+					"maxclass": "newobj",
+					"text": "gate 1",
+					"numinlets": 2,
+					"numoutlets": 1,
+					"outlettype": [
+						""
+					],
+					"patching_rect": [
+						1500.0,
+						760.0,
+						52.0,
+						20.0
+					]
+				}
+			},
+			{
+				"box": {
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"id": "m-l0f",
+					"maxclass": "message",
+					"text": "0.",
+					"numinlets": 2,
+					"numoutlets": 1,
+					"outlettype": [
+						""
+					],
+					"patching_rect": [
+						1420.0,
+						720.0,
+						30.0,
+						20.0
+					]
+				}
+			},
+			{
+				"box": {
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"id": "m-l0i",
+					"maxclass": "message",
+					"text": "0",
+					"numinlets": 2,
+					"numoutlets": 1,
+					"outlettype": [
+						""
+					],
+					"patching_rect": [
+						1460.0,
+						720.0,
+						30.0,
+						20.0
+					]
+				}
+			},
+			{
+				"box": {
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"id": "uzi",
+					"maxclass": "newobj",
+					"text": "uzi 256",
+					"numinlets": 2,
+					"numoutlets": 3,
+					"outlettype": [
+						"bang",
+						"bang",
+						"int"
+					],
+					"patching_rect": [
+						1300.0,
+						790.0,
+						59.0,
+						20.0
+					]
+				}
+			},
+			{
+				"box": {
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"id": "f-lT",
+					"maxclass": "newobj",
+					"text": "f",
+					"numinlets": 2,
+					"numoutlets": 1,
+					"outlettype": [
+						"float"
+					],
+					"patching_rect": [
+						1300.0,
+						820.0,
+						30.0,
+						20.0
+					]
+				}
+			},
+			{
+				"box": {
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"id": "t-lb",
+					"maxclass": "newobj",
+					"text": "t f f f",
+					"numinlets": 1,
+					"numoutlets": 3,
+					"outlettype": [
+						"float",
+						"float",
+						"float"
+					],
+					"patching_rect": [
+						1300.0,
+						845.0,
+						59.0,
+						20.0
+					]
+				}
+			},
+			{
+				"box": {
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"id": "expr-lnext",
+					"maxclass": "newobj",
+					"text": "expr $f1 + ($f3 <= 0) * $f2 + ($f3 > 0) * (($f4 <= 0) * $f3 + ($f4 > 0) * $f2 * pow($f3 / max($f2, 1.), min($f1 / max($f4, 1.), 1.)))",
+					"numinlets": 4,
+					"numoutlets": 1,
+					"outlettype": [
+						""
+					],
+					"patching_rect": [
+						1420.0,
+						870.0,
+						640.0,
+						20.0
+					]
+				}
+			},
+			{
+				"box": {
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"id": "f-lTnext",
+					"maxclass": "newobj",
+					"text": "f",
+					"numinlets": 2,
+					"numoutlets": 1,
+					"outlettype": [
+						"float"
+					],
+					"patching_rect": [
+						1420.0,
+						900.0,
+						30.0,
+						20.0
+					]
+				}
+			},
+			{
+				"box": {
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"id": "f-lcand",
+					"maxclass": "newobj",
+					"text": "f",
+					"numinlets": 2,
+					"numoutlets": 1,
+					"outlettype": [
+						"float"
+					],
+					"patching_rect": [
+						1380.0,
+						900.0,
+						30.0,
+						20.0
+					]
+				}
+			},
+			{
+				"box": {
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"id": "expr-cont",
+					"maxclass": "newobj",
+					"text": "expr $f1 * 2. < $f2",
+					"numinlets": 2,
+					"numoutlets": 1,
+					"outlettype": [
+						""
+					],
+					"patching_rect": [
+						1300.0,
+						870.0,
+						120.0,
+						20.0
+					]
+				}
+			},
+			{
+				"box": {
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"id": "sel-cont",
+					"maxclass": "newobj",
+					"text": "sel 0",
+					"numinlets": 2,
+					"numoutlets": 2,
+					"outlettype": [
+						"bang",
+						""
+					],
+					"patching_rect": [
+						1300.0,
+						900.0,
+						45.0,
+						20.0
+					]
+				}
+			},
+			{
+				"box": {
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"id": "m-break",
+					"maxclass": "message",
+					"text": "break",
+					"numinlets": 2,
+					"numoutlets": 1,
+					"outlettype": [
+						""
+					],
+					"patching_rect": [
+						1300.0,
+						930.0,
+						45.0,
+						20.0
+					]
+				}
+			},
+			{
+				"box": {
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"id": "t-lc",
+					"maxclass": "newobj",
+					"text": "t b b b",
+					"numinlets": 1,
+					"numoutlets": 3,
+					"outlettype": [
+						"bang",
+						"bang",
+						"bang"
+					],
+					"patching_rect": [
+						1340.0,
+						930.0,
+						59.0,
+						20.0
+					]
+				}
+			},
+			{
+				"box": {
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"id": "i-lcount",
+					"maxclass": "newobj",
+					"text": "i",
+					"numinlets": 2,
+					"numoutlets": 1,
+					"outlettype": [
+						"int"
+					],
+					"patching_rect": [
+						1500.0,
+						960.0,
+						30.0,
+						20.0
+					]
+				}
+			},
+			{
+				"box": {
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"id": "plus-lc",
+					"maxclass": "newobj",
+					"text": "+ 1",
+					"numinlets": 2,
+					"numoutlets": 1,
+					"outlettype": [
+						"int"
+					],
+					"patching_rect": [
+						1500.0,
+						990.0,
+						31.0,
+						20.0
+					]
+				}
+			},
+			{
+				"box": {
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"id": "f-ltlast",
+					"maxclass": "newobj",
+					"text": "f",
+					"numinlets": 2,
+					"numoutlets": 1,
+					"outlettype": [
+						"float"
+					],
+					"patching_rect": [
+						1440.0,
+						960.0,
+						30.0,
+						20.0
+					]
+				}
+			},
+			{
+				"box": {
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"id": "t-lout",
+					"maxclass": "newobj",
+					"text": "t b b",
+					"numinlets": 1,
+					"numoutlets": 2,
+					"outlettype": [
+						"bang",
+						"bang"
+					],
+					"patching_rect": [
+						1500.0,
+						790.0,
+						45.0,
+						20.0
+					]
+				}
+			},
+			{
+				"box": {
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"id": "i-lN",
+					"maxclass": "newobj",
+					"text": "i",
+					"numinlets": 2,
+					"numoutlets": 1,
+					"outlettype": [
+						"int"
+					],
+					"patching_rect": [
+						1560.0,
+						990.0,
+						30.0,
+						20.0
+					]
+				}
+			},
+			{
+				"box": {
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"id": "c-glide",
+					"maxclass": "comment",
+					"numinlets": 1,
+					"numoutlets": 0,
+					"linecount": 4,
+					"text": "10. Speed fade (v4). Hits are scheduled by a delay re-armed after every hit with that hit's interval: r0*(r1/r0)^(T/G) while gliding, then TRATE (T = elapsed ticks, G = GLIDE ticks; TRATE Off = RATE). With TRATE on and a finite LEN, the uzi loop runs the schedule once at note-on (max 256 hits) to get the hit count and the last hit's time, so the velocity fade still lands on the last hit.",
+					"patching_rect": [
+						1300.0,
+						1030.0,
+						600.0,
+						62.0
+					]
+				}
+			},
+			{
+				"box": {
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"id": "c-timing",
+					"maxclass": "comment",
+					"numinlets": 1,
+					"numoutlets": 0,
+					"linecount": 2,
+					"text": "Timing: delay (not metro), because a metro only applies a new interval one hit late. Ticks while the transport plays, ms (translate) when stopped.",
+					"patching_rect": [
+						20.0,
+						600.0,
+						300.0,
+						34.0
+					]
+				}
 			}
 		],
 		"lines": [
@@ -3885,21 +5010,21 @@
 				"patchline": {
 					"source": [
 						"t-start",
+						6
+					],
+					"destination": [
+						"m-zero",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"t-start",
 						4
 					],
 					"destination": [
-						"m-zero",
-						0
-					]
-				}
-			},
-			{
-				"patchline": {
-					"source": [
-						"t-start",
-						3
-					],
-					"destination": [
 						"i-rate",
 						0
 					]
@@ -3945,199 +5070,103 @@
 				"patchline": {
 					"source": [
 						"t-start",
+						3
+					],
+					"destination": [
+						"i-len",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"i-len",
+						0
+					],
+					"destination": [
+						"coll-len",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"coll-len",
+						0
+					],
+					"destination": [
+						"expr-n",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"gate-int",
+						0
+					],
+					"destination": [
+						"translate",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"t-start",
+						0
+					],
+					"destination": [
+						"m-go",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"t-hit",
+						0
+					],
+					"destination": [
+						"i-idx",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"m-zero",
+						0
+					],
+					"destination": [
+						"i-idx",
+						1
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"i-idx",
+						0
+					],
+					"destination": [
+						"t-idx",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"t-idx",
 						2
-					],
-					"destination": [
-						"i-len",
-						0
-					]
-				}
-			},
-			{
-				"patchline": {
-					"source": [
-						"i-len",
-						0
-					],
-					"destination": [
-						"coll-len",
-						0
-					]
-				}
-			},
-			{
-				"patchline": {
-					"source": [
-						"coll-len",
-						0
-					],
-					"destination": [
-						"expr-n",
-						0
-					]
-				}
-			},
-			{
-				"patchline": {
-					"source": [
-						"t-rate",
-						0
-					],
-					"destination": [
-						"gate-int",
-						1
-					]
-				}
-			},
-			{
-				"patchline": {
-					"source": [
-						"gate-int",
-						0
-					],
-					"destination": [
-						"translate",
-						0
-					]
-				}
-			},
-			{
-				"patchline": {
-					"source": [
-						"translate",
-						0
-					],
-					"destination": [
-						"m-int-ms",
-						0
-					]
-				}
-			},
-			{
-				"patchline": {
-					"source": [
-						"gate-int",
-						1
-					],
-					"destination": [
-						"m-int-ticks",
-						0
-					]
-				}
-			},
-			{
-				"patchline": {
-					"source": [
-						"t-start",
-						0
-					],
-					"destination": [
-						"m-go",
-						0
-					]
-				}
-			},
-			{
-				"patchline": {
-					"source": [
-						"m-go",
-						0
-					],
-					"destination": [
-						"metro",
-						0
-					]
-				}
-			},
-			{
-				"patchline": {
-					"source": [
-						"m-stop",
-						0
-					],
-					"destination": [
-						"metro",
-						0
-					]
-				}
-			},
-			{
-				"patchline": {
-					"source": [
-						"m-int-ms",
-						0
-					],
-					"destination": [
-						"metro",
-						0
-					]
-				}
-			},
-			{
-				"patchline": {
-					"source": [
-						"m-int-ticks",
-						0
-					],
-					"destination": [
-						"metro",
-						0
-					]
-				}
-			},
-			{
-				"patchline": {
-					"source": [
-						"metro",
-						0
-					],
-					"destination": [
-						"t-hit",
-						0
-					]
-				}
-			},
-			{
-				"patchline": {
-					"source": [
-						"t-hit",
-						0
-					],
-					"destination": [
-						"i-idx",
-						0
-					]
-				}
-			},
-			{
-				"patchline": {
-					"source": [
-						"m-zero",
-						0
-					],
-					"destination": [
-						"i-idx",
-						1
-					]
-				}
-			},
-			{
-				"patchline": {
-					"source": [
-						"i-idx",
-						0
-					],
-					"destination": [
-						"t-idx",
-						0
-					]
-				}
-			},
-			{
-				"patchline": {
-					"source": [
-						"t-idx",
-						3
 					],
 					"destination": [
 						"plus-idx",
@@ -4257,7 +5286,7 @@
 				"patchline": {
 					"source": [
 						"t-hit",
-						1
+						2
 					],
 					"destination": [
 						"i-sound",
@@ -4772,30 +5801,6 @@
 			{
 				"patchline": {
 					"source": [
-						"t-idx",
-						2
-					],
-					"destination": [
-						"expr-t",
-						0
-					]
-				}
-			},
-			{
-				"patchline": {
-					"source": [
-						"expr-n",
-						0
-					],
-					"destination": [
-						"expr-t",
-						1
-					]
-				}
-			},
-			{
-				"patchline": {
-					"source": [
 						"LOCK",
 						0
 					],
@@ -5132,8 +6137,464 @@
 			{
 				"patchline": {
 					"source": [
+						"gate-fire",
+						0
+					],
+					"destination": [
+						"t-play",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"TRATE",
+						0
+					],
+					"destination": [
+						"i-trate",
+						1
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"GLIDE",
+						0
+					],
+					"destination": [
+						"f-glide",
+						1
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"i-trate",
+						0
+					],
+					"destination": [
+						"coll-trate",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"coll-trate",
+						0
+					],
+					"destination": [
+						"t-r1",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"f-glide",
+						0
+					],
+					"destination": [
+						"mul-glide",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"mul-glide",
+						0
+					],
+					"destination": [
+						"t-g",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"t-start",
+						5
+					],
+					"destination": [
+						"t-latch",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"t-latch",
+						1
+					],
+					"destination": [
+						"i-trate",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"t-latch",
+						0
+					],
+					"destination": [
+						"f-glide",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"t-start",
+						6
+					],
+					"destination": [
+						"m-zero-t",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"translate",
+						0
+					],
+					"destination": [
+						"m-dly-ms",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"gate-int",
+						1
+					],
+					"destination": [
+						"m-dly-ticks",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"m-dly-ms",
+						0
+					],
+					"destination": [
+						"dly",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"m-dly-ticks",
+						0
+					],
+					"destination": [
+						"dly",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"m-stop",
+						0
+					],
+					"destination": [
+						"dly",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"m-go",
+						0
+					],
+					"destination": [
+						"t-hit",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"dly",
+						0
+					],
+					"destination": [
+						"t-hit",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"t-hit",
+						1
+					],
+					"destination": [
+						"f-trun",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"m-zero-t",
+						0
+					],
+					"destination": [
+						"f-trun",
+						1
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"f-trun",
+						0
+					],
+					"destination": [
+						"t-T",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"t-T",
+						0
+					],
+					"destination": [
+						"t-T2",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"t-T2",
+						1
+					],
+					"destination": [
+						"plus-T",
+						1
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"t-T2",
+						0
+					],
+					"destination": [
+						"expr-iv",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"expr-iv",
+						0
+					],
+					"destination": [
+						"t-iv",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"t-iv",
+						1
+					],
+					"destination": [
+						"plus-T",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"plus-T",
+						0
+					],
+					"destination": [
+						"f-trun",
+						1
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"t-iv",
+						0
+					],
+					"destination": [
+						"f-ivnext",
+						1
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"t-rate",
+						1
+					],
+					"destination": [
+						"expr-iv",
+						1
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"t-r1",
+						2
+					],
+					"destination": [
+						"expr-iv",
+						2
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"t-g",
+						1
+					],
+					"destination": [
+						"expr-iv",
+						3
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"t-T",
+						1
+					],
+					"destination": [
+						"expr-t",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"expr-n",
+						0
+					],
+					"destination": [
+						"expr-tlast",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"t-rate",
+						1
+					],
+					"destination": [
+						"expr-tlast",
+						1
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"expr-tlast",
+						0
+					],
+					"destination": [
+						"expr-t",
+						1
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
 						"sel-play",
 						1
+					],
+					"destination": [
+						"t-cont",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"t-cont",
+						1
+					],
+					"destination": [
+						"f-ivnext",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"f-ivnext",
+						0
+					],
+					"destination": [
+						"gate-int",
+						1
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"t-cont",
+						0
 					],
 					"destination": [
 						"gate-fire",
@@ -5144,11 +6605,563 @@
 			{
 				"patchline": {
 					"source": [
-						"gate-fire",
+						"t-start",
+						2
+					],
+					"destination": [
+						"t-loop",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"t-loop",
+						3
+					],
+					"destination": [
+						"t-on",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"t-on",
+						1
+					],
+					"destination": [
+						"f-llen",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"t-on",
 						0
 					],
 					"destination": [
-						"t-play",
+						"f-lr1",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"f-llen",
+						0
+					],
+					"destination": [
+						"expr-on",
+						1
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"f-lr1",
+						0
+					],
+					"destination": [
+						"expr-on",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"expr-on",
+						0
+					],
+					"destination": [
+						"gate-lrun",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"expr-on",
+						0
+					],
+					"destination": [
+						"gate-lout",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"t-r1",
+						0
+					],
+					"destination": [
+						"f-lr1",
+						1
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"coll-len",
+						0
+					],
+					"destination": [
+						"f-llen",
+						1
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"t-loop",
+						2
+					],
+					"destination": [
+						"m-l0f",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"t-loop",
+						2
+					],
+					"destination": [
+						"m-l0i",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"t-loop",
+						1
+					],
+					"destination": [
+						"gate-lrun",
+						1
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"gate-lrun",
+						0
+					],
+					"destination": [
+						"uzi",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"m-l0f",
+						0
+					],
+					"destination": [
+						"f-lT",
+						1
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"m-l0f",
+						0
+					],
+					"destination": [
+						"f-ltlast",
+						1
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"m-l0i",
+						0
+					],
+					"destination": [
+						"i-lcount",
+						1
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"uzi",
+						0
+					],
+					"destination": [
+						"f-lT",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"f-lT",
+						0
+					],
+					"destination": [
+						"t-lb",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"t-lb",
+						2
+					],
+					"destination": [
+						"expr-lnext",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"expr-lnext",
+						0
+					],
+					"destination": [
+						"f-lTnext",
+						1
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"t-lb",
+						1
+					],
+					"destination": [
+						"f-lcand",
+						1
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"t-lb",
+						0
+					],
+					"destination": [
+						"expr-cont",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"coll-len",
+						0
+					],
+					"destination": [
+						"expr-cont",
+						1
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"expr-cont",
+						0
+					],
+					"destination": [
+						"sel-cont",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"sel-cont",
+						0
+					],
+					"destination": [
+						"m-break",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"m-break",
+						0
+					],
+					"destination": [
+						"uzi",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"sel-cont",
+						1
+					],
+					"destination": [
+						"t-lc",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"t-lc",
+						2
+					],
+					"destination": [
+						"i-lcount",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"i-lcount",
+						0
+					],
+					"destination": [
+						"plus-lc",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"plus-lc",
+						0
+					],
+					"destination": [
+						"i-lcount",
+						1
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"t-lc",
+						1
+					],
+					"destination": [
+						"f-lcand",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"f-lcand",
+						0
+					],
+					"destination": [
+						"f-ltlast",
+						1
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"t-lc",
+						0
+					],
+					"destination": [
+						"f-lTnext",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"f-lTnext",
+						0
+					],
+					"destination": [
+						"f-lT",
+						1
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"t-rate",
+						1
+					],
+					"destination": [
+						"expr-lnext",
+						1
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"t-r1",
+						1
+					],
+					"destination": [
+						"expr-lnext",
+						2
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"t-g",
+						0
+					],
+					"destination": [
+						"expr-lnext",
+						3
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"t-loop",
+						0
+					],
+					"destination": [
+						"gate-lout",
+						1
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"gate-lout",
+						0
+					],
+					"destination": [
+						"t-lout",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"t-lout",
+						1
+					],
+					"destination": [
+						"f-ltlast",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"f-ltlast",
+						0
+					],
+					"destination": [
+						"expr-t",
+						1
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"plus-lc",
+						0
+					],
+					"destination": [
+						"i-lN",
+						1
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"m-l0i",
+						0
+					],
+					"destination": [
+						"i-lN",
+						1
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"t-lout",
+						0
+					],
+					"destination": [
+						"i-lN",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"i-lN",
+						0
+					],
+					"destination": [
+						"expr-play",
+						1
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"i-lN",
+						0
+					],
+					"destination": [
+						"pre-burst",
 						0
 					]
 				}
@@ -5181,17 +7194,17 @@
 						"VFAD",
 						"CRV",
 						"PROB",
-						"LOCK",
-						"-"
+						"TRATE",
+						"GLIDE"
 					]
 				},
 				"1": {
 					"index": 1,
-					"name": "Setup",
+					"name": "Chance",
 					"parameters": [
+						"PROB",
+						"LOCK",
 						"PMODE",
-						"-",
-						"-",
 						"-",
 						"-",
 						"-",
@@ -5224,6 +7237,16 @@
 			"PMODE": [
 				"PMODE",
 				"PMODE",
+				0
+			],
+			"TRATE": [
+				"TRATE",
+				"TRATE",
+				0
+			],
+			"GLIDE": [
+				"GLIDE",
+				"GLIDE",
 				0
 			]
 		},
