@@ -142,25 +142,48 @@ VFAD and CRV are read at note-on, like RATE and LEN (decided 2026-11-09): turnin
 
 LEN stays a list (`live.menu`), so it keeps its exact labels (1/64, 1/4, INF). Push moves a list one entry per encoder click, with no acceleration and no Shift fine-tuning, so reaching 128 takes a long turn. A continuous, exponentially scaled LEN dial was considered (2026-11-09) and set aside: it would lose the labels and INF.
 
-One bank, "Retrig": RTRG, RATE, LEN, VFAD, CRV, then three empty slots (for PROB, LOCK, SFAD). A second bank, "Setup", comes with STRT. Banks are saved at the device level (`parameterbanks`), which a copy-and-paste into the device editor would lose, so the device is built straight to `.amxd`.
+Bank 1, "Retrig": RTRG, RATE, LEN, VFAD, CRV, PROB, LOCK, then one empty slot for SFAD. Bank 2, "Setup": PMODE (later also STRT). Banks are saved at the device level (`parameterbanks`), which a copy-and-paste into the device editor would lose, so the device is built straight to `.amxd`.
 
 ## Later: after the core requirements
 
-Not to be built until RTRG, RATE, LEN, VFAD and CRV work and are tested. Together with the core five these make exactly 8 parameters, which fills the single Push bank.
+Started once the core five were built and tested. With the core five, PROB, LOCK and SFAD fill bank 1.
+
+### v3: PROB, LOCK, PMODE (built 2026-11-09)
+
+| Name | Control | Range | Default | Bank |
+| --- | --- | --- | --- | --- |
+| PROB | `live.dial` (continuous) | 0–100 % | 100 % | Retrig, slot 6 |
+| LOCK | `live.toggle` | Off / On | Off | Retrig, slot 7 |
+| PMODE | `live.menu` | Repeats / Burst / Note | Repeats | Setup, slot 1 |
+
+What PROB decides depends on PMODE:
+
+| PMODE | One roll per… | If the roll fails |
+| --- | --- | --- |
+| Repeats | repeat | That repeat is skipped. The played note always sounds. |
+| Burst | played note | The played note sounds, with no repeats. |
+| Note | played note | Nothing sounds. The note is dropped before it reaches the engine, so it doesn't cut a burst that's still running. |
+
+- LOCK on: PROB is ignored in every mode and everything fires.
+- A skipped repeat is a gap: the previous hit has already had its note-off.
+- Skipped repeats still count toward the fade, so the VFAD curve doesn't shift (decided 2026-11-09).
+- PROB, LOCK and PMODE are read at note-on, like everything else. In Note mode the roll happens as the note arrives.
+- PROB only applies while RTRG is on; with RTRG off, notes pass through untouched.
+- Rolls use native `random` (0–9999 against PROB × 100), in the scheduler thread.
+- ⚑ Check that two pads with the same PROB don't skip in lockstep (each `random` should be seeded independently).
+
+### v4: SFAD (on hold, 2026-11-09)
 
 | Name | Range | What it does |
 | --- | --- | --- |
-| PROB | 0–100 % | The chance that each retrigger fires. |
-| LOCK | Off / On | When on, PROB is ignored and every retrigger fires. |
-| SFAD | Negative to positive (slows down to speeds up) | Speed fade: the repeat rate speeds up or slows down across the burst, like VFAD does for velocity. |
+| SFAD | Negative to positive (slows down to speeds up) | Speed fade: the repeat rate speeds up or slows down across the burst, like VFAD does for velocity. Bank Retrig, slot 8. |
 
-Open questions to settle before building:
+Proposals, to settle before building:
 
-- [ ] PROB: does hit 0 (the played note) always fire, with PROB applying only to the repeats? Proposed: yes.
-- [ ] PROB: when a repeat is skipped, does the previous hit keep sounding or get a note-off on time? Proposed: note-off on time, so a skipped repeat is a gap.
-- [ ] PROB: skipped repeats still advance the hit index, so the VFAD curve doesn't shift. Proposed: yes.
-- [ ] SFAD range, its end rate (e.g. RATE × 2 at +100 %?) and whether it uses CRV or a curve of its own.
-- [ ] SFAD with LEN = INF: no speed fade (same as VFAD)?
+- [ ] Range: ±100 % ends the burst 4× faster or 4× slower than RATE (e.g. 1/16 → 1/64 or → 1/4).
+- [ ] Shape: equal ratio over equal time (smooth, like a bouncing ball); its own fixed shape, not CRV.
+- [ ] LEN = INF: no speed fade, same as VFAD.
+- [ ] Cap a burst at 256 hits, since the fade (to the last hit) needs the whole schedule worked out at note-on.
 
 ### Stretch: straight-only switch
 
@@ -170,7 +193,7 @@ An on/off switch that limits RATE to straight divisions (requested 2026-11-09, d
 | --- | --- | --- |
 | STRT | Off / On | When on, RATE uses straight divisions only: 1/1, 1/2, 1/4, 1/8, 1/16, 1/32, 1/64. Triplets (1/3, 1/6, 1/12, 1/24, 1/48) and the odd divisions (1/5, 1/10, 1/20, 1/40, 1/80) are skipped. |
 
-- STRT is a `live.toggle` parameter like the others, so it can be p-locked. It goes on a **second Push bank, "Setup"**, because the first bank is full once PROB, LOCK and SFAD are in.
+- STRT is a `live.toggle` parameter like the others, so it can be p-locked. It goes on the **second Push bank, "Setup"**, after PMODE, because the first bank is full once SFAD is in.
 - RATE's value list never changes, so saved automation and p-locks keep pointing at the same rates.
 - While STRT is on, a non-straight RATE snaps to the nearest straight one when a burst starts (e.g. 1/12 → 1/16). The snap is computed at note-on, alongside the existing RATE lookup.
 - ⚑ "Nearest" is by ratio of interval lengths, which never ties for this list. Triplets snap one step faster, odd divisions one step slower:

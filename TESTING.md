@@ -85,6 +85,23 @@ The fade ends exactly on the last hit. Check the instrument's velocity-to-volume
 | V12 | VFAD −80 %, LEN INF | No fade: every hit at 100. |
 | V13 | VFAD −80 %, turn VFAD to +80 % halfway through a long burst (LEN 1/1) | The running burst keeps fading down; the next note fades up. |
 
+## Probability tests (v3)
+
+Use a clip with a note on every beat, RATE 1/16, LEN 1/4 (4 hits per note), and let it loop for a few bars. The Debug console shows which hits fire.
+
+| # | Setup | Expect |
+| --- | --- | --- |
+| R1 | PROB 100 %, any PMODE | Every burst plays all 4 hits (same as v2). |
+| R2 | PMODE Repeats, PROB 50 % | Every note sounds; about half the repeats are missing, at random, as gaps. |
+| R3 | PMODE Repeats, PROB 0 % | Only the played notes; no repeats. |
+| R4 | PMODE Burst, PROB 50 % | Each note is either a full burst or a single hit, about half each. |
+| R5 | PMODE Note, PROB 50 % | About half the notes play a full burst; the rest are silent. |
+| R6 | PMODE Note, LEN 1/1, PROB 50 %, notes on every beat | A failed note doesn't cut the burst before it: that burst keeps going. |
+| R7 | PROB 0 %, LOCK on, each PMODE | Everything fires, like R1. |
+| R8 | PMODE Repeats, PROB 50 %, VFAD −100 % | The repeats that do play keep their place in the fade (100, 67, 34, 1), they just have gaps. |
+| R9 | Two pads, same settings, PROB 50 % | ⚑ The two pads skip *different* repeats, not the same ones in lockstep. |
+| R10 | Hold a step on Push, turn LOCK on for that step only | Only that step always bursts fully. |
+
 ## Push 3
 
 ### If Push standalone says "This device contains missing or incompatible Max objects"
@@ -106,7 +123,8 @@ Known cause so far: `moses` (now replaced with `sel`, see REQUIREMENTS.md).
 
 | # | Setup | Expect |
 | --- | --- | --- |
-| P1 | Select the pad on Push, open the device (on a fresh track) | A bank called "Retrig" with RTRG, RATE, LEN, VFAD, CRV on encoders 1–5. No error screen. |
+| P1 | Select the pad on Push, open the device (on a fresh track) | A bank called "Retrig" with RTRG, RATE, LEN, VFAD, CRV, PROB, LOCK on encoders 1–7. No error screen. |
+| P1a | Page to the second bank | "Setup" with PMODE on encoder 1 (Repeats / Burst / Note). |
 | P1b | Turn VFAD and CRV; then hold Shift and turn | A normal turn moves quickly across the range; Shift gives fine steps. Tell me if either feels too coarse or too slow. |
 | P2 | Hold a step, turn RATE | The p-lock applies to that step only. ⚑ Open item: confirm the lock reaches the device before that step's note (if not, the step plays with the previous RATE). |
 | P3 | Standalone mode: repeat tests 2, 5 and 12 | Same results; note CPU. |
