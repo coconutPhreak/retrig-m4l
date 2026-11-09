@@ -64,32 +64,26 @@ Use a clip with one note on beats 1 and 3, at 120 BPM unless noted. To check tim
 
 Turn on the **Debug** toggle and read the velocities from the Max console (`retrig: note P V`). Play the pad at a known velocity: put a note in a clip and set its velocity, rather than playing it by hand. Each burst starts at the played velocity.
 
-FADE is on the second Push bank ("Setup"), or the menu under RTRG in Live. V1–V5 are with **FADE = LEN**; F1–F4 are with **FADE = LAST** (the default).
+The fade ends exactly on the last hit. Check the instrument's velocity-to-volume amount is high (e.g. 100 % in Simpler), or fades will sound flat even when the velocities are right.
 
-| # | Setup (note velocity 100, RATE 1/16, LEN 1/4, FADE LEN) | Expect (4 hits) |
+| # | Setup (note velocity 100, RATE 1/16, LEN 1/4 = 4 hits) | Expect |
 | --- | --- | --- |
 | V1 | VFAD 0 %, any CRV | 100, 100, 100, 100 |
-| V2 | VFAD −80 %, CRV 0 % | 100, 80, 60, 41 |
-| V3 | VFAD −80 %, CRV 100 % | 100, 68, 46, 31 |
-| V4 | VFAD +80 %, CRV 0 % | 100, 105, 111, 116 |
-| V5 | VFAD −100 %, CRV 0 %, LEN 1/1 (16 hits) | Falls steadily from 100 toward 1 and never reaches 0 (velocity 0 would be a note-off). |
-
-| # | Setup (note velocity 100, RATE 1/16, LEN 1/4, FADE LAST) | Expect |
-| --- | --- | --- |
-| F1 | VFAD −100 %, CRV 0 % | 100, 67, 34, 1 |
-| F2 | VFAD −100 %, CRV 100 % | 100, 22, 5, 1 |
-| F3 | VFAD +100 %, RATE 1/32 (8 hits) | Rises from 100 and the last hit is exactly 127. |
-| F4 | VFAD −100 %, LEN 0.125 (one hit) | One hit at 100 (nothing to fade across). |
-| F5 | Same pattern, flip FADE between LEN and LAST | Hear the difference. Note which you prefer, and for which RATE/LEN combinations. |
-
-The remaining tests apply in either mode:
+| V2 | VFAD −80 %, CRV 0 % | 100, 74, 47, 21 |
+| V3 | VFAD −80 %, CRV 100 % | 100, 59, 35, 21 |
+| V4 | VFAD +80 %, CRV 0 % | 100, 107, 114, 122 |
+| V5 | VFAD −100 %, CRV 0 % | 100, 67, 34, 1 |
+| V6 | VFAD −100 %, CRV 100 % | 100, 22, 5, 1 |
+| V7 | CRV 50 %, VFAD −80 % | 100, 66, 41, 21 (between V2 and V3) |
 
 | # | Setup | Expect |
 | --- | --- | --- |
-| V6 | VFAD +100 %, note velocity 127 | Stays at 127 (it can't fade up). |
-| V7 | VFAD −80 %, LEN INF | No fade: every hit at 100. |
-| V8 | VFAD −80 %, turn VFAD to +80 % halfway through a long burst (LEN 1/1) | The running burst keeps fading down; the next note fades up. |
-| V9 | CRV 50 %, VFAD −80 %, FADE LEN | Between V2 and V3 on every hit. |
+| V8 | VFAD −100 %, CRV 0 %, LEN 1/1 (16 hits) | Falls evenly from 100 to exactly 1 on the last hit, never 0 (velocity 0 would be a note-off). |
+| V9 | VFAD +100 %, RATE 1/32 (8 hits) | Rises from 100; the last hit is exactly 127. |
+| V10 | VFAD +100 %, note velocity 127 | Stays at 127 (it can't fade up). |
+| V11 | VFAD −100 %, LEN 0.125 (one hit) | One hit at 100 (nothing to fade across). |
+| V12 | VFAD −80 %, LEN INF | No fade: every hit at 100. |
+| V13 | VFAD −80 %, turn VFAD to +80 % halfway through a long burst (LEN 1/1) | The running burst keeps fading down; the next note fades up. |
 
 ## Push 3
 
@@ -113,7 +107,6 @@ Known cause so far: `moses` (now replaced with `sel`, see REQUIREMENTS.md).
 | # | Setup | Expect |
 | --- | --- | --- |
 | P1 | Select the pad on Push, open the device (on a fresh track) | A bank called "Retrig" with RTRG, RATE, LEN, VFAD, CRV on encoders 1–5. No error screen. |
-| P1a | Page to the second bank | "Setup" with FADE on encoder 1, showing LEN / LAST. |
 | P1b | Turn VFAD and CRV; then hold Shift and turn | A normal turn moves quickly across the range; Shift gives fine steps. Tell me if either feels too coarse or too slow. |
 | P2 | Hold a step, turn RATE | The p-lock applies to that step only. ⚑ Open item: confirm the lock reaches the device before that step's note (if not, the step plays with the previous RATE). |
 | P3 | Standalone mode: repeat tests 2, 5 and 12 | Same results; note CPU. |
