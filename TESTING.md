@@ -13,7 +13,7 @@ How to build the device, load it in Live, and what to check. v1 covers RTRG, RAT
    This writes `build/Retrig.amxd`.
 2. In Live, make a Drum Rack and load Simpler (or Drum Sampler) on one pad with a short click or rim sample.
 3. Show the pad's chain and drag `build/Retrig.amxd` into it, *before* the instrument.
-4. The device should show three controls: RTRG (on), RATE (1/16) and LEN (4).
+4. The device should show three controls: RTRG (on), RATE (1/16) and LEN (1/4).
 
 After every rebuild, drag the new `Retrig.amxd` in again to replace the old one (or delete and re-add it).
 
@@ -37,7 +37,7 @@ Paste console output back, along with any red error lines that appear when the d
 ## Load check (do this first)
 
 - [ ] No red errors in the Max console when the device loads. Watch for `translate`, `live.observer`, `coll` or `live.banks`.
-- [ ] RATE lists 1/1 … 1/80 (17 values); LEN lists 0.125 … 128 and INF (20 values).
+- [ ] RATE lists 1/1 … 1/80 (17 values); LEN lists 0.125, 0.188, 1/64 … 124, 128, INF (128 values), matching the Elektron box. Check that 8 and 16 steps show as 1/2 and 1/1 on your box too.
 - [ ] In Live's device, check the controls are automatable: right-click RATE → "Show Automation".
 
 ## Timing tests (v1)
@@ -47,10 +47,11 @@ Use a clip with one note on beats 1 and 3, at 120 BPM unless noted. To check tim
 | # | Setup | Expect |
 | --- | --- | --- |
 | 1 | RTRG off | Output identical to the device being bypassed. |
-| 2 | RATE 1/16, LEN 4 | 4 hits per note, on the 16th grid. Note any offset or jitter of the transients (in ms). |
-| 3 | RATE 1/5, 1/3, 1/80; LEN 16 | Hits stay evenly spaced and on time across several bars. 1/5 gives 5 hits per bar. |
-| 4 | Automate tempo 90 → 160 during a long burst (LEN 16 or INF) | Hit spacing follows the tempo. |
-| 5 | LEN 16, notes on every beat | Each new note cuts the previous burst cleanly: no double hits, no stuck notes. |
+| 2 | RATE 1/16, LEN 1/4 | 4 hits per note, on the 16th grid. Note any offset or jitter of the transients (in ms). |
+| 3 | RATE 1/5, 1/3, 1/80; LEN 1/1 | Hits stay evenly spaced and on time across several bars. 1/5 gives 5 hits per bar. |
+| 3b | RATE 1/80, LEN 0.313 | 2 hits. LEN 0.313 is 37.5 ticks, not a whole number, so this checks the half-tick maths. |
+| 4 | Automate tempo 90 → 160 during a long burst (LEN 64 or INF) | Hit spacing follows the tempo. |
+| 5 | LEN 1/1, notes on every beat | Each new note cuts the previous burst cleanly: no double hits, no stuck notes. |
 | 6 | RATE 1/4, LEN 0.125 | One hit per note. |
 | 7 | LEN INF | Burst runs until the next note; stopping the transport silences it. |
 | 8 | Transport stopped, play the pad by hand | Retrigs still fire at RATE. ⚑ Also tell me whether this works *without* the ms fallback (open item). |

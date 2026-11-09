@@ -102,7 +102,10 @@ Agreed 2026-11-09. Items marked ⚑ are provisional defaults until checked again
 **Value lists**
 
 - ⚑ RATE (17): 1/1, 1/2, 1/3, 1/4, 1/5, 1/6, 1/8, 1/10, 1/12, 1/16, 1/20, 1/24, 1/32, 1/40, 1/48, 1/64, 1/80. Default 1/16.
-- ⚑ LEN (20, in steps): 0.125, 0.25, 0.5, 0.75, 1, 1.5, 2, 3, 4, 6, 8, 12, 16, 24, 32, 48, 64, 96, 128, INF. Default 4.
+- LEN (128 values, in steps; checked on an Elektron box 2026-11-09): 0.125 to 2 in 1/16-step increments (0.125, 0.188, 1/64, 0.313 … 1.94, 1/8), then increments of 0.125 to 4, 0.25 to 8, 0.5 to 16, 1 to 32, 2 to 64, 4 to 128, then INF. Default 1/4 (4 steps).
+  - Labels show 3 significant digits, rounded half up (0.313, 1.13), except whole note values, which show as notes: 1/64 = 0.25, 1/32 = 0.5, 1/16 = 1, 1/8 = 2, 1/4 = 4.
+  - ⚑ The note labels 1/2 (8 steps) and 1/1 (16 steps) are assumed by extending that pattern. Values above 5.25 follow the stated increments but weren't read off the box one by one.
+  - The 1/16-step values are 7.5 ticks, so LEN is stored in half-ticks (1 step = 240) and the hit count is `N = (len_half + 2·rate − 1) / (2·rate)` in integer maths, which equals `ceil(LEN / RATE)`.
 - ⚑ INF runs until the next note, transport stop or RTRG change.
 
 **Velocity fade (v2)**
@@ -117,7 +120,7 @@ Agreed 2026-11-09. Items marked ⚑ are provisional defaults until checked again
 | --- | --- | --- | --- |
 | RTRG | `live.toggle` | Off / On | On |
 | RATE | `live.menu` | RATE list | 1/16 |
-| LEN | `live.menu` | LEN list | 4 |
+| LEN | `live.menu` | LEN list | 1/4 |
 | VFAD | `live.dial` | −100…+100 % | 0 (v2) |
 | CRV | `live.dial` | 0…100 % | 0 (v2) |
 
@@ -152,7 +155,7 @@ Design impact on the core build:
 Rack-wide features (sample assignment, pad naming, auto-inserting this device into chains) belong to the separate Kit device, not this one.
 
 - [ ] Confirm the exact RATE value list against the Elektron manual
-- [ ] Confirm the LEN value list against the Elektron manual
+- [x] Confirm the LEN value list against the Elektron box (labels for 8 and 16 steps still assumed, see defaults)
 - [ ] Confirm the VFAD range and how it maps to the end velocity
 - [x] Decide fade behaviour when LEN is INF (no fade, see defaults)
 - [ ] Check whether tick-based `metro` runs with Live's transport stopped (the ms fallback is in place either way)
