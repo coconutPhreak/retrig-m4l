@@ -1,6 +1,6 @@
 # Testing Retrig
 
-How to build the device, load it in Live, and what to check. v1 added RTRG, RATE and LEN (timing); v2 adds VFAD and CRV (velocity fade).
+How to build the device, load it in Live, and what to check. v1 added RTRG, RATE and LEN (timing), v2 VFAD and CRV (velocity fade), v3 PROB, LOCK and PMODE, v4 TRATE and GLIDE (speed fade), v5 VOICES (polyphony).
 
 ## Build and load
 
@@ -13,7 +13,7 @@ How to build the device, load it in Live, and what to check. v1 added RTRG, RATE
    This writes `build/Retrig.amxd`.
 2. In Live, make a Drum Rack and load Simpler (or Drum Sampler) on one pad with a short click or rim sample.
 3. Show the pad's chain and drag `build/Retrig.amxd` into it, *before* the instrument.
-4. The device should show RTRG (**off**), RATE (1/16), LEN (1/4), VFAD and CRV (0 %), PROB (100 %), LOCK (off), PMODE (Repeats), TRATE (Off) and GLIDE (4). Turn RTRG on before testing retrigs.
+4. The device should show RTRG (**off**), RATE (1/16), LEN (1/4), VFAD and CRV (0 %), PROB (100 %), LOCK (off), PMODE (Repeats), TRATE (Off), GLIDE (4) and VOICES (Mono). Turn RTRG on before testing retrigs.
 
 After every rebuild, drag the new `Retrig.amxd` in again to replace the old one (or delete and re-add it).
 
@@ -25,12 +25,15 @@ Save from the device editor (unfrozen), then copy the changes back into the sour
 python3 scripts/build_amxd.py --extract build/Retrig.amxd
 ```
 
+The burst engine is in eight identical `p voice` subpatchers (v5). An edit to one voice has to be made to all eight: the build refuses to run if they differ.
+
 ### Console output for bug reports
 
 In the device editor (patching view), turn on the **Debug** toggle (right side, next to `print retrig`). The Max console then shows:
 
 - `retrig: burst_hits N`, the hit count for each new note (`0` means INF)
 - `retrig: note P V` for each note-on, and `retrig: note P 0` for each note-off
+- `retrig: voice N`, which of the 8 voices took the note (v5)
 
 Paste console output back, along with any red error lines that appear when the device loads.
 
@@ -120,6 +123,24 @@ v4 also moved the timing core from `metro` to `delay`, so re-run timing tests 2,
 | S10 | TRATE 1/64, GLIDE 4, PROB 50 % (Repeats) | Glide with random gaps; the remaining hits keep their timing. |
 | S11 | 16 pads, all with TRATE 1/64, hit together | No late or flammed notes; check CPU (the note-on calculation runs per pad). |
 
+## Polyphony tests (v5)
+
+Use RATE 1/16, LEN 1/1 (16 hits, one bar), and notes 1/8 apart unless noted. The instrument should be in One-Shot mode with enough voices (Simpler: Voices 8 or more, Retrigger off), or overlapping hits cut each other's tails.
+
+| # | Setup | Expect |
+| --- | --- | --- |
+| Y1 | VOICES Mono | Identical to v4: each note cuts the burst before it. |
+| Y2 | VOICES 2, two notes 1/8 apart | Both bursts play all 16 hits, interleaved. |
+| Y3 | VOICES 2, three notes 1/8 apart | The first burst stops when the third note starts; the second and third run in full. |
+| Y4 | VOICES 8, LEN INF, nine notes | The ninth note stops the first burst; the other eight keep going. |
+| Y5 | VOICES 4, first note p-locked to RATE 1/4, second to 1/16 | The two bursts keep their own rates (polyrhythm on one pad). |
+| Y6 | VOICES 8 with several INF bursts running; next step p-locked to VOICES Mono | That step cuts every running burst. |
+| Y7 | VOICES 8, several bursts, then stop the transport / turn RTRG off | Everything stops; no stuck notes. |
+| Y8 | VOICES 2, VFAD −100 %, two notes at velocities 100 and 50 | Each burst fades from its own velocity to 1. |
+| Y9 | VOICES 4, PMODE Note, PROB 50 % | Failed notes don't cut or steal anything. |
+| Y10 | VOICES 4, instrument in Gate mode | Overlapping hits may sound short (expected: same pitch); nothing hangs. |
+| Y11 | 16 pads, VOICES 8, dense notes (e.g. 1/16 notes, LEN 1/1, TRATE 1/64) | Note the CPU, in Live and on Push standalone. Listen for late or flammed notes. |
+
 ## Push 3
 
 ### If Push standalone says "This device contains missing or incompatible Max objects"
@@ -139,11 +160,14 @@ This writes one probe per object type used in Retrig to `build/probes/`. Each pr
 
 Known cause so far: `moses` (now replaced with `sel`, see REQUIREMENTS.md).
 
+v5 adds subpatchers (`p`, with `inlet` and `outlet` inside). If v5 shows the error, load `Probe 97 p (empty subpatcher)` and `Probe 17 p` (the eight voices as they are) on fresh tracks and tell me which fail.
+
 | # | Setup | Expect |
 | --- | --- | --- |
 | P1 | Select the pad on Push, open the device (on a fresh track) | A bank called "Retrig" with RTRG, RATE, LEN, VFAD, CRV, PROB, TRATE, GLIDE on encoders 1–8. No error screen. |
 | P1a | Page to the second bank | "Chance" with PROB, LOCK, PMODE on encoders 1–3. PROB moves together on both banks. |
 | P1c | Turn GLIDE, then Shift+turn | Fast sweep 0–128 with finer steps near 0; Shift fine-tunes. |
+| P1d | Page to the third bank; also time how long the device takes to load on Push standalone | "Setup" with VOICES on encoder 1, stepping Mono, 2 … 8. ⚑ v5 is about 8 times the size of v4: tell me if loading feels slow. |
 | P1b | Turn VFAD and CRV; then hold Shift and turn | A normal turn moves quickly across the range; Shift gives fine steps. Tell me if either feels too coarse or too slow. |
 | P2 | Hold a step, turn RATE | The p-lock applies to that step only. ⚑ Open item: confirm the lock reaches the device before that step's note (if not, the step plays with the previous RATE). |
 | P3 | Standalone mode: repeat tests 2, 5 and 12 | Same results; note CPU. |

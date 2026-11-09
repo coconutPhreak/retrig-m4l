@@ -15,7 +15,11 @@ single dummy parameter but breaks next to Retrig's (found 2026-11-09).
 
 - "00 baseline" has nothing extra and must load cleanly.
 - One probe per object class used in the device, generated automatically, so a
-  new class gets a probe without editing this file.
+  new class gets a probe without editing this file. Objects inside subpatchers
+  count too; the `p` probe has the device's subpatchers (with their inlets and
+  outlets) as they are.
+- "97 p (empty subpatcher)" has one subpatcher with just its inlets and
+  outlets, to tell the mechanism apart from what's inside.
 - "98 all objects" has every object of the device, unconnected.
 - "99 moses (known bad)" must FAIL; if it loads, the test isn't reproducing the
   problem (e.g. it wasn't a fresh track).
@@ -37,6 +41,14 @@ BASE_CLASSES = {"midiin", "midiout", "live.banks"}
 
 def cls(b):
     return b["text"].split(" ")[0] if b["maxclass"] == "newobj" else b["maxclass"]
+
+
+def walk(boxes):
+    """Every box, including the ones inside subpatchers (`p`)."""
+    for b in boxes:
+        yield b
+        if "patcher" in b:
+            yield from walk([x["box"] for x in b["patcher"]["boxes"]])
 
 
 def device(extra, title):
@@ -73,12 +85,18 @@ def device(extra, title):
 
 def probes():
     others = [b for b in BOXES if not IS_PARAM(b) and cls(b) not in BASE_CLASSES]
+    inner = [b for b in walk(BOXES) if not IS_PARAM(b) and cls(b) not in BASE_CLASSES | {"inlet", "outlet"}]
     by_class = {}
-    for b in others:
+    for b in inner:
         by_class.setdefault(cls(b), []).append(b)  # every instance: arguments can matter
     jobs = {"00 baseline": []}
     for n, (c, bs) in enumerate(sorted(by_class.items()), start=1):
         jobs[f"{n:02d} {c}"] = bs
+    if "p" in by_class:  # the subpatcher mechanism on its own: one empty `p` with an inlet and outlet
+        sub = json.loads(json.dumps(by_class["p"][0]))
+        sub["patcher"]["boxes"] = [x for x in sub["patcher"]["boxes"] if x["box"]["maxclass"] in ("inlet", "outlet")]
+        sub["patcher"]["lines"] = []
+        jobs["97 p (empty subpatcher)"] = [sub]
     jobs["98 all objects"] = others
     moses = {"id": "bad-moses", "maxclass": "newobj", "text": "moses 0", "numinlets": 2, "numoutlets": 2,
              "outlettype": ["", ""], "patching_rect": [0.0, 0.0, 50.0, 20.0]}

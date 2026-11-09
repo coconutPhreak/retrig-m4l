@@ -29,9 +29,25 @@ DEFAULT_SRC = ROOT / "src" / "retrig.maxpat"
 DEFAULT_OUT = ROOT / "build" / "Retrig.amxd"
 
 
+def voice_shape(sub: dict) -> str:
+    """A voice subpatcher's objects and wiring, ignoring where things sit on screen."""
+    boxes = sorted((b["box"]["id"], b["box"]["maxclass"], b["box"].get("text", "")) for b in sub["boxes"])
+    lines = sorted((tuple(l["patchline"]["source"]), tuple(l["patchline"]["destination"])) for l in sub["lines"])
+    return json.dumps([boxes, lines])
+
+
+def check_voices(patcher: dict) -> None:
+    """The `p voice` subpatchers are copies of one burst engine: refuse to build if they differ."""
+    shapes = {b["box"]["id"]: voice_shape(b["box"]["patcher"]) for b in patcher["boxes"]
+              if b["box"].get("text") == "p voice" and "patcher" in b["box"]}
+    if len(set(shapes.values())) > 1:
+        sys.exit("voice subpatchers differ (" + ", ".join(sorted(shapes)) + "): an edit was made to some "
+                 "voices only. Make the same edit in all of them, then build again.")
+
+
 def build(src: Path, out: Path) -> None:
     text = src.read_text(encoding="utf-8")
-    json.loads(text)  # fail early on broken JSON
+    check_voices(json.loads(text)["patcher"])  # also fails early on broken JSON
     payload = text.encode("utf-8") + b"\x00"
     header = (b"ampf" + struct.pack("<I", 4) + b"mmmm"
               + b"meta" + struct.pack("<I", 4) + struct.pack("<I", 0)
