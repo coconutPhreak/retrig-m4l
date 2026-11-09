@@ -26,7 +26,7 @@ Five parameters, all on a single Push bank of 8.
 | VFAD | Negative to positive (fade out to fade in) | Velocity fade across the burst, starting from the played velocity. Negative fades down toward 1, positive fades up toward 127. |
 | CRV | 0% to 100% | Shape of the fade: 0% linear, 100% exponential, blended in between. |
 
-The exact RATE value list should be checked against the Elektron box before release. The VFAD range is decided (see Decisions).
+The RATE and LEN value lists have been checked against the Elektron box, and the VFAD range is decided (see Decisions).
 
 ## Retrig behaviour
 
@@ -107,7 +107,7 @@ Agreed 2026-11-09. Items marked ⚑ are provisional defaults until checked again
 
 **Value lists**
 
-- ⚑ RATE (17): 1/1, 1/2, 1/3, 1/4, 1/5, 1/6, 1/8, 1/10, 1/12, 1/16, 1/20, 1/24, 1/32, 1/40, 1/48, 1/64, 1/80. Default 1/16.
+- RATE (17, checked on the Elektron box 2026-11-09): 1/1, 1/2, 1/3, 1/4, 1/5, 1/6, 1/8, 1/10, 1/12, 1/16, 1/20, 1/24, 1/32, 1/40, 1/48, 1/64, 1/80. Default 1/16.
 - LEN (128 values, in steps; checked on an Elektron box 2026-11-09): 0.125 to 2 in 1/16-step increments (0.125, 0.188, 1/64, 0.313 … 1.94, 1/8), then increments of 0.125 to 4, 0.25 to 8, 0.5 to 16, 1 to 32, 2 to 64, 4 to 128, then INF. Default 1/4 (4 steps).
   - Labels show 3 significant digits, rounded half up (0.313, 1.13), except whole note values, which show as notes: 1/64 = 0.25, 1/32 = 0.5, 1/16 = 1, 1/8 = 2, 1/4 = 4.
   - ⚑ The note labels 1/2 (8 steps) and 1/1 (16 steps) are assumed by extending that pattern. Values above 5.25 follow the stated increments but weren't read off the box one by one.
@@ -192,10 +192,11 @@ Design impact on the core build:
 
 Rack-wide features (sample assignment, pad naming, auto-inserting this device into chains) belong to the separate Kit device, not this one.
 
-- [ ] Confirm the exact RATE value list against the Elektron manual
+- [x] Confirm the exact RATE value list against the Elektron box
 - [x] Confirm the LEN value list against the Elektron box (labels for 8 and 16 steps still assumed, see defaults)
 - [x] Confirm the VFAD range and how it maps to the end velocity (−100…+100 %; starts at the played velocity, −100 % ends at 1, +100 % ends at 127)
 - [x] Decide fade behaviour when LEN is INF (no fade, see defaults)
 - [ ] Check whether tick-based `metro` runs with Live's transport stopped (the ms fallback is in place either way)
-- [ ] Check that a p-lock on a step reaches the device before that step's note
+- [x] Check that a p-lock on a step reaches the device before that step's note (Push test P2 passed 2026-11-09)
+- [x] CPU with 16 instances on Push standalone (Push test P3 passed 2026-11-09)
 - [x] Test the device on Push 3 standalone early (2026-11-09: after the `moses` fix, v1 loads cleanly on a fresh track, shows RTRG, RATE, LEN on encoders 1–3, and retrigs)
