@@ -70,7 +70,14 @@ Ableton doesn't publish which objects standalone rejects, so find out with probe
 python3 scripts/make_probes.py
 ```
 
-This writes 14 tiny devices to `build/probes/`, one per object type used in Retrig. Load each on Push standalone and note which ones show the error. `Probe 00 baseline` has nothing extra and must load cleanly.
+This writes one probe per object type used in Retrig to `build/probes/`. Each probe has Retrig's real parameters and Push bank, because some objects only fail alongside them.
+
+- Load each probe on a **fresh track** (new track, then load). The error usually only shows on the first load onto a new track, so a reload doesn't count.
+- `Probe 00 baseline` must load cleanly.
+- `Probe 99 moses (known bad)` must show the error. If it doesn't, the test isn't reproducing the problem.
+- `Probe 98 all objects` has every object in the device, unconnected. If it fails but every single-object probe passes, it's a combination: split the objects in half and repeat.
+
+Known cause so far: `moses` (now replaced with `sel`, see REQUIREMENTS.md).
 
 | # | Setup | Expect |
 | --- | --- | --- |
