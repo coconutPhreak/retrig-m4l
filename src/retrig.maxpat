@@ -18,7 +18,7 @@
 		"openrect": [
 			0.0,
 			0.0,
-			170.0,
+			260.0,
 			169.0
 		],
 		"bglocked": 0,
@@ -38,7 +38,7 @@
 		"boxanimatetime": 500,
 		"enablehscroll": 1,
 		"enablevscroll": 1,
-		"devicewidth": 170.0,
+		"devicewidth": 260.0,
 		"description": "Elektron-style per-pad retrig for Drum Rack chains.",
 		"digest": "",
 		"tags": "",
@@ -58,7 +58,7 @@
 						620.0,
 						20.0
 					],
-					"text": "RETRIG v1 - per-pad retrig (RTRG / RATE / LEN). All timing in the Max scheduler: no JS.",
+					"text": "RETRIG v2 - per-pad retrig (RTRG / RATE / LEN / VFAD / CRV). All timing in the Max scheduler: no JS.",
 					"fontname": "Arial Bold",
 					"fontsize": 10.0,
 					"linecount": 1
@@ -705,7 +705,7 @@
 					"id": "t-start",
 					"maxclass": "newobj",
 					"numinlets": 1,
-					"numoutlets": 4,
+					"numoutlets": 5,
 					"patching_rect": [
 						20.0,
 						400.0,
@@ -716,9 +716,10 @@
 						"bang",
 						"bang",
 						"bang",
+						"bang",
 						"bang"
 					],
-					"text": "t b b b b",
+					"text": "t b b b b b",
 					"fontname": "Arial Bold",
 					"fontsize": 10.0
 				}
@@ -2156,7 +2157,7 @@
 					"id": "t-idx",
 					"maxclass": "newobj",
 					"numinlets": 1,
-					"numoutlets": 2,
+					"numoutlets": 3,
 					"patching_rect": [
 						20.0,
 						775.0,
@@ -2165,9 +2166,10 @@
 					],
 					"outlettype": [
 						"int",
+						"int",
 						"int"
 					],
-					"text": "t i i",
+					"text": "t i i i",
 					"fontname": "Arial Bold",
 					"fontsize": 10.0
 				}
@@ -2238,7 +2240,7 @@
 					"id": "t-play",
 					"maxclass": "newobj",
 					"numinlets": 1,
-					"numoutlets": 2,
+					"numoutlets": 1,
 					"patching_rect": [
 						220.0,
 						825.0,
@@ -2246,10 +2248,9 @@
 						20.0
 					],
 					"outlettype": [
-						"bang",
 						"bang"
 					],
-					"text": "t b b",
+					"text": "t b",
 					"fontname": "Arial Bold",
 					"fontsize": 10.0
 				}
@@ -2790,6 +2791,251 @@
 					],
 					"textjustification": 0
 				}
+			},
+			{
+				"box": {
+					"id": "VFAD",
+					"maxclass": "live.dial",
+					"numinlets": 1,
+					"numoutlets": 2,
+					"outlettype": [
+						"",
+						"float"
+					],
+					"parameter_enable": 1,
+					"varname": "VFAD",
+					"patching_rect": [
+						860.0,
+						440.0,
+						44.0,
+						47.0
+					],
+					"presentation": 1,
+					"presentation_rect": [
+						160.0,
+						4.0,
+						44.0,
+						47.0
+					],
+					"saved_attribute_attributes": {
+						"valueof": {
+							"parameter_longname": "VFAD",
+							"parameter_shortname": "VFAD",
+							"parameter_type": 0,
+							"parameter_unitstyle": 5,
+							"parameter_mmin": -100.0,
+							"parameter_mmax": 100.0,
+							"parameter_initial_enable": 1,
+							"parameter_initial": [
+								0.0
+							],
+							"parameter_annotation_name": "Velocity fade: -100% down to 1, +100% up to 127"
+						}
+					}
+				}
+			},
+			{
+				"box": {
+					"id": "CRV",
+					"maxclass": "live.dial",
+					"numinlets": 1,
+					"numoutlets": 2,
+					"outlettype": [
+						"",
+						"float"
+					],
+					"parameter_enable": 1,
+					"varname": "CRV",
+					"patching_rect": [
+						920.0,
+						440.0,
+						44.0,
+						47.0
+					],
+					"presentation": 1,
+					"presentation_rect": [
+						208.0,
+						4.0,
+						44.0,
+						47.0
+					],
+					"saved_attribute_attributes": {
+						"valueof": {
+							"parameter_longname": "CRV",
+							"parameter_shortname": "CRV",
+							"parameter_type": 0,
+							"parameter_unitstyle": 5,
+							"parameter_mmin": 0.0,
+							"parameter_mmax": 100.0,
+							"parameter_initial_enable": 1,
+							"parameter_initial": [
+								0.0
+							],
+							"parameter_annotation_name": "Fade curve: 0% linear, 100% exponential"
+						}
+					}
+				}
+			},
+			{
+				"box": {
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"id": "f-vfad",
+					"maxclass": "newobj",
+					"text": "f",
+					"numinlets": 2,
+					"numoutlets": 1,
+					"outlettype": [
+						"float"
+					],
+					"patching_rect": [
+						860.0,
+						500.0,
+						30.0,
+						20.0
+					]
+				}
+			},
+			{
+				"box": {
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"id": "f-crv",
+					"maxclass": "newobj",
+					"text": "f",
+					"numinlets": 2,
+					"numoutlets": 1,
+					"outlettype": [
+						"float"
+					],
+					"patching_rect": [
+						920.0,
+						500.0,
+						30.0,
+						20.0
+					]
+				}
+			},
+			{
+				"box": {
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"id": "t-vsetup",
+					"maxclass": "newobj",
+					"text": "t b b b",
+					"numinlets": 1,
+					"numoutlets": 3,
+					"outlettype": [
+						"bang",
+						"bang",
+						"bang"
+					],
+					"patching_rect": [
+						420.0,
+						430.0,
+						59.0,
+						20.0
+					]
+				}
+			},
+			{
+				"box": {
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"id": "t-v0",
+					"maxclass": "newobj",
+					"text": "t f f",
+					"numinlets": 1,
+					"numoutlets": 2,
+					"outlettype": [
+						"float",
+						"float"
+					],
+					"patching_rect": [
+						420.0,
+						470.0,
+						45.0,
+						20.0
+					]
+				}
+			},
+			{
+				"box": {
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"id": "expr-ve",
+					"maxclass": "newobj",
+					"text": "expr $f1 + max($f2 / 100. * ($f3 > 0), 0.) * (127. - $f1) + min($f2 / 100. * ($f3 > 0), 0.) * ($f1 - 1.)",
+					"numinlets": 3,
+					"numoutlets": 1,
+					"outlettype": [
+						""
+					],
+					"patching_rect": [
+						420.0,
+						500.0,
+						520.0,
+						20.0
+					]
+				}
+			},
+			{
+				"box": {
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"id": "expr-t",
+					"maxclass": "newobj",
+					"text": "expr min(1., 2. * $i1 * $f2 / max($f3, 1.))",
+					"numinlets": 3,
+					"numoutlets": 1,
+					"outlettype": [
+						""
+					],
+					"patching_rect": [
+						140.0,
+						860.0,
+						260.0,
+						20.0
+					]
+				}
+			},
+			{
+				"box": {
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"id": "expr-vel",
+					"maxclass": "newobj",
+					"text": "expr min(127, max(1, int((1. - $f4 / 100.) * ($f2 + ($f3 - $f2) * $f1) + $f4 / 100. * $f2 * pow($f3 / $f2, $f1) + 0.5)))",
+					"numinlets": 4,
+					"numoutlets": 1,
+					"outlettype": [
+						""
+					],
+					"patching_rect": [
+						140.0,
+						890.0,
+						640.0,
+						20.0
+					]
+				}
+			},
+			{
+				"box": {
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"id": "c-vel",
+					"maxclass": "comment",
+					"numinlets": 1,
+					"numoutlets": 0,
+					"text": "8. Velocity (v2). Note-on: ve = end velocity from v0 and VFAD (-100% -> 1, +100% -> 127; INF = no fade). Each hit: t = i*RATE/LEN (time through LEN), v = CRV blend of linear and exponential v0 -> ve, rounded, 1-127.",
+					"patching_rect": [
+						140.0,
+						920.0,
+						640.0,
+						34.0
+					],
+					"linecount": 2
+				}
 			}
 		],
 		"lines": [
@@ -3169,11 +3415,59 @@
 				"patchline": {
 					"source": [
 						"t-start",
-						3
+						4
 					],
 					"destination": [
 						"m-zero",
 						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"t-start",
+						3
+					],
+					"destination": [
+						"i-rate",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"i-rate",
+						0
+					],
+					"destination": [
+						"coll-rate",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"coll-rate",
+						0
+					],
+					"destination": [
+						"t-rate",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"t-rate",
+						1
+					],
+					"destination": [
+						"expr-n",
+						1
 					]
 				}
 			},
@@ -3184,54 +3478,6 @@
 						2
 					],
 					"destination": [
-						"i-rate",
-						0
-					]
-				}
-			},
-			{
-				"patchline": {
-					"source": [
-						"i-rate",
-						0
-					],
-					"destination": [
-						"coll-rate",
-						0
-					]
-				}
-			},
-			{
-				"patchline": {
-					"source": [
-						"coll-rate",
-						0
-					],
-					"destination": [
-						"t-rate",
-						0
-					]
-				}
-			},
-			{
-				"patchline": {
-					"source": [
-						"t-rate",
-						1
-					],
-					"destination": [
-						"expr-n",
-						1
-					]
-				}
-			},
-			{
-				"patchline": {
-					"source": [
-						"t-start",
-						1
-					],
-					"destination": [
 						"i-len",
 						0
 					]
@@ -3421,7 +3667,7 @@
 				"patchline": {
 					"source": [
 						"t-idx",
-						1
+						2
 					],
 					"destination": [
 						"plus-idx",
@@ -3498,30 +3744,6 @@
 					"destination": [
 						"t-play",
 						0
-					]
-				}
-			},
-			{
-				"patchline": {
-					"source": [
-						"t-play",
-						1
-					],
-					"destination": [
-						"i-vel",
-						0
-					]
-				}
-			},
-			{
-				"patchline": {
-					"source": [
-						"i-vel",
-						0
-					],
-					"destination": [
-						"pack-on",
-						1
 					]
 				}
 			},
@@ -3908,6 +4130,222 @@
 						0
 					]
 				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"VFAD",
+						0
+					],
+					"destination": [
+						"f-vfad",
+						1
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"CRV",
+						0
+					],
+					"destination": [
+						"f-crv",
+						1
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"t-start",
+						1
+					],
+					"destination": [
+						"t-vsetup",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"t-vsetup",
+						2
+					],
+					"destination": [
+						"f-crv",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"t-vsetup",
+						1
+					],
+					"destination": [
+						"f-vfad",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"f-vfad",
+						0
+					],
+					"destination": [
+						"expr-ve",
+						1
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"coll-len",
+						0
+					],
+					"destination": [
+						"expr-ve",
+						2
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"t-vsetup",
+						0
+					],
+					"destination": [
+						"i-vel",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"i-vel",
+						0
+					],
+					"destination": [
+						"t-v0",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"t-v0",
+						0
+					],
+					"destination": [
+						"expr-ve",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"t-idx",
+						1
+					],
+					"destination": [
+						"expr-t",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"t-rate",
+						1
+					],
+					"destination": [
+						"expr-t",
+						1
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"coll-len",
+						0
+					],
+					"destination": [
+						"expr-t",
+						2
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"expr-t",
+						0
+					],
+					"destination": [
+						"expr-vel",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"t-v0",
+						1
+					],
+					"destination": [
+						"expr-vel",
+						1
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"expr-ve",
+						0
+					],
+					"destination": [
+						"expr-vel",
+						2
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"f-crv",
+						0
+					],
+					"destination": [
+						"expr-vel",
+						3
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"expr-vel",
+						0
+					],
+					"destination": [
+						"pack-on",
+						1
+					]
+				}
 			}
 		],
 		"parameters": {
@@ -3934,15 +4372,25 @@
 						"RTRG",
 						"RATE",
 						"LEN",
-						"-",
-						"-",
+						"VFAD",
+						"CRV",
 						"-",
 						"-",
 						"-"
 					]
 				}
 			},
-			"inherited_shortname": 1
+			"inherited_shortname": 1,
+			"VFAD": [
+				"VFAD",
+				"VFAD",
+				0
+			],
+			"CRV": [
+				"CRV",
+				"CRV",
+				0
+			]
 		},
 		"dependency_cache": [],
 		"latency": 0,
