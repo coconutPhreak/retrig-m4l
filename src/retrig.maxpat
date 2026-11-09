@@ -1676,315 +1676,6 @@
 			},
 			{
 				"box": {
-					"id": "t-alloc",
-					"maxclass": "newobj",
-					"numinlets": 1,
-					"numoutlets": 3,
-					"outlettype": [
-						"",
-						"bang",
-						"bang"
-					],
-					"patching_rect": [
-						160.0,
-						330.0,
-						59.0,
-						20.0
-					],
-					"fontname": "Arial Bold",
-					"fontsize": 10.0,
-					"text": "t l b b"
-				}
-			},
-			{
-				"box": {
-					"id": "i-c",
-					"maxclass": "newobj",
-					"numinlets": 2,
-					"numoutlets": 1,
-					"outlettype": [
-						"int"
-					],
-					"patching_rect": [
-						420.0,
-						360.0,
-						31.0,
-						20.0
-					],
-					"fontname": "Arial Bold",
-					"fontsize": 10.0,
-					"text": "i 7"
-				}
-			},
-			{
-				"box": {
-					"id": "expr-cinc",
-					"maxclass": "newobj",
-					"numinlets": 1,
-					"numoutlets": 1,
-					"outlettype": [
-						""
-					],
-					"patching_rect": [
-						420.0,
-						385.0,
-						120.0,
-						20.0
-					],
-					"fontname": "Arial Bold",
-					"fontsize": 10.0,
-					"text": "expr ($i1 + 1) % 8"
-				}
-			},
-			{
-				"box": {
-					"id": "t-c",
-					"maxclass": "newobj",
-					"numinlets": 1,
-					"numoutlets": 3,
-					"outlettype": [
-						"int",
-						"int",
-						"int"
-					],
-					"patching_rect": [
-						420.0,
-						410.0,
-						59.0,
-						20.0
-					],
-					"fontname": "Arial Bold",
-					"fontsize": 10.0,
-					"text": "t i i i"
-				}
-			},
-			{
-				"box": {
-					"id": "plus-c",
-					"maxclass": "newobj",
-					"numinlets": 2,
-					"numoutlets": 1,
-					"outlettype": [
-						"int"
-					],
-					"patching_rect": [
-						420.0,
-						435.0,
-						31.0,
-						20.0
-					],
-					"fontname": "Arial Bold",
-					"fontsize": 10.0,
-					"text": "+ 1"
-				}
-			},
-			{
-				"box": {
-					"id": "i-voices",
-					"maxclass": "newobj",
-					"numinlets": 2,
-					"numoutlets": 1,
-					"outlettype": [
-						"int"
-					],
-					"patching_rect": [
-						290.0,
-						360.0,
-						30.0,
-						20.0
-					],
-					"fontname": "Arial Bold",
-					"fontsize": 10.0,
-					"text": "i"
-				}
-			},
-			{
-				"box": {
-					"id": "t-vk",
-					"maxclass": "newobj",
-					"numinlets": 1,
-					"numoutlets": 2,
-					"outlettype": [
-						"int",
-						"int"
-					],
-					"patching_rect": [
-						290.0,
-						385.0,
-						45.0,
-						20.0
-					],
-					"fontname": "Arial Bold",
-					"fontsize": 10.0,
-					"text": "t i i"
-				}
-			},
-			{
-				"box": {
-					"id": "plus-k",
-					"maxclass": "newobj",
-					"numinlets": 2,
-					"numoutlets": 1,
-					"outlettype": [
-						"int"
-					],
-					"patching_rect": [
-						330.0,
-						410.0,
-						31.0,
-						20.0
-					],
-					"fontname": "Arial Bold",
-					"fontsize": 10.0,
-					"text": "+ 1"
-				}
-			},
-			{
-				"box": {
-					"id": "expr-nk",
-					"maxclass": "newobj",
-					"numinlets": 1,
-					"numoutlets": 1,
-					"outlettype": [
-						""
-					],
-					"patching_rect": [
-						260.0,
-						410.0,
-						80.0,
-						20.0
-					],
-					"fontname": "Arial Bold",
-					"fontsize": 10.0,
-					"text": "expr 8 - $i1"
-				}
-			},
-			{
-				"box": {
-					"id": "uzi-kill",
-					"maxclass": "newobj",
-					"numinlets": 2,
-					"numoutlets": 3,
-					"outlettype": [
-						"bang",
-						"bang",
-						"int"
-					],
-					"patching_rect": [
-						260.0,
-						435.0,
-						45.0,
-						20.0
-					],
-					"fontname": "Arial Bold",
-					"fontsize": 10.0,
-					"text": "uzi 8"
-				}
-			},
-			{
-				"box": {
-					"id": "i-kj",
-					"maxclass": "newobj",
-					"numinlets": 2,
-					"numoutlets": 1,
-					"outlettype": [
-						"int"
-					],
-					"patching_rect": [
-						260.0,
-						460.0,
-						30.0,
-						20.0
-					],
-					"fontname": "Arial Bold",
-					"fontsize": 10.0,
-					"text": "i"
-				}
-			},
-			{
-				"box": {
-					"id": "t-kj",
-					"maxclass": "newobj",
-					"numinlets": 1,
-					"numoutlets": 2,
-					"outlettype": [
-						"int",
-						"int"
-					],
-					"patching_rect": [
-						260.0,
-						485.0,
-						45.0,
-						20.0
-					],
-					"fontname": "Arial Bold",
-					"fontsize": 10.0,
-					"text": "t i i"
-				}
-			},
-			{
-				"box": {
-					"id": "plus-kj",
-					"maxclass": "newobj",
-					"numinlets": 2,
-					"numoutlets": 1,
-					"outlettype": [
-						"int"
-					],
-					"patching_rect": [
-						330.0,
-						510.0,
-						31.0,
-						20.0
-					],
-					"fontname": "Arial Bold",
-					"fontsize": 10.0,
-					"text": "+ 1"
-				}
-			},
-			{
-				"box": {
-					"id": "expr-kv",
-					"maxclass": "newobj",
-					"numinlets": 2,
-					"numoutlets": 1,
-					"outlettype": [
-						""
-					],
-					"patching_rect": [
-						260.0,
-						535.0,
-						190.0,
-						20.0
-					],
-					"fontname": "Arial Bold",
-					"fontsize": 10.0,
-					"text": "expr ($i2 - $i1 + 16) % 8 + 1"
-				}
-			},
-			{
-				"box": {
-					"id": "t-k",
-					"maxclass": "newobj",
-					"numinlets": 1,
-					"numoutlets": 2,
-					"outlettype": [
-						"bang",
-						"int"
-					],
-					"patching_rect": [
-						260.0,
-						560.0,
-						45.0,
-						20.0
-					],
-					"fontname": "Arial Bold",
-					"fontsize": 10.0,
-					"text": "t b i"
-				}
-			},
-			{
-				"box": {
 					"id": "gate-kill",
 					"maxclass": "newobj",
 					"numinlets": 2,
@@ -2126,8 +1817,9 @@
 					"maxclass": "newobj",
 					"text": "p voice",
 					"numinlets": 3,
-					"numoutlets": 2,
+					"numoutlets": 3,
 					"outlettype": [
+						"",
 						"",
 						""
 					],
@@ -2320,7 +2012,7 @@
 									"numinlets": 1,
 									"numoutlets": 0,
 									"linecount": 2,
-									"text": "One voice = one burst (v5). The start list carries the note and every latched parameter, so each burst keeps the settings of its own note-on. All 8 voices are identical copies.",
+									"text": "One voice = one burst (v5). The start list carries the note and every latched parameter, so each burst keeps the settings of its own note-on. Right outlet: the burst ended (its stop), so the allocator can free this voice. All 8 voices are identical copies.",
 									"patching_rect": [
 										360.0,
 										44.0,
@@ -5349,6 +5041,21 @@
 										34.0
 									]
 								}
+							},
+							{
+								"box": {
+									"id": "out-done",
+									"maxclass": "outlet",
+									"numinlets": 1,
+									"numoutlets": 0,
+									"patching_rect": [
+										700.0,
+										1200.0,
+										30.0,
+										30.0
+									],
+									"comment": "burst ended (finished or killed)"
+								}
 							}
 						],
 						"lines": [
@@ -7307,6 +7014,18 @@
 										0
 									]
 								}
+							},
+							{
+								"patchline": {
+									"source": [
+										"m-stop",
+										0
+									],
+									"destination": [
+										"out-done",
+										0
+									]
+								}
 							}
 						]
 					},
@@ -7326,8 +7045,9 @@
 					"maxclass": "newobj",
 					"text": "p voice",
 					"numinlets": 3,
-					"numoutlets": 2,
+					"numoutlets": 3,
 					"outlettype": [
+						"",
 						"",
 						""
 					],
@@ -7520,7 +7240,7 @@
 									"numinlets": 1,
 									"numoutlets": 0,
 									"linecount": 2,
-									"text": "One voice = one burst (v5). The start list carries the note and every latched parameter, so each burst keeps the settings of its own note-on. All 8 voices are identical copies.",
+									"text": "One voice = one burst (v5). The start list carries the note and every latched parameter, so each burst keeps the settings of its own note-on. Right outlet: the burst ended (its stop), so the allocator can free this voice. All 8 voices are identical copies.",
 									"patching_rect": [
 										360.0,
 										44.0,
@@ -10549,6 +10269,21 @@
 										34.0
 									]
 								}
+							},
+							{
+								"box": {
+									"id": "out-done",
+									"maxclass": "outlet",
+									"numinlets": 1,
+									"numoutlets": 0,
+									"patching_rect": [
+										700.0,
+										1200.0,
+										30.0,
+										30.0
+									],
+									"comment": "burst ended (finished or killed)"
+								}
 							}
 						],
 						"lines": [
@@ -12507,6 +12242,18 @@
 										0
 									]
 								}
+							},
+							{
+								"patchline": {
+									"source": [
+										"m-stop",
+										0
+									],
+									"destination": [
+										"out-done",
+										0
+									]
+								}
 							}
 						]
 					},
@@ -12526,8 +12273,9 @@
 					"maxclass": "newobj",
 					"text": "p voice",
 					"numinlets": 3,
-					"numoutlets": 2,
+					"numoutlets": 3,
 					"outlettype": [
+						"",
 						"",
 						""
 					],
@@ -12720,7 +12468,7 @@
 									"numinlets": 1,
 									"numoutlets": 0,
 									"linecount": 2,
-									"text": "One voice = one burst (v5). The start list carries the note and every latched parameter, so each burst keeps the settings of its own note-on. All 8 voices are identical copies.",
+									"text": "One voice = one burst (v5). The start list carries the note and every latched parameter, so each burst keeps the settings of its own note-on. Right outlet: the burst ended (its stop), so the allocator can free this voice. All 8 voices are identical copies.",
 									"patching_rect": [
 										360.0,
 										44.0,
@@ -15749,6 +15497,21 @@
 										34.0
 									]
 								}
+							},
+							{
+								"box": {
+									"id": "out-done",
+									"maxclass": "outlet",
+									"numinlets": 1,
+									"numoutlets": 0,
+									"patching_rect": [
+										700.0,
+										1200.0,
+										30.0,
+										30.0
+									],
+									"comment": "burst ended (finished or killed)"
+								}
 							}
 						],
 						"lines": [
@@ -17707,6 +17470,18 @@
 										0
 									]
 								}
+							},
+							{
+								"patchline": {
+									"source": [
+										"m-stop",
+										0
+									],
+									"destination": [
+										"out-done",
+										0
+									]
+								}
 							}
 						]
 					},
@@ -17726,8 +17501,9 @@
 					"maxclass": "newobj",
 					"text": "p voice",
 					"numinlets": 3,
-					"numoutlets": 2,
+					"numoutlets": 3,
 					"outlettype": [
+						"",
 						"",
 						""
 					],
@@ -17920,7 +17696,7 @@
 									"numinlets": 1,
 									"numoutlets": 0,
 									"linecount": 2,
-									"text": "One voice = one burst (v5). The start list carries the note and every latched parameter, so each burst keeps the settings of its own note-on. All 8 voices are identical copies.",
+									"text": "One voice = one burst (v5). The start list carries the note and every latched parameter, so each burst keeps the settings of its own note-on. Right outlet: the burst ended (its stop), so the allocator can free this voice. All 8 voices are identical copies.",
 									"patching_rect": [
 										360.0,
 										44.0,
@@ -20949,6 +20725,21 @@
 										34.0
 									]
 								}
+							},
+							{
+								"box": {
+									"id": "out-done",
+									"maxclass": "outlet",
+									"numinlets": 1,
+									"numoutlets": 0,
+									"patching_rect": [
+										700.0,
+										1200.0,
+										30.0,
+										30.0
+									],
+									"comment": "burst ended (finished or killed)"
+								}
 							}
 						],
 						"lines": [
@@ -22907,6 +22698,18 @@
 										0
 									]
 								}
+							},
+							{
+								"patchline": {
+									"source": [
+										"m-stop",
+										0
+									],
+									"destination": [
+										"out-done",
+										0
+									]
+								}
 							}
 						]
 					},
@@ -22926,8 +22729,9 @@
 					"maxclass": "newobj",
 					"text": "p voice",
 					"numinlets": 3,
-					"numoutlets": 2,
+					"numoutlets": 3,
 					"outlettype": [
+						"",
 						"",
 						""
 					],
@@ -23120,7 +22924,7 @@
 									"numinlets": 1,
 									"numoutlets": 0,
 									"linecount": 2,
-									"text": "One voice = one burst (v5). The start list carries the note and every latched parameter, so each burst keeps the settings of its own note-on. All 8 voices are identical copies.",
+									"text": "One voice = one burst (v5). The start list carries the note and every latched parameter, so each burst keeps the settings of its own note-on. Right outlet: the burst ended (its stop), so the allocator can free this voice. All 8 voices are identical copies.",
 									"patching_rect": [
 										360.0,
 										44.0,
@@ -26149,6 +25953,21 @@
 										34.0
 									]
 								}
+							},
+							{
+								"box": {
+									"id": "out-done",
+									"maxclass": "outlet",
+									"numinlets": 1,
+									"numoutlets": 0,
+									"patching_rect": [
+										700.0,
+										1200.0,
+										30.0,
+										30.0
+									],
+									"comment": "burst ended (finished or killed)"
+								}
 							}
 						],
 						"lines": [
@@ -28107,6 +27926,18 @@
 										0
 									]
 								}
+							},
+							{
+								"patchline": {
+									"source": [
+										"m-stop",
+										0
+									],
+									"destination": [
+										"out-done",
+										0
+									]
+								}
 							}
 						]
 					},
@@ -28126,8 +27957,9 @@
 					"maxclass": "newobj",
 					"text": "p voice",
 					"numinlets": 3,
-					"numoutlets": 2,
+					"numoutlets": 3,
 					"outlettype": [
+						"",
 						"",
 						""
 					],
@@ -28320,7 +28152,7 @@
 									"numinlets": 1,
 									"numoutlets": 0,
 									"linecount": 2,
-									"text": "One voice = one burst (v5). The start list carries the note and every latched parameter, so each burst keeps the settings of its own note-on. All 8 voices are identical copies.",
+									"text": "One voice = one burst (v5). The start list carries the note and every latched parameter, so each burst keeps the settings of its own note-on. Right outlet: the burst ended (its stop), so the allocator can free this voice. All 8 voices are identical copies.",
 									"patching_rect": [
 										360.0,
 										44.0,
@@ -31349,6 +31181,21 @@
 										34.0
 									]
 								}
+							},
+							{
+								"box": {
+									"id": "out-done",
+									"maxclass": "outlet",
+									"numinlets": 1,
+									"numoutlets": 0,
+									"patching_rect": [
+										700.0,
+										1200.0,
+										30.0,
+										30.0
+									],
+									"comment": "burst ended (finished or killed)"
+								}
 							}
 						],
 						"lines": [
@@ -33307,6 +33154,18 @@
 										0
 									]
 								}
+							},
+							{
+								"patchline": {
+									"source": [
+										"m-stop",
+										0
+									],
+									"destination": [
+										"out-done",
+										0
+									]
+								}
 							}
 						]
 					},
@@ -33326,8 +33185,9 @@
 					"maxclass": "newobj",
 					"text": "p voice",
 					"numinlets": 3,
-					"numoutlets": 2,
+					"numoutlets": 3,
 					"outlettype": [
+						"",
 						"",
 						""
 					],
@@ -33520,7 +33380,7 @@
 									"numinlets": 1,
 									"numoutlets": 0,
 									"linecount": 2,
-									"text": "One voice = one burst (v5). The start list carries the note and every latched parameter, so each burst keeps the settings of its own note-on. All 8 voices are identical copies.",
+									"text": "One voice = one burst (v5). The start list carries the note and every latched parameter, so each burst keeps the settings of its own note-on. Right outlet: the burst ended (its stop), so the allocator can free this voice. All 8 voices are identical copies.",
 									"patching_rect": [
 										360.0,
 										44.0,
@@ -36549,6 +36409,21 @@
 										34.0
 									]
 								}
+							},
+							{
+								"box": {
+									"id": "out-done",
+									"maxclass": "outlet",
+									"numinlets": 1,
+									"numoutlets": 0,
+									"patching_rect": [
+										700.0,
+										1200.0,
+										30.0,
+										30.0
+									],
+									"comment": "burst ended (finished or killed)"
+								}
 							}
 						],
 						"lines": [
@@ -38507,6 +38382,18 @@
 										0
 									]
 								}
+							},
+							{
+								"patchline": {
+									"source": [
+										"m-stop",
+										0
+									],
+									"destination": [
+										"out-done",
+										0
+									]
+								}
 							}
 						]
 					},
@@ -38526,8 +38413,9 @@
 					"maxclass": "newobj",
 					"text": "p voice",
 					"numinlets": 3,
-					"numoutlets": 2,
+					"numoutlets": 3,
 					"outlettype": [
+						"",
 						"",
 						""
 					],
@@ -38720,7 +38608,7 @@
 									"numinlets": 1,
 									"numoutlets": 0,
 									"linecount": 2,
-									"text": "One voice = one burst (v5). The start list carries the note and every latched parameter, so each burst keeps the settings of its own note-on. All 8 voices are identical copies.",
+									"text": "One voice = one burst (v5). The start list carries the note and every latched parameter, so each burst keeps the settings of its own note-on. Right outlet: the burst ended (its stop), so the allocator can free this voice. All 8 voices are identical copies.",
 									"patching_rect": [
 										360.0,
 										44.0,
@@ -41749,6 +41637,21 @@
 										34.0
 									]
 								}
+							},
+							{
+								"box": {
+									"id": "out-done",
+									"maxclass": "outlet",
+									"numinlets": 1,
+									"numoutlets": 0,
+									"patching_rect": [
+										700.0,
+										1200.0,
+										30.0,
+										30.0
+									],
+									"comment": "burst ended (finished or killed)"
+								}
 							}
 						],
 						"lines": [
@@ -43707,6 +43610,18 @@
 										0
 									]
 								}
+							},
+							{
+								"patchline": {
+									"source": [
+										"m-stop",
+										0
+									],
+									"destination": [
+										"out-done",
+										0
+									]
+								}
 							}
 						]
 					},
@@ -43727,9 +43642,9 @@
 					"numinlets": 1,
 					"numoutlets": 0,
 					"linecount": 4,
-					"text": "Voices (v5). Each note goes to the next of 8 voices in turn (c). Before it starts, voices c-j are killed for j = k..8, where k is VOICES (Mono = 1): that's the new voice itself plus any burst that k or more newer notes have passed. Mono kills all of them, which is v4's cut. Kill all on RTRG change and transport stop.",
+					"text": "Voices (v5.1). coll-v: voice -> start serial (0 = free); a voice's stop frees it. Note-on: scan the 8 voices (count running, oldest, a free one); while count >= VOICES (Mono = 1), stop the oldest and scan again; then start the note in the free voice. Kill all on RTRG change and transport stop.",
 					"patching_rect": [
-						460.0,
+						620.0,
 						400.0,
 						420.0,
 						62.0
@@ -43751,6 +43666,887 @@
 						500.0,
 						20.0
 					]
+				}
+			},
+			{
+				"box": {
+					"id": "t-alloc",
+					"maxclass": "newobj",
+					"numinlets": 1,
+					"numoutlets": 5,
+					"outlettype": [
+						"",
+						"bang",
+						"bang",
+						"bang",
+						"bang"
+					],
+					"patching_rect": [
+						160.0,
+						330.0,
+						87.0,
+						20.0
+					],
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"text": "t l b b b b"
+				}
+			},
+			{
+				"box": {
+					"id": "i-ser",
+					"maxclass": "newobj",
+					"numinlets": 2,
+					"numoutlets": 1,
+					"outlettype": [
+						"int"
+					],
+					"patching_rect": [
+						580.0,
+						355.0,
+						31.0,
+						20.0
+					],
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"text": "i 0"
+				}
+			},
+			{
+				"box": {
+					"id": "plus-ser",
+					"maxclass": "newobj",
+					"numinlets": 2,
+					"numoutlets": 1,
+					"outlettype": [
+						"int"
+					],
+					"patching_rect": [
+						580.0,
+						380.0,
+						31.0,
+						20.0
+					],
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"text": "+ 1"
+				}
+			},
+			{
+				"box": {
+					"id": "pack-busy",
+					"maxclass": "newobj",
+					"numinlets": 2,
+					"numoutlets": 1,
+					"outlettype": [
+						""
+					],
+					"patching_rect": [
+						490.0,
+						660.0,
+						66.0,
+						20.0
+					],
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"text": "pack 0 0"
+				}
+			},
+			{
+				"box": {
+					"id": "i-voices",
+					"maxclass": "newobj",
+					"numinlets": 2,
+					"numoutlets": 1,
+					"outlettype": [
+						"int"
+					],
+					"patching_rect": [
+						520.0,
+						355.0,
+						30.0,
+						20.0
+					],
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"text": "i"
+				}
+			},
+			{
+				"box": {
+					"id": "plus-k",
+					"maxclass": "newobj",
+					"numinlets": 2,
+					"numoutlets": 1,
+					"outlettype": [
+						"int"
+					],
+					"patching_rect": [
+						520.0,
+						380.0,
+						31.0,
+						20.0
+					],
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"text": "+ 1"
+				}
+			},
+			{
+				"box": {
+					"id": "coll-v",
+					"maxclass": "newobj",
+					"numinlets": 1,
+					"numoutlets": 4,
+					"outlettype": [
+						"",
+						"",
+						"",
+						""
+					],
+					"patching_rect": [
+						220.0,
+						505.0,
+						40.0,
+						20.0
+					],
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"text": "coll",
+					"saved_object_attributes": {
+						"embed": 1,
+						"precision": 6
+					},
+					"coll_data": {
+						"count": 8,
+						"data": [
+							{
+								"key": 1,
+								"value": [
+									0
+								]
+							},
+							{
+								"key": 2,
+								"value": [
+									0
+								]
+							},
+							{
+								"key": 3,
+								"value": [
+									0
+								]
+							},
+							{
+								"key": 4,
+								"value": [
+									0
+								]
+							},
+							{
+								"key": 5,
+								"value": [
+									0
+								]
+							},
+							{
+								"key": 6,
+								"value": [
+									0
+								]
+							},
+							{
+								"key": 7,
+								"value": [
+									0
+								]
+							},
+							{
+								"key": 8,
+								"value": [
+									0
+								]
+							}
+						]
+					}
+				}
+			},
+			{
+				"box": {
+					"id": "m-vinit",
+					"maxclass": "message",
+					"numinlets": 2,
+					"numoutlets": 1,
+					"outlettype": [
+						""
+					],
+					"patching_rect": [
+						460.0,
+						290.0,
+						230.0,
+						20.0
+					],
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"text": "clear, 1 0, 2 0, 3 0, 4 0, 5 0, 6 0, 7 0, 8 0"
+				}
+			},
+			{
+				"box": {
+					"id": "uzi-steal",
+					"maxclass": "newobj",
+					"numinlets": 2,
+					"numoutlets": 3,
+					"outlettype": [
+						"bang",
+						"bang",
+						"int"
+					],
+					"patching_rect": [
+						220.0,
+						355.0,
+						45.0,
+						20.0
+					],
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"text": "uzi 9"
+				}
+			},
+			{
+				"box": {
+					"id": "t-steal",
+					"maxclass": "newobj",
+					"numinlets": 1,
+					"numoutlets": 3,
+					"outlettype": [
+						"bang",
+						"bang",
+						"bang"
+					],
+					"patching_rect": [
+						220.0,
+						380.0,
+						59.0,
+						20.0
+					],
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"text": "t b b b"
+				}
+			},
+			{
+				"box": {
+					"id": "m-scan0",
+					"maxclass": "message",
+					"numinlets": 2,
+					"numoutlets": 1,
+					"outlettype": [
+						""
+					],
+					"patching_rect": [
+						360.0,
+						405.0,
+						24.0,
+						20.0
+					],
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"text": "0"
+				}
+			},
+			{
+				"box": {
+					"id": "m-big",
+					"maxclass": "message",
+					"numinlets": 2,
+					"numoutlets": 1,
+					"outlettype": [
+						""
+					],
+					"patching_rect": [
+						390.0,
+						405.0,
+						70.0,
+						20.0
+					],
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"text": "999999999"
+				}
+			},
+			{
+				"box": {
+					"id": "uzi-scan",
+					"maxclass": "newobj",
+					"numinlets": 2,
+					"numoutlets": 3,
+					"outlettype": [
+						"bang",
+						"bang",
+						"int"
+					],
+					"patching_rect": [
+						270.0,
+						430.0,
+						45.0,
+						20.0
+					],
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"text": "uzi 8"
+				}
+			},
+			{
+				"box": {
+					"id": "t-v",
+					"maxclass": "newobj",
+					"numinlets": 1,
+					"numoutlets": 3,
+					"outlettype": [
+						"int",
+						"int",
+						"int"
+					],
+					"patching_rect": [
+						270.0,
+						455.0,
+						59.0,
+						20.0
+					],
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"text": "t i i i"
+				}
+			},
+			{
+				"box": {
+					"id": "i-curA",
+					"maxclass": "newobj",
+					"numinlets": 2,
+					"numoutlets": 1,
+					"outlettype": [
+						"int"
+					],
+					"patching_rect": [
+						420.0,
+						480.0,
+						30.0,
+						20.0
+					],
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"text": "i"
+				}
+			},
+			{
+				"box": {
+					"id": "i-curB",
+					"maxclass": "newobj",
+					"numinlets": 2,
+					"numoutlets": 1,
+					"outlettype": [
+						"int"
+					],
+					"patching_rect": [
+						460.0,
+						480.0,
+						30.0,
+						20.0
+					],
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"text": "i"
+				}
+			},
+			{
+				"box": {
+					"id": "t-val",
+					"maxclass": "newobj",
+					"numinlets": 1,
+					"numoutlets": 4,
+					"outlettype": [
+						"int",
+						"int",
+						"int",
+						"int"
+					],
+					"patching_rect": [
+						220.0,
+						530.0,
+						73.0,
+						20.0
+					],
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"text": "t i i i i"
+				}
+			},
+			{
+				"box": {
+					"id": "expr-busy",
+					"maxclass": "newobj",
+					"numinlets": 1,
+					"numoutlets": 1,
+					"outlettype": [
+						""
+					],
+					"patching_rect": [
+						420.0,
+						555.0,
+						80.0,
+						20.0
+					],
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"text": "expr $i1 > 0"
+				}
+			},
+			{
+				"box": {
+					"id": "plus-acc",
+					"maxclass": "newobj",
+					"numinlets": 2,
+					"numoutlets": 1,
+					"outlettype": [
+						"int"
+					],
+					"patching_rect": [
+						420.0,
+						580.0,
+						31.0,
+						20.0
+					],
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"text": "+ 0"
+				}
+			},
+			{
+				"box": {
+					"id": "i-cnt",
+					"maxclass": "newobj",
+					"numinlets": 2,
+					"numoutlets": 1,
+					"outlettype": [
+						"int"
+					],
+					"patching_rect": [
+						170.0,
+						605.0,
+						31.0,
+						20.0
+					],
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"text": "i 0"
+				}
+			},
+			{
+				"box": {
+					"id": "sel-free",
+					"maxclass": "newobj",
+					"numinlets": 2,
+					"numoutlets": 2,
+					"outlettype": [
+						"bang",
+						""
+					],
+					"patching_rect": [
+						360.0,
+						555.0,
+						45.0,
+						20.0
+					],
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"text": "sel 0"
+				}
+			},
+			{
+				"box": {
+					"id": "i-free",
+					"maxclass": "newobj",
+					"numinlets": 2,
+					"numoutlets": 1,
+					"outlettype": [
+						"int"
+					],
+					"patching_rect": [
+						360.0,
+						630.0,
+						31.0,
+						20.0
+					],
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"text": "i 1"
+				}
+			},
+			{
+				"box": {
+					"id": "expr-better",
+					"maxclass": "newobj",
+					"numinlets": 2,
+					"numoutlets": 1,
+					"outlettype": [
+						""
+					],
+					"patching_rect": [
+						220.0,
+						555.0,
+						170.0,
+						20.0
+					],
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"text": "expr ($i1 > 0) && ($i1 < $i2)"
+				}
+			},
+			{
+				"box": {
+					"id": "gate-better",
+					"maxclass": "newobj",
+					"numinlets": 2,
+					"numoutlets": 1,
+					"outlettype": [
+						""
+					],
+					"patching_rect": [
+						220.0,
+						580.0,
+						52.0,
+						20.0
+					],
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"text": "gate 1"
+				}
+			},
+			{
+				"box": {
+					"id": "t-best",
+					"maxclass": "newobj",
+					"numinlets": 1,
+					"numoutlets": 2,
+					"outlettype": [
+						"int",
+						"bang"
+					],
+					"patching_rect": [
+						220.0,
+						605.0,
+						45.0,
+						20.0
+					],
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"text": "t i b"
+				}
+			},
+			{
+				"box": {
+					"id": "i-bestv",
+					"maxclass": "newobj",
+					"numinlets": 2,
+					"numoutlets": 1,
+					"outlettype": [
+						"int"
+					],
+					"patching_rect": [
+						270.0,
+						630.0,
+						31.0,
+						20.0
+					],
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"text": "i 1"
+				}
+			},
+			{
+				"box": {
+					"id": "expr-need",
+					"maxclass": "newobj",
+					"numinlets": 2,
+					"numoutlets": 1,
+					"outlettype": [
+						""
+					],
+					"patching_rect": [
+						170.0,
+						630.0,
+						100.0,
+						20.0
+					],
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"text": "expr $i1 >= $i2"
+				}
+			},
+			{
+				"box": {
+					"id": "sel-need",
+					"maxclass": "newobj",
+					"numinlets": 2,
+					"numoutlets": 2,
+					"outlettype": [
+						"bang",
+						""
+					],
+					"patching_rect": [
+						170.0,
+						655.0,
+						45.0,
+						20.0
+					],
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"text": "sel 0"
+				}
+			},
+			{
+				"box": {
+					"id": "m-brk",
+					"maxclass": "message",
+					"numinlets": 2,
+					"numoutlets": 1,
+					"outlettype": [
+						""
+					],
+					"patching_rect": [
+						120.0,
+						680.0,
+						40.0,
+						20.0
+					],
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"text": "break"
+				}
+			},
+			{
+				"box": {
+					"id": "t-kv",
+					"maxclass": "newobj",
+					"numinlets": 1,
+					"numoutlets": 2,
+					"outlettype": [
+						"bang",
+						"int"
+					],
+					"patching_rect": [
+						220.0,
+						680.0,
+						45.0,
+						20.0
+					],
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"text": "t b i"
+				}
+			},
+			{
+				"box": {
+					"id": "t-need",
+					"maxclass": "newobj",
+					"numinlets": 1,
+					"numoutlets": 1,
+					"outlettype": [
+						"bang"
+					],
+					"patching_rect": [
+						220.0,
+						655.0,
+						31.0,
+						20.0
+					],
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"text": "t b"
+				}
+			},
+			{
+				"box": {
+					"id": "t-fv",
+					"maxclass": "newobj",
+					"numinlets": 1,
+					"numoutlets": 3,
+					"outlettype": [
+						"int",
+						"int",
+						"int"
+					],
+					"patching_rect": [
+						360.0,
+						655.0,
+						59.0,
+						20.0
+					],
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"text": "t i i i"
+				}
+			},
+			{
+				"box": {
+					"id": "m-free1",
+					"maxclass": "message",
+					"numinlets": 2,
+					"numoutlets": 1,
+					"outlettype": [
+						""
+					],
+					"patching_rect": [
+						20.0,
+						740.0,
+						34.0,
+						20.0
+					],
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"text": "1 0"
+				}
+			},
+			{
+				"box": {
+					"id": "m-free2",
+					"maxclass": "message",
+					"numinlets": 2,
+					"numoutlets": 1,
+					"outlettype": [
+						""
+					],
+					"patching_rect": [
+						110.0,
+						740.0,
+						34.0,
+						20.0
+					],
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"text": "2 0"
+				}
+			},
+			{
+				"box": {
+					"id": "m-free3",
+					"maxclass": "message",
+					"numinlets": 2,
+					"numoutlets": 1,
+					"outlettype": [
+						""
+					],
+					"patching_rect": [
+						200.0,
+						740.0,
+						34.0,
+						20.0
+					],
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"text": "3 0"
+				}
+			},
+			{
+				"box": {
+					"id": "m-free4",
+					"maxclass": "message",
+					"numinlets": 2,
+					"numoutlets": 1,
+					"outlettype": [
+						""
+					],
+					"patching_rect": [
+						290.0,
+						740.0,
+						34.0,
+						20.0
+					],
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"text": "4 0"
+				}
+			},
+			{
+				"box": {
+					"id": "m-free5",
+					"maxclass": "message",
+					"numinlets": 2,
+					"numoutlets": 1,
+					"outlettype": [
+						""
+					],
+					"patching_rect": [
+						380.0,
+						740.0,
+						34.0,
+						20.0
+					],
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"text": "5 0"
+				}
+			},
+			{
+				"box": {
+					"id": "m-free6",
+					"maxclass": "message",
+					"numinlets": 2,
+					"numoutlets": 1,
+					"outlettype": [
+						""
+					],
+					"patching_rect": [
+						470.0,
+						740.0,
+						34.0,
+						20.0
+					],
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"text": "6 0"
+				}
+			},
+			{
+				"box": {
+					"id": "m-free7",
+					"maxclass": "message",
+					"numinlets": 2,
+					"numoutlets": 1,
+					"outlettype": [
+						""
+					],
+					"patching_rect": [
+						560.0,
+						740.0,
+						34.0,
+						20.0
+					],
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"text": "7 0"
+				}
+			},
+			{
+				"box": {
+					"id": "m-free8",
+					"maxclass": "message",
+					"numinlets": 2,
+					"numoutlets": 1,
+					"outlettype": [
+						""
+					],
+					"patching_rect": [
+						650.0,
+						740.0,
+						34.0,
+						20.0
+					],
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"text": "8 0"
 				}
 			}
 		],
@@ -44298,270 +45094,6 @@
 			{
 				"patchline": {
 					"source": [
-						"t-alloc",
-						2
-					],
-					"destination": [
-						"i-c",
-						0
-					]
-				}
-			},
-			{
-				"patchline": {
-					"source": [
-						"i-c",
-						0
-					],
-					"destination": [
-						"expr-cinc",
-						0
-					]
-				}
-			},
-			{
-				"patchline": {
-					"source": [
-						"expr-cinc",
-						0
-					],
-					"destination": [
-						"t-c",
-						0
-					]
-				}
-			},
-			{
-				"patchline": {
-					"source": [
-						"t-c",
-						2
-					],
-					"destination": [
-						"i-c",
-						1
-					]
-				}
-			},
-			{
-				"patchline": {
-					"source": [
-						"t-c",
-						0
-					],
-					"destination": [
-						"plus-c",
-						0
-					]
-				}
-			},
-			{
-				"patchline": {
-					"source": [
-						"VOICES",
-						0
-					],
-					"destination": [
-						"i-voices",
-						1
-					]
-				}
-			},
-			{
-				"patchline": {
-					"source": [
-						"t-alloc",
-						1
-					],
-					"destination": [
-						"i-voices",
-						0
-					]
-				}
-			},
-			{
-				"patchline": {
-					"source": [
-						"i-voices",
-						0
-					],
-					"destination": [
-						"t-vk",
-						0
-					]
-				}
-			},
-			{
-				"patchline": {
-					"source": [
-						"t-vk",
-						1
-					],
-					"destination": [
-						"plus-k",
-						0
-					]
-				}
-			},
-			{
-				"patchline": {
-					"source": [
-						"plus-k",
-						0
-					],
-					"destination": [
-						"i-kj",
-						1
-					]
-				}
-			},
-			{
-				"patchline": {
-					"source": [
-						"t-vk",
-						0
-					],
-					"destination": [
-						"expr-nk",
-						0
-					]
-				}
-			},
-			{
-				"patchline": {
-					"source": [
-						"expr-nk",
-						0
-					],
-					"destination": [
-						"uzi-kill",
-						0
-					]
-				}
-			},
-			{
-				"patchline": {
-					"source": [
-						"uzi-kill",
-						0
-					],
-					"destination": [
-						"i-kj",
-						0
-					]
-				}
-			},
-			{
-				"patchline": {
-					"source": [
-						"i-kj",
-						0
-					],
-					"destination": [
-						"t-kj",
-						0
-					]
-				}
-			},
-			{
-				"patchline": {
-					"source": [
-						"t-kj",
-						1
-					],
-					"destination": [
-						"plus-kj",
-						0
-					]
-				}
-			},
-			{
-				"patchline": {
-					"source": [
-						"plus-kj",
-						0
-					],
-					"destination": [
-						"i-kj",
-						1
-					]
-				}
-			},
-			{
-				"patchline": {
-					"source": [
-						"t-c",
-						1
-					],
-					"destination": [
-						"expr-kv",
-						1
-					]
-				}
-			},
-			{
-				"patchline": {
-					"source": [
-						"t-kj",
-						0
-					],
-					"destination": [
-						"expr-kv",
-						0
-					]
-				}
-			},
-			{
-				"patchline": {
-					"source": [
-						"expr-kv",
-						0
-					],
-					"destination": [
-						"t-k",
-						0
-					]
-				}
-			},
-			{
-				"patchline": {
-					"source": [
-						"t-k",
-						1
-					],
-					"destination": [
-						"gate-kill",
-						0
-					]
-				}
-			},
-			{
-				"patchline": {
-					"source": [
-						"t-k",
-						0
-					],
-					"destination": [
-						"gate-kill",
-						1
-					]
-				}
-			},
-			{
-				"patchline": {
-					"source": [
-						"t-alloc",
-						0
-					],
-					"destination": [
-						"unp-start",
-						0
-					]
-				}
-			},
-			{
-				"patchline": {
-					"source": [
 						"unp-start",
 						1
 					],
@@ -44706,30 +45238,6 @@
 			{
 				"patchline": {
 					"source": [
-						"plus-c",
-						0
-					],
-					"destination": [
-						"gate-start",
-						0
-					]
-				}
-			},
-			{
-				"patchline": {
-					"source": [
-						"gate-pass",
-						0
-					],
-					"destination": [
-						"t-alloc",
-						0
-					]
-				}
-			},
-			{
-				"patchline": {
-					"source": [
 						"t-rtrg",
 						2
 					],
@@ -44747,18 +45255,6 @@
 					],
 					"destination": [
 						"t-killall",
-						0
-					]
-				}
-			},
-			{
-				"patchline": {
-					"source": [
-						"plus-c",
-						0
-					],
-					"destination": [
-						"pre-voice",
 						0
 					]
 				}
@@ -45443,6 +45939,858 @@
 					],
 					"destination": [
 						"pre-burst",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"gate-pass",
+						0
+					],
+					"destination": [
+						"t-alloc",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"t-alloc",
+						4
+					],
+					"destination": [
+						"i-ser",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"i-ser",
+						0
+					],
+					"destination": [
+						"plus-ser",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"plus-ser",
+						0
+					],
+					"destination": [
+						"i-ser",
+						1
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"plus-ser",
+						0
+					],
+					"destination": [
+						"pack-busy",
+						1
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"VOICES",
+						0
+					],
+					"destination": [
+						"i-voices",
+						1
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"t-alloc",
+						3
+					],
+					"destination": [
+						"i-voices",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"i-voices",
+						0
+					],
+					"destination": [
+						"plus-k",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"thisdev",
+						0
+					],
+					"destination": [
+						"m-vinit",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"m-vinit",
+						0
+					],
+					"destination": [
+						"coll-v",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"pack-busy",
+						0
+					],
+					"destination": [
+						"coll-v",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"t-alloc",
+						2
+					],
+					"destination": [
+						"uzi-steal",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"uzi-steal",
+						0
+					],
+					"destination": [
+						"t-steal",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"t-steal",
+						2
+					],
+					"destination": [
+						"m-scan0",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"m-scan0",
+						0
+					],
+					"destination": [
+						"plus-acc",
+						1
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"m-scan0",
+						0
+					],
+					"destination": [
+						"i-cnt",
+						1
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"t-steal",
+						2
+					],
+					"destination": [
+						"m-big",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"m-big",
+						0
+					],
+					"destination": [
+						"expr-better",
+						1
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"t-steal",
+						1
+					],
+					"destination": [
+						"uzi-scan",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"uzi-scan",
+						2
+					],
+					"destination": [
+						"t-v",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"t-v",
+						2
+					],
+					"destination": [
+						"i-curA",
+						1
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"t-v",
+						1
+					],
+					"destination": [
+						"i-curB",
+						1
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"t-v",
+						0
+					],
+					"destination": [
+						"coll-v",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"coll-v",
+						0
+					],
+					"destination": [
+						"t-val",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"t-val",
+						3
+					],
+					"destination": [
+						"expr-busy",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"expr-busy",
+						0
+					],
+					"destination": [
+						"plus-acc",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"plus-acc",
+						0
+					],
+					"destination": [
+						"plus-acc",
+						1
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"plus-acc",
+						0
+					],
+					"destination": [
+						"i-cnt",
+						1
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"t-val",
+						2
+					],
+					"destination": [
+						"sel-free",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"sel-free",
+						0
+					],
+					"destination": [
+						"i-curB",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"i-curB",
+						0
+					],
+					"destination": [
+						"i-free",
+						1
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"t-val",
+						1
+					],
+					"destination": [
+						"expr-better",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"expr-better",
+						0
+					],
+					"destination": [
+						"gate-better",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"t-val",
+						0
+					],
+					"destination": [
+						"gate-better",
+						1
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"gate-better",
+						0
+					],
+					"destination": [
+						"t-best",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"t-best",
+						1
+					],
+					"destination": [
+						"i-curA",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"i-curA",
+						0
+					],
+					"destination": [
+						"i-bestv",
+						1
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"t-best",
+						0
+					],
+					"destination": [
+						"expr-better",
+						1
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"t-steal",
+						0
+					],
+					"destination": [
+						"i-cnt",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"i-cnt",
+						0
+					],
+					"destination": [
+						"expr-need",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"plus-k",
+						0
+					],
+					"destination": [
+						"expr-need",
+						1
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"expr-need",
+						0
+					],
+					"destination": [
+						"sel-need",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"sel-need",
+						0
+					],
+					"destination": [
+						"m-brk",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"m-brk",
+						0
+					],
+					"destination": [
+						"uzi-steal",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"sel-need",
+						1
+					],
+					"destination": [
+						"t-need",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"t-need",
+						0
+					],
+					"destination": [
+						"i-bestv",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"i-bestv",
+						0
+					],
+					"destination": [
+						"t-kv",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"t-kv",
+						1
+					],
+					"destination": [
+						"gate-kill",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"t-kv",
+						0
+					],
+					"destination": [
+						"gate-kill",
+						1
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"t-alloc",
+						1
+					],
+					"destination": [
+						"i-free",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"i-free",
+						0
+					],
+					"destination": [
+						"t-fv",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"t-fv",
+						2
+					],
+					"destination": [
+						"gate-start",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"t-fv",
+						1
+					],
+					"destination": [
+						"pre-voice",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"t-fv",
+						0
+					],
+					"destination": [
+						"pack-busy",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"t-alloc",
+						0
+					],
+					"destination": [
+						"unp-start",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"voice1",
+						2
+					],
+					"destination": [
+						"m-free1",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"m-free1",
+						0
+					],
+					"destination": [
+						"coll-v",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"voice2",
+						2
+					],
+					"destination": [
+						"m-free2",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"m-free2",
+						0
+					],
+					"destination": [
+						"coll-v",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"voice3",
+						2
+					],
+					"destination": [
+						"m-free3",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"m-free3",
+						0
+					],
+					"destination": [
+						"coll-v",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"voice4",
+						2
+					],
+					"destination": [
+						"m-free4",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"m-free4",
+						0
+					],
+					"destination": [
+						"coll-v",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"voice5",
+						2
+					],
+					"destination": [
+						"m-free5",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"m-free5",
+						0
+					],
+					"destination": [
+						"coll-v",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"voice6",
+						2
+					],
+					"destination": [
+						"m-free6",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"m-free6",
+						0
+					],
+					"destination": [
+						"coll-v",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"voice7",
+						2
+					],
+					"destination": [
+						"m-free7",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"m-free7",
+						0
+					],
+					"destination": [
+						"coll-v",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"voice8",
+						2
+					],
+					"destination": [
+						"m-free8",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"m-free8",
+						0
+					],
+					"destination": [
+						"coll-v",
 						0
 					]
 				}

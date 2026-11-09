@@ -33,7 +33,7 @@ In the device editor (patching view), turn on the **Debug** toggle (right side, 
 
 - `retrig: burst_hits N`, the hit count for each new note (`0` means INF)
 - `retrig: note P V` for each note-on, and `retrig: note P 0` for each note-off
-- `retrig: voice N`, which of the 8 voices took the note (v5)
+- `retrig: voice N`, which of the 8 voices took the note (v5). With strict stealing (v5.1) a free voice is reused, so the numbers don't simply count up.
 
 Paste console output back, along with any red error lines that appear when the device loads.
 
@@ -135,6 +135,8 @@ Use RATE 1/16, LEN 1/1 (16 hits, one bar), and notes 1/8 apart unless noted. The
 | Y4 | VOICES 8, LEN INF, nine notes | The ninth note stops the first burst; the other eight keep going. |
 | Y5 | VOICES 4, first note p-locked to RATE 1/4, second to 1/16 | The two bursts keep their own rates (polyrhythm on one pad). |
 | Y6 | VOICES 8 with several INF bursts running; next step p-locked to VOICES Mono | That step cuts every running burst. |
+| Y12 | VOICES 2. Note A with LEN 1/1, note B 1/8 later p-locked to LEN 0.125 (one hit), note C 1/4 after A (v5.1) | B ends early, so C takes the free voice: **A keeps playing to the end of its bar**. A fourth note while A and C run stops A. |
+| Y13 | VOICES 8, six INF bursts running, next step p-locked to VOICES 2 (v5.1) | That step stops the oldest five: one old burst plus the new one keep going. |
 | Y7 | VOICES 8, several bursts, then stop the transport / turn RTRG off | Everything stops; no stuck notes. |
 | Y8 | VOICES 2, VFAD −100 %, two notes at velocities 100 and 50 | Each burst fades from its own velocity to 1. |
 | Y9 | VOICES 4, PMODE Note, PROB 50 % | Failed notes don't cut or steal anything. |
