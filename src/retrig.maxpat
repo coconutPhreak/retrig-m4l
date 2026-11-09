@@ -18,7 +18,7 @@
 		"openrect": [
 			0.0,
 			0.0,
-			260.0,
+			330.0,
 			169.0
 		],
 		"bglocked": 0,
@@ -38,7 +38,7 @@
 		"boxanimatetime": 500,
 		"enablehscroll": 1,
 		"enablevscroll": 1,
-		"devicewidth": 260.0,
+		"devicewidth": 330.0,
 		"description": "Elektron-style per-pad retrig for Drum Rack chains.",
 		"digest": "",
 		"tags": "",
@@ -58,7 +58,7 @@
 						620.0,
 						20.0
 					],
-					"text": "RETRIG v2 - per-pad retrig (RTRG / RATE / LEN / VFAD / CRV). All timing in the Max scheduler: no JS.",
+					"text": "RETRIG v3 - per-pad retrig (RTRG / RATE / LEN / VFAD / CRV / PROB / LOCK, Setup: PMODE). All timing in the Max scheduler: no JS.",
 					"fontname": "Arial Bold",
 					"fontsize": 10.0,
 					"linecount": 1
@@ -2157,7 +2157,7 @@
 					"id": "t-idx",
 					"maxclass": "newobj",
 					"numinlets": 1,
-					"numoutlets": 3,
+					"numoutlets": 4,
 					"patching_rect": [
 						20.0,
 						775.0,
@@ -2167,9 +2167,10 @@
 					"outlettype": [
 						"int",
 						"int",
+						"int",
 						"int"
 					],
-					"text": "t i i i",
+					"text": "t i i i i",
 					"fontname": "Arial Bold",
 					"fontsize": 10.0
 				}
@@ -2922,10 +2923,12 @@
 					"fontsize": 10.0,
 					"id": "t-vsetup",
 					"maxclass": "newobj",
-					"text": "t b b b",
+					"text": "t b b b b b",
 					"numinlets": 1,
-					"numoutlets": 3,
+					"numoutlets": 5,
 					"outlettype": [
+						"bang",
+						"bang",
 						"bang",
 						"bang",
 						"bang"
@@ -3035,6 +3038,485 @@
 						48.0
 					],
 					"linecount": 3
+				}
+			},
+			{
+				"box": {
+					"id": "PROB",
+					"maxclass": "live.dial",
+					"numinlets": 1,
+					"numoutlets": 2,
+					"outlettype": [
+						"",
+						"float"
+					],
+					"parameter_enable": 1,
+					"varname": "PROB",
+					"patching_rect": [
+						1040.0,
+						440.0,
+						44.0,
+						47.0
+					],
+					"presentation": 1,
+					"presentation_rect": [
+						256.0,
+						4.0,
+						44.0,
+						47.0
+					],
+					"saved_attribute_attributes": {
+						"valueof": {
+							"parameter_longname": "PROB",
+							"parameter_shortname": "PROB",
+							"parameter_type": 0,
+							"parameter_unitstyle": 5,
+							"parameter_mmin": 0.0,
+							"parameter_mmax": 100.0,
+							"parameter_initial_enable": 1,
+							"parameter_initial": [
+								100.0
+							],
+							"parameter_annotation_name": "Chance that retriggers fire (see PMODE)"
+						}
+					}
+				}
+			},
+			{
+				"box": {
+					"id": "LOCK",
+					"maxclass": "live.toggle",
+					"numinlets": 1,
+					"numoutlets": 1,
+					"outlettype": [
+						""
+					],
+					"parameter_enable": 1,
+					"varname": "LOCK",
+					"patching_rect": [
+						1100.0,
+						440.0,
+						15.0,
+						15.0
+					],
+					"presentation": 1,
+					"presentation_rect": [
+						306.0,
+						26.0,
+						15.0,
+						15.0
+					],
+					"saved_attribute_attributes": {
+						"valueof": {
+							"parameter_longname": "LOCK",
+							"parameter_shortname": "LOCK",
+							"parameter_type": 2,
+							"parameter_mmax": 1.0,
+							"parameter_enum": [
+								"Off",
+								"On"
+							],
+							"parameter_initial_enable": 1,
+							"parameter_initial": [
+								0
+							],
+							"parameter_annotation_name": "Ignore PROB: everything fires"
+						}
+					}
+				}
+			},
+			{
+				"box": {
+					"id": "PMODE",
+					"maxclass": "live.menu",
+					"numinlets": 1,
+					"numoutlets": 3,
+					"outlettype": [
+						"",
+						"",
+						"float"
+					],
+					"parameter_enable": 1,
+					"varname": "PMODE",
+					"patching_rect": [
+						1140.0,
+						440.0,
+						60.0,
+						15.0
+					],
+					"presentation": 1,
+					"presentation_rect": [
+						6.0,
+						66.0,
+						60.0,
+						15.0
+					],
+					"saved_attribute_attributes": {
+						"valueof": {
+							"parameter_longname": "PMODE",
+							"parameter_shortname": "PMODE",
+							"parameter_type": 2,
+							"parameter_enum": [
+								"Repeats",
+								"Burst",
+								"Note"
+							],
+							"parameter_mmax": 2.0,
+							"parameter_initial_enable": 1,
+							"parameter_initial": [
+								0
+							],
+							"parameter_annotation_name": "What PROB decides: each repeat, the whole burst, or the whole note"
+						}
+					}
+				}
+			},
+			{
+				"box": {
+					"id": "lbl-lock",
+					"maxclass": "live.comment",
+					"numinlets": 1,
+					"numoutlets": 0,
+					"text": "LOCK",
+					"patching_rect": [
+						1220.0,
+						88.0,
+						40.0,
+						18.0
+					],
+					"presentation": 1,
+					"presentation_rect": [
+						302.0,
+						8.0,
+						40.0,
+						18.0
+					],
+					"textjustification": 0
+				}
+			},
+			{
+				"box": {
+					"id": "lbl-pmode",
+					"maxclass": "live.comment",
+					"numinlets": 1,
+					"numoutlets": 0,
+					"text": "PMODE",
+					"patching_rect": [
+						1220.0,
+						130.0,
+						40.0,
+						18.0
+					],
+					"presentation": 1,
+					"presentation_rect": [
+						6.0,
+						50.0,
+						40.0,
+						18.0
+					],
+					"textjustification": 0
+				}
+			},
+			{
+				"box": {
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"id": "i-lock",
+					"maxclass": "newobj",
+					"text": "i",
+					"numinlets": 2,
+					"numoutlets": 1,
+					"outlettype": [
+						"int"
+					],
+					"patching_rect": [
+						1100.0,
+						500.0,
+						30.0,
+						20.0
+					]
+				}
+			},
+			{
+				"box": {
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"id": "i-pmode",
+					"maxclass": "newobj",
+					"text": "i",
+					"numinlets": 2,
+					"numoutlets": 1,
+					"outlettype": [
+						"int"
+					],
+					"patching_rect": [
+						1140.0,
+						500.0,
+						30.0,
+						20.0
+					]
+				}
+			},
+			{
+				"box": {
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"id": "f-prob",
+					"maxclass": "newobj",
+					"text": "f",
+					"numinlets": 2,
+					"numoutlets": 1,
+					"outlettype": [
+						"float"
+					],
+					"patching_rect": [
+						1040.0,
+						500.0,
+						30.0,
+						20.0
+					]
+				}
+			},
+			{
+				"box": {
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"id": "t-pass",
+					"maxclass": "newobj",
+					"text": "t l b",
+					"numinlets": 1,
+					"numoutlets": 2,
+					"outlettype": [
+						"",
+						"bang"
+					],
+					"patching_rect": [
+						160.0,
+						268.0,
+						45.0,
+						20.0
+					]
+				}
+			},
+			{
+				"box": {
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"id": "rand-pass",
+					"maxclass": "newobj",
+					"text": "random 10000",
+					"numinlets": 2,
+					"numoutlets": 1,
+					"outlettype": [
+						"int"
+					],
+					"patching_rect": [
+						260.0,
+						268.0,
+						80.0,
+						20.0
+					]
+				}
+			},
+			{
+				"box": {
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"id": "expr-pass",
+					"maxclass": "newobj",
+					"text": "expr $i2 || ($i3 != 2) || ($i1 < $f4 * 100.)",
+					"numinlets": 4,
+					"numoutlets": 1,
+					"outlettype": [
+						""
+					],
+					"patching_rect": [
+						260.0,
+						292.0,
+						290.0,
+						20.0
+					]
+				}
+			},
+			{
+				"box": {
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"id": "gate-pass",
+					"maxclass": "newobj",
+					"text": "gate 1 1",
+					"numinlets": 2,
+					"numoutlets": 1,
+					"outlettype": [
+						""
+					],
+					"patching_rect": [
+						160.0,
+						292.0,
+						66.0,
+						20.0
+					]
+				}
+			},
+			{
+				"box": {
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"id": "t-plock",
+					"maxclass": "newobj",
+					"text": "t b b b",
+					"numinlets": 1,
+					"numoutlets": 3,
+					"outlettype": [
+						"bang",
+						"bang",
+						"bang"
+					],
+					"patching_rect": [
+						620.0,
+						430.0,
+						59.0,
+						20.0
+					]
+				}
+			},
+			{
+				"box": {
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"id": "rand-burst",
+					"maxclass": "newobj",
+					"text": "random 10000",
+					"numinlets": 2,
+					"numoutlets": 1,
+					"outlettype": [
+						"int"
+					],
+					"patching_rect": [
+						620.0,
+						470.0,
+						80.0,
+						20.0
+					]
+				}
+			},
+			{
+				"box": {
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"id": "expr-burst",
+					"maxclass": "newobj",
+					"text": "expr $i1 < $f2 * 100.",
+					"numinlets": 2,
+					"numoutlets": 1,
+					"outlettype": [
+						""
+					],
+					"patching_rect": [
+						620.0,
+						500.0,
+						140.0,
+						20.0
+					]
+				}
+			},
+			{
+				"box": {
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"id": "t-fire",
+					"maxclass": "newobj",
+					"text": "t i b",
+					"numinlets": 1,
+					"numoutlets": 2,
+					"outlettype": [
+						"int",
+						"bang"
+					],
+					"patching_rect": [
+						360.0,
+						790.0,
+						45.0,
+						20.0
+					]
+				}
+			},
+			{
+				"box": {
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"id": "rand-hit",
+					"maxclass": "newobj",
+					"text": "random 10000",
+					"numinlets": 2,
+					"numoutlets": 1,
+					"outlettype": [
+						"int"
+					],
+					"patching_rect": [
+						460.0,
+						790.0,
+						80.0,
+						20.0
+					]
+				}
+			},
+			{
+				"box": {
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"id": "expr-fire",
+					"maxclass": "newobj",
+					"text": "expr ($i1 == 0) || $i2 || (($i3 == 0) && ($i4 < $f5 * 100.)) || (($i3 == 1) && $i6) || ($i3 == 2)",
+					"numinlets": 6,
+					"numoutlets": 1,
+					"outlettype": [
+						""
+					],
+					"patching_rect": [
+						360.0,
+						815.0,
+						560.0,
+						20.0
+					]
+				}
+			},
+			{
+				"box": {
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"id": "gate-fire",
+					"maxclass": "newobj",
+					"text": "gate 1 1",
+					"numinlets": 2,
+					"numoutlets": 1,
+					"outlettype": [
+						""
+					],
+					"patching_rect": [
+						220.0,
+						815.0,
+						66.0,
+						20.0
+					]
+				}
+			},
+			{
+				"box": {
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"id": "c-prob",
+					"maxclass": "comment",
+					"numinlets": 1,
+					"numoutlets": 0,
+					"linecount": 3,
+					"text": "9. PROB (v3). Note mode: one roll per note before anything happens; a failed note is dropped (no cut). Burst mode: one roll at note-on decides all repeats. Repeats mode: a roll per repeat. The first hit always fires once the note is through; LOCK makes everything fire. Skipped hits are gaps (previous hit already got its note-off).",
+					"patching_rect": [
+						360.0,
+						845.0,
+						560.0,
+						48.0
+					]
 				}
 			}
 		],
@@ -3287,18 +3769,6 @@
 					],
 					"destination": [
 						"pack-in",
-						0
-					]
-				}
-			},
-			{
-				"patchline": {
-					"source": [
-						"pack-in",
-						0
-					],
-					"destination": [
-						"t-note",
 						0
 					]
 				}
@@ -3667,7 +4137,7 @@
 				"patchline": {
 					"source": [
 						"t-idx",
-						2
+						3
 					],
 					"destination": [
 						"plus-idx",
@@ -3731,18 +4201,6 @@
 					],
 					"destination": [
 						"m-stop",
-						0
-					]
-				}
-			},
-			{
-				"patchline": {
-					"source": [
-						"sel-play",
-						1
-					],
-					"destination": [
-						"t-play",
 						0
 					]
 				}
@@ -4315,7 +4773,7 @@
 				"patchline": {
 					"source": [
 						"t-idx",
-						1
+						2
 					],
 					"destination": [
 						"expr-t",
@@ -4332,6 +4790,366 @@
 					"destination": [
 						"expr-t",
 						1
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"LOCK",
+						0
+					],
+					"destination": [
+						"i-lock",
+						1
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"PMODE",
+						0
+					],
+					"destination": [
+						"i-pmode",
+						1
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"PROB",
+						0
+					],
+					"destination": [
+						"f-prob",
+						1
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"pack-in",
+						0
+					],
+					"destination": [
+						"t-pass",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"t-pass",
+						1
+					],
+					"destination": [
+						"rand-pass",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"rand-pass",
+						0
+					],
+					"destination": [
+						"expr-pass",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"LOCK",
+						0
+					],
+					"destination": [
+						"expr-pass",
+						1
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"PMODE",
+						0
+					],
+					"destination": [
+						"expr-pass",
+						2
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"PROB",
+						0
+					],
+					"destination": [
+						"expr-pass",
+						3
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"expr-pass",
+						0
+					],
+					"destination": [
+						"gate-pass",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"t-pass",
+						0
+					],
+					"destination": [
+						"gate-pass",
+						1
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"gate-pass",
+						0
+					],
+					"destination": [
+						"t-note",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"t-vsetup",
+						4
+					],
+					"destination": [
+						"t-plock",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"t-plock",
+						2
+					],
+					"destination": [
+						"i-lock",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"t-plock",
+						1
+					],
+					"destination": [
+						"i-pmode",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"t-plock",
+						0
+					],
+					"destination": [
+						"f-prob",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"f-prob",
+						0
+					],
+					"destination": [
+						"expr-burst",
+						1
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"t-vsetup",
+						3
+					],
+					"destination": [
+						"rand-burst",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"rand-burst",
+						0
+					],
+					"destination": [
+						"expr-burst",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"t-idx",
+						1
+					],
+					"destination": [
+						"t-fire",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"t-fire",
+						1
+					],
+					"destination": [
+						"rand-hit",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"rand-hit",
+						0
+					],
+					"destination": [
+						"expr-fire",
+						3
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"t-fire",
+						0
+					],
+					"destination": [
+						"expr-fire",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"i-lock",
+						0
+					],
+					"destination": [
+						"expr-fire",
+						1
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"i-pmode",
+						0
+					],
+					"destination": [
+						"expr-fire",
+						2
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"f-prob",
+						0
+					],
+					"destination": [
+						"expr-fire",
+						4
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"expr-burst",
+						0
+					],
+					"destination": [
+						"expr-fire",
+						5
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"expr-fire",
+						0
+					],
+					"destination": [
+						"gate-fire",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"sel-play",
+						1
+					],
+					"destination": [
+						"gate-fire",
+						1
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"gate-fire",
+						0
+					],
+					"destination": [
+						"t-play",
+						0
 					]
 				}
 			}
@@ -4362,6 +5180,20 @@
 						"LEN",
 						"VFAD",
 						"CRV",
+						"PROB",
+						"LOCK",
+						"-"
+					]
+				},
+				"1": {
+					"index": 1,
+					"name": "Setup",
+					"parameters": [
+						"PMODE",
+						"-",
+						"-",
+						"-",
+						"-",
 						"-",
 						"-",
 						"-"
@@ -4377,6 +5209,21 @@
 			"CRV": [
 				"CRV",
 				"CRV",
+				0
+			],
+			"PROB": [
+				"PROB",
+				"PROB",
+				0
+			],
+			"LOCK": [
+				"LOCK",
+				"LOCK",
+				0
+			],
+			"PMODE": [
+				"PMODE",
+				"PMODE",
 				0
 			]
 		},
