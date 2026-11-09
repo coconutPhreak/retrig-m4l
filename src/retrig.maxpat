@@ -1646,7 +1646,7 @@
 							"parameter_initial": [
 								0
 							],
-							"parameter_annotation_name": "Mono: a new note cuts the burst. 2-8: a burst keeps going until that many newer notes have started"
+							"parameter_annotation_name": "Mono: a new note cuts the burst. 2-8: up to that many bursts at once; when all are running, a new note stops the oldest"
 						}
 					}
 				}

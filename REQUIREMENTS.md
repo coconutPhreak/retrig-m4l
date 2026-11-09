@@ -273,7 +273,7 @@ Rack-wide features (sample assignment, pad naming, auto-inserting this device in
 - [x] Confirm the LEN value list against the Elektron box (labels for 8 and 16 steps still assumed, see defaults)
 - [x] Confirm the VFAD range and how it maps to the end velocity (−100…+100 %; starts at the played velocity, −100 % ends at 1, +100 % ends at 127)
 - [x] Decide fade behaviour when LEN is INF (no fade, see defaults)
-- [ ] Check whether tick-based `metro` runs with Live's transport stopped (the ms fallback is in place either way)
+- [x] ~~Check whether tick-based `metro` runs with Live's transport stopped~~ No longer applies: since v4 the timing uses `delay`, in ms while the transport is stopped (tested, timing test 8 and S9)
 - [x] Check that a p-lock on a step reaches the device before that step's note (Push test P2 passed 2026-11-09)
 - [x] CPU with 16 instances on Push standalone (Push test P3 passed 2026-11-09)
 - [x] Test the device on Push 3 standalone early (2026-11-09: after the `moses` fix, v1 loads cleanly on a fresh track, shows RTRG, RATE, LEN on encoders 1–3, and retrigs)

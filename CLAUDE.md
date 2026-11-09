@@ -29,4 +29,5 @@ Elektron-style per-pad retrig MIDI effect for Ableton Drum Racks, with Push 3 (s
 - `src/` – patcher source
 - `scripts/` – build tooling (Python, not part of the device)
 - `build/` – built devices (ignored)
-- `README.md` – user-facing docs
+- `README.md` – user-facing docs (keep the Controls table in step with the device)
+- `LICENSE` – MIT, © coconutPhreak
