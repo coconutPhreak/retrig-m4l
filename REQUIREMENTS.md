@@ -123,6 +123,30 @@ Agreed 2026-11-09. Items marked ⚑ are provisional defaults until checked again
 
 One bank, "Retrig": RTRG, RATE, LEN, VFAD, CRV, then three empty slots. Banks are saved at the device level (`parameterbanks`), which a copy-and-paste into the device editor would lose, so the device is built straight to `.amxd`.
 
+## Later: after the core requirements
+
+Not to be built until RTRG, RATE, LEN, VFAD and CRV work and are tested. Together with the core five these make exactly 8 parameters, which fills the single Push bank.
+
+| Name | Range | What it does |
+| --- | --- | --- |
+| PROB | 0–100 % | The chance that each retrigger fires. |
+| LOCK | Off / On | When on, PROB is ignored and every retrigger fires. |
+| SFAD | Negative to positive (slows down to speeds up) | Speed fade: the repeat rate speeds up or slows down across the burst, like VFAD does for velocity. |
+
+Open questions to settle before building:
+
+- [ ] PROB: does hit 0 (the played note) always fire, with PROB applying only to the repeats? Proposed: yes.
+- [ ] PROB: when a repeat is skipped, does the previous hit keep sounding or get a note-off on time? Proposed: note-off on time, so a skipped repeat is a gap.
+- [ ] PROB: skipped repeats still advance the hit index, so the VFAD curve doesn't shift. Proposed: yes.
+- [ ] SFAD range, its end rate (e.g. RATE × 2 at +100 %?) and whether it uses CRV or a curve of its own.
+- [ ] SFAD with LEN = INF: no speed fade (same as VFAD)?
+
+Design impact on the core build:
+
+- SFAD means the interval changes on every hit, so the hit count N is no longer known at note-on. The timing core would move from a fixed `metro` plus hit count to a `delay` re-armed on every hit (still in ticks) that stops once the elapsed time reaches LEN.
+- So VFAD should measure its position by time through LEN (t = elapsed / LEN), not by hit number. The time-based curve works with SFAD; the hit-number one doesn't. The catch: the last hit lands just before the end of LEN, so it stops slightly short of the end velocity. Decide this when building VFAD in v2, so that SFAD doesn't force a rewrite later.
+- PROB uses a native `random` per repeat in the scheduler thread: no JS.
+
 ## Out of scope and open items
 
 Rack-wide features (sample assignment, pad naming, auto-inserting this device into chains) belong to the separate Kit device, not this one.
