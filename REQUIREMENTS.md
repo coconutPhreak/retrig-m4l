@@ -220,6 +220,7 @@ A menu rather than a number box (decided 2026-11-09), so the first entry can rea
 - Implementation: 8 identical `p voice` subpatchers, each the whole v4 burst engine (note-on to hits), plus an allocator in front. Notes go to voices in turn (c = 0..7); before voice c starts, voices c − j are killed for j = VOICES..8 (j = 8 is voice c itself). Each voice gets one start list: pitch, velocity and every latched parameter (RATE LEN VFAD CRV LOCK PMODE PROB TRATE GLIDE), read at note-on. No `poly~` (audio-only, needs an abstraction file). New object classes: `p`, `inlet`, `outlet` (probes 17 and 97). The build refuses to run if the eight voices differ.
 - CPU: idle voices cost nothing; the cost grows with the number of overlapping bursts. Re-run the 16-pad CPU test with VOICES 8 and dense overlapping notes (worst case 16 × 8 = 128 bursts at once). Eight engine copies make the patch several times larger, so also check load time on Push standalone.
 - Creates the Setup bank (bank 3).
+- v5 tested in Live and on Push 2026-11-09 (TESTING.md Y1–Y11, P1, P1d): all pass, including loading on Push standalone and the 16-pad CPU test with VOICES 8.
 
 ### Later: RATE variation (idea, 2026-11-09)
 
