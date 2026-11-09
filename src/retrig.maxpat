@@ -2922,10 +2922,11 @@
 					"fontsize": 10.0,
 					"id": "t-vsetup",
 					"maxclass": "newobj",
-					"text": "t b b b",
+					"text": "t b b b b",
 					"numinlets": 1,
-					"numoutlets": 3,
+					"numoutlets": 4,
 					"outlettype": [
+						"bang",
 						"bang",
 						"bang",
 						"bang"
@@ -2985,8 +2986,8 @@
 					"fontsize": 10.0,
 					"id": "expr-t",
 					"maxclass": "newobj",
-					"text": "expr min(1., 2. * $i1 * $f2 / max($f3, 1.))",
-					"numinlets": 3,
+					"text": "expr min(1., ($i4 == 1) * $i1 / max($f5 - 1., 1.) + ($i4 == 0) * 2. * $i1 * $f2 / max($f3, 1.))",
+					"numinlets": 5,
 					"numoutlets": 1,
 					"outlettype": [
 						""
@@ -2994,7 +2995,7 @@
 					"patching_rect": [
 						140.0,
 						860.0,
-						260.0,
+						460.0,
 						20.0
 					]
 				}
@@ -3027,14 +3028,102 @@
 					"maxclass": "comment",
 					"numinlets": 1,
 					"numoutlets": 0,
-					"text": "8. Velocity (v2). Note-on: ve = end velocity from v0 and VFAD (-100% -> 1, +100% -> 127; INF = no fade). Each hit: t = i*RATE/LEN (time through LEN), v = CRV blend of linear and exponential v0 -> ve, rounded, 1-127.",
+					"text": "8. Velocity. Note-on: ve = end velocity from v0 and VFAD (-100% -> 1, +100% -> 127; INF = no fade). Each hit: t = i*RATE/LEN (FADE = LEN) or i/(N-1) (FADE = LAST, ends exactly on the last hit), then v = CRV blend of linear and exponential v0 -> ve, rounded, 1-127.",
 					"patching_rect": [
 						140.0,
 						920.0,
 						640.0,
-						34.0
+						48.0
 					],
-					"linecount": 2
+					"linecount": 3
+				}
+			},
+			{
+				"box": {
+					"id": "FADE",
+					"maxclass": "live.menu",
+					"numinlets": 1,
+					"numoutlets": 3,
+					"outlettype": [
+						"",
+						"",
+						"float"
+					],
+					"parameter_enable": 1,
+					"varname": "FADE",
+					"patching_rect": [
+						980.0,
+						440.0,
+						50.0,
+						15.0
+					],
+					"presentation": 1,
+					"presentation_rect": [
+						6.0,
+						66.0,
+						44.0,
+						15.0
+					],
+					"saved_attribute_attributes": {
+						"valueof": {
+							"parameter_longname": "FADE",
+							"parameter_shortname": "FADE",
+							"parameter_type": 2,
+							"parameter_enum": [
+								"LEN",
+								"LAST"
+							],
+							"parameter_mmax": 1.0,
+							"parameter_initial_enable": 1,
+							"parameter_initial": [
+								1
+							],
+							"parameter_annotation_name": "Fade position: LEN = time through LEN, LAST = ends exactly on the last hit"
+						}
+					}
+				}
+			},
+			{
+				"box": {
+					"id": "lbl-fade",
+					"maxclass": "live.comment",
+					"numinlets": 1,
+					"numoutlets": 0,
+					"text": "FADE",
+					"patching_rect": [
+						1100.0,
+						200.0,
+						40.0,
+						18.0
+					],
+					"presentation": 1,
+					"presentation_rect": [
+						6.0,
+						50.0,
+						40.0,
+						18.0
+					],
+					"textjustification": 0
+				}
+			},
+			{
+				"box": {
+					"fontname": "Arial Bold",
+					"fontsize": 10.0,
+					"id": "i-fade",
+					"maxclass": "newobj",
+					"text": "i 1",
+					"numinlets": 2,
+					"numoutlets": 1,
+					"outlettype": [
+						"int"
+					],
+					"patching_rect": [
+						980.0,
+						500.0,
+						30.0,
+						20.0
+					]
 				}
 			}
 		],
@@ -4346,6 +4435,54 @@
 						1
 					]
 				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"FADE",
+						0
+					],
+					"destination": [
+						"i-fade",
+						1
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"t-vsetup",
+						3
+					],
+					"destination": [
+						"i-fade",
+						0
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"i-fade",
+						0
+					],
+					"destination": [
+						"expr-t",
+						3
+					]
+				}
+			},
+			{
+				"patchline": {
+					"source": [
+						"expr-n",
+						0
+					],
+					"destination": [
+						"expr-t",
+						4
+					]
+				}
 			}
 		],
 		"parameters": {
@@ -4378,6 +4515,20 @@
 						"-",
 						"-"
 					]
+				},
+				"1": {
+					"index": 1,
+					"name": "Setup",
+					"parameters": [
+						"FADE",
+						"-",
+						"-",
+						"-",
+						"-",
+						"-",
+						"-",
+						"-"
+					]
 				}
 			},
 			"inherited_shortname": 1,
@@ -4389,6 +4540,11 @@
 			"CRV": [
 				"CRV",
 				"CRV",
+				0
+			],
+			"FADE": [
+				"FADE",
+				"FADE",
 				0
 			]
 		},
