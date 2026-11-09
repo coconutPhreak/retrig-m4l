@@ -26,7 +26,7 @@ Five parameters, all on a single Push bank of 8.
 | VFAD | Negative to positive (fade out to fade in) | Velocity fade across the burst. Negative fades out, positive fades in. |
 | CRV | 0% to 100% | Shape of the fade: 0% linear, 100% exponential, blended in between. |
 
-The exact RATE value list and the VFAD range should be matched against the Elektron manual before building.
+The exact RATE value list should be checked against the Elektron box before release. The VFAD range is decided (see Decisions).
 
 ## Retrig behaviour
 
@@ -112,7 +112,7 @@ Agreed 2026-11-09. Items marked ⚑ are provisional defaults until checked again
 
 **Velocity fade (v2)**
 
-- ⚑ VFAD is −100…+100 %, f = VFAD/100. Fade out (f < 0): v0 → v0·(1−|f|). Fade in (f > 0): v0·(1−f) → v0, so it rises *to* the played velocity, not to 127.
+- VFAD is −100…+100 % (decided 2026-11-09), f = VFAD/100. Fade out (f < 0): v0 → v0·(1−|f|). Fade in (f > 0): v0·(1−f) → v0, so it rises *to* the played velocity, not to 127.
 - Fade position is measured by **time through LEN**, not by hit number (decided 2026-11-09): t = elapsed / LEN, where elapsed is the time from the played note to this hit. With a constant rate that is t = i·RATE / LEN for hit i. This keeps working when SFAD changes the rate mid-burst. Accepted side effect: the last hit lands just before the end of LEN, so it stops slightly short of the end velocity (e.g. 1/16 over LEN 1/4 fading 100 → 20 gives 100, 80, 60, 40).
 - `v_lin = vs + (ve−vs)·t`, `v_exp = vs·(ve/vs)^t` with both ends clamped to ≥ 1, then the CRV blend above, rounded and clamped to 1–127. One `expr` per hit.
 - ⚑ With LEN = INF there is no fade; velocity stays constant.
@@ -159,7 +159,7 @@ Rack-wide features (sample assignment, pad naming, auto-inserting this device in
 
 - [ ] Confirm the exact RATE value list against the Elektron manual
 - [x] Confirm the LEN value list against the Elektron box (labels for 8 and 16 steps still assumed, see defaults)
-- [ ] Confirm the VFAD range and how it maps to the end velocity
+- [x] Confirm the VFAD range and how it maps to the end velocity (−100…+100 %; fade-in rises to the played velocity)
 - [x] Decide fade behaviour when LEN is INF (no fade, see defaults)
 - [ ] Check whether tick-based `metro` runs with Live's transport stopped (the ms fallback is in place either way)
 - [ ] Check that a p-lock on a step reaches the device before that step's note
