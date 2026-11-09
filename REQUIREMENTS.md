@@ -199,6 +199,7 @@ Replaces the earlier ±% SFAD idea: the speed fade is set as a target rate plus 
 - **256-hit cap**, only when TRATE is on and LEN is finite, to bound that note-on calculation (16 pads on Push). With TRATE Off there's no cap (e.g. 1/80 over LEN 128 is 640 hits).
 - TRATE and GLIDE are read at note-on, like everything else.
 - PROB, LOCK and PMODE work unchanged with the glide.
+- v4 tested in Live and on Push 2026-11-09 (TESTING.md S1–S11, timing tests 2, 3, 4, 5 and 8 with TRATE Off, P1, P1a, P1c): all pass. CPU with 16 pads retrigging at once: 9–12 % in Live (48 kHz, 256-sample buffer), no dropouts.
 
 ### Later: RATE variation (idea, 2026-11-09)
 
