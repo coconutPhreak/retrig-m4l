@@ -1,6 +1,6 @@
 # Testing Retrig
 
-How to build the device, load it in Live, and what to check. v1 covers RTRG, RATE and LEN (timing only).
+How to build the device, load it in Live, and what to check. v1 added RTRG, RATE and LEN (timing); v2 adds VFAD and CRV (velocity fade).
 
 ## Build and load
 
@@ -13,7 +13,7 @@ How to build the device, load it in Live, and what to check. v1 covers RTRG, RAT
    This writes `build/Retrig.amxd`.
 2. In Live, make a Drum Rack and load Simpler (or Drum Sampler) on one pad with a short click or rim sample.
 3. Show the pad's chain and drag `build/Retrig.amxd` into it, *before* the instrument.
-4. The device should show three controls: RTRG (on), RATE (1/16) and LEN (1/4).
+4. The device should show five controls: RTRG (on), RATE (1/16), LEN (1/4), and the VFAD and CRV dials (both 0 %).
 
 After every rebuild, drag the new `Retrig.amxd` in again to replace the old one (or delete and re-add it).
 
@@ -60,6 +60,22 @@ Use a clip with one note on beats 1 and 3, at 120 BPM unless noted. To check tim
 | 11 | Toggle RTRG during a long burst, and while holding a note with RTRG off | Burst stops; no stuck notes either way. |
 | 12 | Copy the chain to 16 pads, all retrigging at 1/32 | Note Live's CPU meter. |
 
+## Velocity tests (v2)
+
+Turn on the **Debug** toggle and read the velocities from the Max console (`retrig: note P V`). Play the pad at a known velocity: put a note in a clip and set its velocity, rather than playing it by hand. Each burst starts at the played velocity.
+
+| # | Setup (note velocity 100, RATE 1/16, LEN 1/4) | Expect (4 hits) |
+| --- | --- | --- |
+| V1 | VFAD 0 %, any CRV | 100, 100, 100, 100 |
+| V2 | VFAD −80 %, CRV 0 % | 100, 80, 60, 41 |
+| V3 | VFAD −80 %, CRV 100 % | 100, 68, 46, 31 |
+| V4 | VFAD +80 %, CRV 0 % | 100, 105, 111, 116 |
+| V5 | VFAD −100 %, CRV 0 %, LEN 1/1 (16 hits) | Falls steadily from 100 toward 1 and never reaches 0 (velocity 0 would be a note-off). |
+| V6 | VFAD +100 %, note velocity 127 | Stays at 127 (it can't fade up). |
+| V7 | VFAD −80 %, LEN INF | No fade: every hit at 100. |
+| V8 | VFAD −80 %, turn VFAD to +80 % halfway through a long burst (LEN 1/1) | The running burst keeps fading down; the next note fades up. |
+| V9 | CRV 50 %, VFAD −80 % | Between V2 and V3 on every hit. |
+
 ## Push 3
 
 ### If Push standalone says "This device contains missing or incompatible Max objects"
@@ -81,6 +97,7 @@ Known cause so far: `moses` (now replaced with `sel`, see REQUIREMENTS.md).
 
 | # | Setup | Expect |
 | --- | --- | --- |
-| P1 | Select the pad on Push, open the device | A bank called "Retrig" with RTRG, RATE, LEN. No error screen. |
+| P1 | Select the pad on Push, open the device (on a fresh track) | A bank called "Retrig" with RTRG, RATE, LEN, VFAD, CRV on encoders 1–5. No error screen. |
+| P1b | Turn VFAD and CRV; then hold Shift and turn | A normal turn moves quickly across the range; Shift gives fine steps. Tell me if either feels too coarse or too slow. |
 | P2 | Hold a step, turn RATE | The p-lock applies to that step only. ⚑ Open item: confirm the lock reaches the device before that step's note (if not, the step plays with the previous RATE). |
 | P3 | Standalone mode: repeat tests 2, 5 and 12 | Same results; note CPU. |

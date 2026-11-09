@@ -86,7 +86,7 @@ Sources: [Ableton – Push (standalone) Max for Live compatibility](https://help
 
 Agreed 2026-11-09. Items marked ⚑ are provisional defaults until checked against the Elektron manual or tested.
 
-**Build order.** v1 has RTRG, RATE and LEN only, so timing can be tested first. VFAD and CRV follow in v2.
+**Build order.** v1 has RTRG, RATE and LEN only, so timing can be tested first. v2 (built 2026-11-09) adds VFAD and CRV, which completes the core five.
 
 **Timing**
 
@@ -134,8 +134,10 @@ Agreed 2026-11-09. Items marked ⚑ are provisional defaults until checked again
 | RTRG | `live.toggle` | Off / On | On |
 | RATE | `live.menu` | RATE list | 1/16 |
 | LEN | `live.menu` | LEN list | 1/4 |
-| VFAD | `live.dial` | −100…+100 % | 0 (v2) |
-| CRV | `live.dial` | 0…100 % | 0 (v2) |
+| VFAD | `live.dial` (continuous) | −100…+100 % | 0 |
+| CRV | `live.dial` (continuous) | 0…100 % | 0 |
+
+VFAD and CRV are read at note-on, like RATE and LEN (decided 2026-11-09): turning them mid-burst changes the next burst.
 
 One bank, "Retrig": RTRG, RATE, LEN, VFAD, CRV, then three empty slots. Banks are saved at the device level (`parameterbanks`), which a copy-and-paste into the device editor would lose, so the device is built straight to `.amxd`.
 
