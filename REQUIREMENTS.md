@@ -90,7 +90,7 @@ Agreed 2026-11-09. Items marked ⚑ are provisional defaults until checked again
 
 **Timing**
 
-- One `metro`, started on note-on, fires every hit. Its first bang (immediate) is hit 0, which replaces the incoming note.
+- Hit 0 fires immediately at note-on and replaces the incoming note. Each later hit is scheduled by a `delay` re-armed after every hit with that hit's interval (since v4; v1–v3 used a `metro`, which only applies a new interval one hit late, so it can't glide).
 - Intervals are in ticks (480 per quarter note): a 1/N rate is 1920/N ticks, so the metro follows Live's tempo.
 - ⚑ When Live's transport is stopped, tick-based timing may not run, so the interval is converted to ms at the current tempo (`translate ticks ms`). Retrigs then still work when playing pads with the transport stopped.
 - A burst is a hit count, not a timer: `N = ceil(LEN_ticks / RATE_ticks)`. Hits fire at 0, r, 2r … (N−1)r, all inside LEN. This avoids timer races at the boundary, and VFAD needs N anyway.
@@ -122,7 +122,7 @@ Agreed 2026-11-09. Items marked ⚑ are provisional defaults until checked again
   - One formula for both: `vs = v0`, `ve = v0 + max(f,0)·(127 − v0) + min(f,0)·(v0 − 1)`.
   - A note played at 127 can't fade up, and one played at 1 can't fade out.
   - Example, v0 = 100: VFAD −80 % ends at 20.8; +80 % ends at 121.6.
-- Fade position is measured **to the last hit** (decided 2026-11-09 after comparing by ear): t = elapsed / (time of the last hit); with a constant rate t = i / (N − 1). The last hit lands exactly on the end velocity (4 hits at −100 %: 100, 67, 34, 1). One hit (N = 1) plays at v0. With SFAD the last hit's time has to be worked out at note-on by running through the burst's schedule once (native objects, no JS).
+- Fade position is measured **to the last hit** (decided 2026-11-09 after comparing by ear): t = elapsed / (time of the last hit); with a constant rate t = i / (N − 1). The last hit lands exactly on the end velocity (4 hits at −100 %: 100, 67, 34, 1). One hit (N = 1) plays at v0. With a speed fade (TRATE) the last hit's time is worked out at note-on by running through the burst's schedule once (native objects, no JS); see v4.
 - **Alternative considered and set aside: LEN mode**, time through LEN: t = elapsed / LEN; with a constant rate t = i·RATE / LEN. Simpler with SFAD (no hit count needed), but the last hit stops short of the end velocity: 4 hits at −100 % end at 26, not 1. Both modes were built side by side behind a FADE switch and compared in Live. They sounded nearly the same with many hits per burst, and LAST was better with few. To bring LEN back, see commit `d936dbd` ("Add FADE switch …"): it has both modes in `src/retrig.maxpat` (the `expr-t` formula and the FADE menu on a "Setup" bank).
 - `v_lin = vs + (ve−vs)·t`, `v_exp = vs·(ve/vs)^t` (ve is always ≥ 1, so this stays finite), then the CRV blend above, rounded half up and clamped to 1–127. One `expr` per hit.
 - VFAD and CRV are continuous `live.dial` parameters (not whole-number steps), so Push gives coarse turns normally and fine control with Shift held. The display shows whole percentages.
@@ -142,11 +142,19 @@ VFAD and CRV are read at note-on, like RATE and LEN (decided 2026-11-09): turnin
 
 LEN stays a list (`live.menu`), so it keeps its exact labels (1/64, 1/4, INF). Push moves a list one entry per encoder click, with no acceleration and no Shift fine-tuning, so reaching 128 takes a long turn. A continuous, exponentially scaled LEN dial was considered (2026-11-09) and set aside: it would lose the labels and INF.
 
-Bank 1, "Retrig": RTRG, RATE, LEN, VFAD, CRV, PROB, LOCK, then one empty slot for SFAD. Bank 2, "Setup": PMODE (later also STRT). Banks are saved at the device level (`parameterbanks`), which a copy-and-paste into the device editor would lose, so the device is built straight to `.amxd`.
+Banks are grouped by what you reach for while playing (since v4):
+
+| Bank | Encoders 1–8 |
+| --- | --- |
+| 1 Retrig | RTRG, RATE, LEN, VFAD, CRV, PROB, TRATE, GLIDE |
+| 2 Chance | PROB, LOCK, PMODE, then five free (for RATE variation) |
+| 3 Setup | only created once something needs it (e.g. STRT) |
+
+PROB is on both bank 1 and bank 2. Banks are saved at the device level (`parameterbanks`), which a copy-and-paste into the device editor would lose, so the device is built straight to `.amxd`.
 
 ## Later: after the core requirements
 
-Started once the core five were built and tested. With the core five, PROB, LOCK and SFAD fill bank 1.
+Started once the core five were built and tested. Bank layout: see Parameters above.
 
 ### v3: PROB, LOCK, PMODE (built 2026-11-09)
 
@@ -173,18 +181,24 @@ What PROB decides depends on PMODE:
 - Two pads with the same PROB skip independently, not in lockstep (checked 2026-11-09).
 - v3 tested in Live and on Push standalone 2026-11-09 (TESTING.md R1–R10, P1, P1a): all pass.
 
-### v4: SFAD (on hold, 2026-11-09)
+### v4: speed fade as a target rate (built 2026-11-09)
 
-| Name | Range | What it does |
-| --- | --- | --- |
-| SFAD | Negative to positive (slows down to speeds up) | Speed fade: the repeat rate speeds up or slows down across the burst, like VFAD does for velocity. Bank Retrig, slot 8. |
+Replaces the earlier ±% SFAD idea: the speed fade is set as a target rate plus a glide time, in musical units.
 
-Proposals, to settle before building:
+| Name | Control | Values | Default | Bank |
+| --- | --- | --- | --- | --- |
+| TRATE | `live.menu` | Off, then the 17 RATE values | Off | Retrig, slot 7 |
+| GLIDE | `live.dial` (continuous, exponent 2, Shift fine-tunes) | 0–128 steps | 4 | Retrig, slot 8 |
 
-- [ ] Range: ±100 % ends the burst 4× faster or 4× slower than RATE (e.g. 1/16 → 1/64 or → 1/4).
-- [ ] Shape: equal ratio over equal time (smooth, like a bouncing ball); its own fixed shape, not CRV.
-- [ ] LEN = INF: no speed fade, same as VFAD.
-- [ ] Cap a burst at 256 hits, since the fade (to the last hit) needs the whole schedule worked out at note-on.
+- TRATE Off: no speed fade; the device behaves exactly as v3.
+- The interval after a hit at elapsed time T is `RATE · (TRATE/RATE)^(T/GLIDE)` while gliding, then TRATE. The rate changes by equal ratios over equal time, so the glide sounds even. Once there, it holds TRATE until LEN ends.
+- GLIDE 0 jumps straight to TRATE: the gap to the second hit is already TRATE.
+- GLIDE longer than LEN: the burst ends partway through the glide.
+- GLIDE is in steps, not % of LEN, so it works with LEN INF too: an INF burst glides to TRATE and stays there.
+- The velocity fade still lands exactly on the last hit. With TRATE on and a finite LEN, the device runs through the burst's schedule once at note-on (`uzi`) to get the hit count and the last hit's time.
+- **256-hit cap**, only when TRATE is on and LEN is finite, to bound that note-on calculation (16 pads on Push). With TRATE Off there's no cap (e.g. 1/80 over LEN 128 is 640 hits).
+- TRATE and GLIDE are read at note-on, like everything else.
+- PROB, LOCK and PMODE work unchanged with the glide.
 
 ### Later: RATE variation (idea, 2026-11-09)
 
@@ -192,12 +206,12 @@ A variation feature that picks a random RATE, with an option to pick only straig
 
 Questions to settle when it's picked up:
 
-- [ ] When is the random rate picked: once per burst (at note-on) or per hit? Per hit would change the speed within a burst, which overlaps with SFAD.
+- [ ] When is the random rate picked: once per burst (at note-on) or per hit? Per hit would change the speed within a burst, which overlaps with the speed fade (TRATE/GLIDE).
 - [ ] How far it can move: any value in the RATE list, or a range around the set RATE (e.g. "up to N steps faster or slower")? That would need an amount control.
 - [ ] How often it varies: every note, or with a chance (like PROB)?
-- [ ] The straight-only option: a switch on the Setup bank. It may replace STRT below, since both are about straight rates.
-- [ ] How it combines with SFAD (if per hit) and with the fade to the last hit (the hit count changes with the rate).
-- [ ] Bank 1 is full once SFAD is in, so its controls go on the Setup bank.
+- [ ] The straight-only option: a switch on the Chance bank, next to the variation controls. It may replace STRT below, since both are about straight rates.
+- [ ] How it combines with the speed fade (TRATE/GLIDE): randomise RATE, TRATE, or both? And with the fade to the last hit (the hit count changes with the rate).
+- [ ] Bank 1 is full (since v4), so its controls go on the Chance bank (slots 4–8 are free).
 
 ### Stretch: straight-only switch (on hold, 2026-11-09)
 
@@ -207,7 +221,7 @@ An on/off switch that limits RATE to straight divisions (requested 2026-11-09, d
 | --- | --- | --- |
 | STRT | Off / On | When on, RATE uses straight divisions only: 1/1, 1/2, 1/4, 1/8, 1/16, 1/32, 1/64. Triplets (1/3, 1/6, 1/12, 1/24, 1/48) and the odd divisions (1/5, 1/10, 1/20, 1/40, 1/80) are skipped. |
 
-- STRT is a `live.toggle` parameter like the others, so it can be p-locked. It goes on the **second Push bank, "Setup"**, after PMODE, because the first bank is full once SFAD is in.
+- STRT is a `live.toggle` parameter like the others, so it can be p-locked. It would go on a third Push bank, "Setup" (bank 1 is full since v4, and bank 2 is for chance controls).
 - RATE's value list never changes, so saved automation and p-locks keep pointing at the same rates.
 - While STRT is on, a non-straight RATE snaps to the nearest straight one when a burst starts (e.g. 1/12 → 1/16). The snap is computed at note-on, alongside the existing RATE lookup.
 - ⚑ "Nearest" is by ratio of interval lengths, which never ties for this list. Triplets snap one step faster, odd divisions one step slower:
@@ -219,11 +233,11 @@ An on/off switch that limits RATE to straight divisions (requested 2026-11-09, d
   1/80 is faster than every straight value, so it goes to the fastest, 1/64. Confirm the table when building.
 - ⚑ RATE's display still shows the non-straight value while STRT snaps it, because the menu can't hide entries without changing its list. Check on Push whether that's confusing.
 
-Design impact on the core build:
+Implementation notes (as built):
 
-- SFAD means the interval changes on every hit, so the hit count N is no longer known at note-on. The timing core would move from a fixed `metro` plus hit count to a `delay` re-armed on every hit (still in ticks) that stops once the elapsed time reaches LEN.
-- The fade is measured to the last hit (see Velocity fade above), so with SFAD the device needs the last hit's time at note-on. It gets it by running through the burst's schedule once (e.g. `uzi` stepping the interval curve), then uses elapsed / last-hit time as each hit's position.
-- PROB uses a native `random` per repeat in the scheduler thread: no JS.
+- v4 moved the timing core from a fixed `metro` to a `delay` re-armed after every hit (ticks while playing, ms when stopped), because the speed fade changes the interval on every hit.
+- With TRATE on and a finite LEN, an `uzi` loop at note-on runs through the schedule to get the hit count and the last hit's time for the fade (max 256 hits).
+- PROB uses native `random` per roll, in the scheduler thread: no JS.
 
 ## Out of scope and open items
 

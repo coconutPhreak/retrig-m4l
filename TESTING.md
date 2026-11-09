@@ -13,7 +13,7 @@ How to build the device, load it in Live, and what to check. v1 added RTRG, RATE
    This writes `build/Retrig.amxd`.
 2. In Live, make a Drum Rack and load Simpler (or Drum Sampler) on one pad with a short click or rim sample.
 3. Show the pad's chain and drag `build/Retrig.amxd` into it, *before* the instrument.
-4. The device should show RTRG (**off**), RATE (1/16), LEN (1/4), VFAD and CRV (0 %), PROB (100 %), LOCK (off) and PMODE (Repeats). Turn RTRG on before testing retrigs.
+4. The device should show RTRG (**off**), RATE (1/16), LEN (1/4), VFAD and CRV (0 %), PROB (100 %), LOCK (off), PMODE (Repeats), TRATE (Off) and GLIDE (4). Turn RTRG on before testing retrigs.
 
 After every rebuild, drag the new `Retrig.amxd` in again to replace the old one (or delete and re-add it).
 
@@ -102,6 +102,24 @@ Use a clip with a note on every beat, RATE 1/16, LEN 1/4 (4 hits per note), and 
 | R9 | Two pads, same settings, PROB 50 % | ⚑ The two pads skip *different* repeats, not the same ones in lockstep. |
 | R10 | Hold a step on Push, turn LOCK on for that step only | Only that step always bursts fully. |
 
+## Speed fade tests (v4)
+
+v4 also moved the timing core from `metro` to `delay`, so re-run timing tests 2, 3, 4, 5 and 8 once with TRATE Off: they should behave exactly as before.
+
+| # | Setup (RATE 1/16, LEN 1/1 unless noted) | Expect |
+| --- | --- | --- |
+| S1 | TRATE Off | Identical to v3. |
+| S2 | TRATE 1/64, GLIDE 4 | Hits speed up smoothly over the first beat (4 steps), then hold at 1/64 until the bar ends. |
+| S3 | TRATE 1/4, GLIDE 8 | Hits slow down smoothly over half a bar, then hold at 1/4. |
+| S4 | TRATE 1/64, GLIDE 0 | Jumps: first gap is 1/64 already. |
+| S5 | TRATE 1/64, GLIDE 64 (longer than LEN) | Still speeding up when the burst ends. |
+| S6 | TRATE 1/64, GLIDE 4, LEN INF | Glides to 1/64, then keeps going until the next note. |
+| S7 | TRATE 1/64, GLIDE 4, VFAD −100 % | The fade still ends on velocity 1 on the last hit, however many hits the glide makes. |
+| S8 | RATE 1/80, TRATE 1/64, GLIDE 0, LEN 128 | Stops after 256 hits (the cap); burst_hits shows 256 in the console. |
+| S9 | Transport stopped, play S2 by hand | Same glide. |
+| S10 | TRATE 1/64, GLIDE 4, PROB 50 % (Repeats) | Glide with random gaps; the remaining hits keep their timing. |
+| S11 | 16 pads, all with TRATE 1/64, hit together | No late or flammed notes; check CPU (the note-on calculation runs per pad). |
+
 ## Push 3
 
 ### If Push standalone says "This device contains missing or incompatible Max objects"
@@ -123,8 +141,9 @@ Known cause so far: `moses` (now replaced with `sel`, see REQUIREMENTS.md).
 
 | # | Setup | Expect |
 | --- | --- | --- |
-| P1 | Select the pad on Push, open the device (on a fresh track) | A bank called "Retrig" with RTRG, RATE, LEN, VFAD, CRV, PROB, LOCK on encoders 1–7. No error screen. |
-| P1a | Page to the second bank | "Setup" with PMODE on encoder 1 (Repeats / Burst / Note). |
+| P1 | Select the pad on Push, open the device (on a fresh track) | A bank called "Retrig" with RTRG, RATE, LEN, VFAD, CRV, PROB, TRATE, GLIDE on encoders 1–8. No error screen. |
+| P1a | Page to the second bank | "Chance" with PROB, LOCK, PMODE on encoders 1–3. PROB moves together on both banks. |
+| P1c | Turn GLIDE, then Shift+turn | Fast sweep 0–128 with finer steps near 0; Shift fine-tunes. |
 | P1b | Turn VFAD and CRV; then hold Shift and turn | A normal turn moves quickly across the range; Shift gives fine steps. Tell me if either feels too coarse or too slow. |
 | P2 | Hold a step, turn RATE | The p-lock applies to that step only. ⚑ Open item: confirm the lock reaches the device before that step's note (if not, the step plays with the previous RATE). |
 | P3 | Standalone mode: repeat tests 2, 5 and 12 | Same results; note CPU. |
