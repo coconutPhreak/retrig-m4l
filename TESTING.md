@@ -62,6 +62,16 @@ Use a clip with one note on beats 1 and 3, at 120 BPM unless noted. To check tim
 
 ## Push 3
 
+### If Push standalone says "This device contains missing or incompatible Max objects"
+
+Ableton doesn't publish which objects standalone rejects, so find out with probe devices:
+
+```bash
+python3 scripts/make_probes.py
+```
+
+This writes 14 tiny devices to `build/probes/`, one per object type used in Retrig. Load each on Push standalone and note which ones show the error. `Probe 00 baseline` has nothing extra and must load cleanly.
+
 | # | Setup | Expect |
 | --- | --- | --- |
 | P1 | Select the pad on Push, open the device | A bank called "Retrig" with RTRG, RATE, LEN. No error screen. |
