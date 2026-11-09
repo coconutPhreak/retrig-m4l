@@ -23,7 +23,7 @@ Five parameters, all on a single Push bank of 8.
 | RTRG | Off / On | Turns retrigs on for incoming notes. |
 | RATE | 1/1 to 1/80, straight, triplet and odd divisions (e.g. 1/3, 1/5, 1/6, 1/12, 1/20, 1/24) | How fast repeats fire, synced to Live's transport. |
 | LEN | 0.125 steps to INF (1 step = 1/16) | How long the burst lasts; also the window the velocity fade spans. |
-| VFAD | Negative to positive (fade out to fade in) | Velocity fade across the burst. Negative fades out, positive fades in. |
+| VFAD | Negative to positive (fade out to fade in) | Velocity fade across the burst, starting from the played velocity. Negative fades down toward 1, positive fades up toward 127. |
 | CRV | 0% to 100% | Shape of the fade: 0% linear, 100% exponential, blended in between. |
 
 The exact RATE value list should be checked against the Elektron box before release. The VFAD range is decided (see Decisions).
@@ -116,9 +116,15 @@ Agreed 2026-11-09. Items marked ⚑ are provisional defaults until checked again
 
 **Velocity fade (v2)**
 
-- VFAD is −100…+100 % (decided 2026-11-09), f = VFAD/100. Fade out (f < 0): v0 → v0·(1−|f|). Fade in (f > 0): v0·(1−f) → v0, so it rises *to* the played velocity, not to 127.
-- Fade position is measured by **time through LEN**, not by hit number (decided 2026-11-09): t = elapsed / LEN, where elapsed is the time from the played note to this hit. With a constant rate that is t = i·RATE / LEN for hit i. This keeps working when SFAD changes the rate mid-burst. Accepted side effect: the last hit lands just before the end of LEN, so it stops slightly short of the end velocity (e.g. 1/16 over LEN 1/4 fading 100 → 20 gives 100, 80, 60, 40).
-- `v_lin = vs + (ve−vs)·t`, `v_exp = vs·(ve/vs)^t` with both ends clamped to ≥ 1, then the CRV blend above, rounded and clamped to 1–127. One `expr` per hit.
+- VFAD is −100…+100 %, f = VFAD/100. Every burst **starts at the played velocity v0**; VFAD sets where it ends (revised 2026-11-09, replacing "fade-in rises to the played velocity"):
+  - f < 0 (fade out): ends at `v0 − |f|·(v0 − 1)`, so −100 % ends at velocity 1.
+  - f > 0 (fade up): ends at `v0 + f·(127 − v0)`, so +100 % ends at 127.
+  - One formula for both: `vs = v0`, `ve = v0 + max(f,0)·(127 − v0) + min(f,0)·(v0 − 1)`.
+  - A note played at 127 can't fade up, and one played at 1 can't fade out.
+  - Example, v0 = 100: VFAD −80 % ends at 20.8; +80 % ends at 121.6.
+- Fade position is measured by **time through LEN**, not by hit number (decided 2026-11-09): t = elapsed / LEN, where elapsed is the time from the played note to this hit. With a constant rate that is t = i·RATE / LEN for hit i. This keeps working when SFAD changes the rate mid-burst. Accepted side effect: the last hit lands just before the end of LEN, so it stops slightly short of the end velocity (e.g. v0 100, VFAD −80 %, 1/16 over LEN 1/4 gives 100, 80, 60, 41 at CRV 0 % and 100, 68, 46, 31 at CRV 100 %).
+- `v_lin = vs + (ve−vs)·t`, `v_exp = vs·(ve/vs)^t` (ve is always ≥ 1, so this stays finite), then the CRV blend above, rounded half up and clamped to 1–127. One `expr` per hit.
+- VFAD and CRV are continuous `live.dial` parameters (not whole-number steps), so Push gives coarse turns normally and fine control with Shift held. The display shows whole percentages.
 - ⚑ With LEN = INF there is no fade; velocity stays constant.
 
 **Parameters**
@@ -183,7 +189,7 @@ Rack-wide features (sample assignment, pad naming, auto-inserting this device in
 
 - [ ] Confirm the exact RATE value list against the Elektron manual
 - [x] Confirm the LEN value list against the Elektron box (labels for 8 and 16 steps still assumed, see defaults)
-- [x] Confirm the VFAD range and how it maps to the end velocity (−100…+100 %; fade-in rises to the played velocity)
+- [x] Confirm the VFAD range and how it maps to the end velocity (−100…+100 %; starts at the played velocity, −100 % ends at 1, +100 % ends at 127)
 - [x] Decide fade behaviour when LEN is INF (no fade, see defaults)
 - [ ] Check whether tick-based `metro` runs with Live's transport stopped (the ms fallback is in place either way)
 - [ ] Check that a p-lock on a step reaches the device before that step's note
