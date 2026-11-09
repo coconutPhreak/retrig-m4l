@@ -167,4 +167,4 @@ Rack-wide features (sample assignment, pad naming, auto-inserting this device in
 - [x] Decide fade behaviour when LEN is INF (no fade, see defaults)
 - [ ] Check whether tick-based `metro` runs with Live's transport stopped (the ms fallback is in place either way)
 - [ ] Check that a p-lock on a step reaches the device before that step's note
-- [ ] Test the device on Push 3 standalone early
+- [x] Test the device on Push 3 standalone early (2026-11-09: after the `moses` fix, v1 loads cleanly on a fresh track, shows RTRG, RATE, LEN on encoders 1–3, and retrigs)
