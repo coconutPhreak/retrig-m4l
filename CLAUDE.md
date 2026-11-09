@@ -9,7 +9,7 @@ Elektron-style per-pad retrig MIDI effect for Ableton Drum Racks, with Push 3 (s
 - MIDI effect that sits inside a Drum Rack pad chain, before the instrument. One instance per pad.
 - Parameters: RTRG, RATE, LEN, VFAD, CRV. All are automatable `live.*` parameters (p-locks come from Push step automation and clip envelopes).
 - Register all parameters with `live.banks` (one bank of 8) or Push can't show the device.
-- Native Max objects only: no third-party externals, no `node.script`.
+- Native Max objects only: no third-party externals, no `node.script`. No `moses` (breaks loading on Push standalone, see REQUIREMENTS.md). New object classes must pass `scripts/make_probes.py` on fresh Push tracks before they go in.
 - Retrig timing uses native transport-synced Max objects, not JS (JS runs on the low-priority thread).
 - Keep CPU and UI light: expect 16+ instances per kit on Push 3 standalone.
 

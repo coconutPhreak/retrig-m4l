@@ -184,7 +184,7 @@
 						360.0,
 						20.0
 					],
-					"text": "7. Flush: note-off for the sounding pitch (-1 = nothing sounding).",
+					"text": "7. Flush: note-off for the sounding pitch (-1 = nothing sounding; sel -1 drops it). No moses: it breaks loading on Push standalone.",
 					"fontname": "Arial Bold",
 					"fontsize": 10.0,
 					"linecount": 1
@@ -516,7 +516,7 @@
 			},
 			{
 				"box": {
-					"id": "moses-last",
+					"id": "sel-last",
 					"maxclass": "newobj",
 					"numinlets": 2,
 					"numoutlets": 2,
@@ -527,10 +527,10 @@
 						20.0
 					],
 					"outlettype": [
-						"",
+						"bang",
 						""
 					],
-					"text": "moses 0",
+					"text": "sel -1",
 					"fontname": "Arial Bold",
 					"fontsize": 10.0
 				}
@@ -2317,7 +2317,7 @@
 			},
 			{
 				"box": {
-					"id": "moses-sound",
+					"id": "sel-sound",
 					"maxclass": "newobj",
 					"numinlets": 2,
 					"numoutlets": 2,
@@ -2328,10 +2328,10 @@
 						20.0
 					],
 					"outlettype": [
-						"",
+						"bang",
 						""
 					],
-					"text": "moses 0",
+					"text": "sel -1",
 					"fontname": "Arial Bold",
 					"fontsize": 10.0
 				}
@@ -3004,7 +3004,7 @@
 						0
 					],
 					"destination": [
-						"moses-last",
+						"sel-last",
 						0
 					]
 				}
@@ -3616,7 +3616,7 @@
 						0
 					],
 					"destination": [
-						"moses-sound",
+						"sel-sound",
 						0
 					]
 				}
@@ -3624,7 +3624,7 @@
 			{
 				"patchline": {
 					"source": [
-						"moses-sound",
+						"sel-sound",
 						1
 					],
 					"destination": [
@@ -3672,7 +3672,7 @@
 			{
 				"patchline": {
 					"source": [
-						"moses-last",
+						"sel-last",
 						1
 					],
 					"destination": [

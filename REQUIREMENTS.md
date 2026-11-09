@@ -68,6 +68,10 @@ The device must work on Push 3 in Standalone Mode and in Control Mode.
 - Push is the UI: all controls are `live.*` parameters, registered in pages of 8 with `live.banks`. Without `live.banks`, Push shows an error instead of the device.
 - Native Max objects only; no third-party externals.
 - No `node.script`.
+- **No `moses`** (found 2026-11-09). A device with `moses` next to Retrig's parameters fails on its first load on a fresh Push standalone track with "This device contains missing or incompatible Max objects". The device still processes MIDI, but its parameters don't show (only LEN appeared). A second load onto the same track works. Use `sel` or `expr` instead.
+- Native objects can still break standalone in combination with the device's parameters, which a probe with a dummy parameter misses. Before adding a new object class, run `scripts/make_probes.py` and test the probes on fresh tracks (see TESTING.md).
+- The Live API at load (`live.thisdevice` → `live.path` → `live.observer`) loads fine on standalone. Editing banks with `live.banks` messages at load does not: it failed every time.
+- A startup delay doesn't help with load errors: they happen while Push sets up the objects, before any device logic runs.
 - Keep CPU low: 16+ instances per kit, and Push standalone has limited CPU. No heavy UI.
 
 Sources: [Ableton – Push (standalone) Max for Live compatibility](https://help.ableton.com/hc/articles/8506527153308), [CDM – Making Max for Live devices work on Push](https://cdm.link/making-max-for-live-devices-work-on-push-and-push-3-standalone/)
