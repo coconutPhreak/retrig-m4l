@@ -74,13 +74,63 @@ Sources: [Ableton – Push (standalone) Max for Live compatibility](https://help
 
 - Retrig timing is built from native, transport-synced Max objects, not JavaScript. JS runs on Max's low-priority thread by default, which makes timing jittery.
 - Keeping timing out of JS also avoids depending on `v8` running on Push standalone.
-- Workflow: Claude writes the patcher; the user opens it in Max, tests in Live, saves it as `.amxd`, and pastes any Max console errors back.
+- Workflow: Claude writes the patcher; `scripts/build_amxd.py` wraps it into `build/Retrig.amxd`; the user tests in Live and pastes any Max console output back.
+
+## Decisions and defaults (v1)
+
+Agreed 2026-11-09. Items marked ⚑ are provisional defaults until checked against the Elektron manual or tested.
+
+**Build order.** v1 has RTRG, RATE and LEN only, so timing can be tested first. VFAD and CRV follow in v2.
+
+**Timing**
+
+- One `metro`, started on note-on, fires every hit. Its first bang (immediate) is hit 0, which replaces the incoming note.
+- Intervals are in ticks (480 per quarter note): a 1/N rate is 1920/N ticks, so the metro follows Live's tempo.
+- ⚑ When Live's transport is stopped, tick-based timing may not run, so the interval is converted to ms at the current tempo (`translate ticks ms`). Retrigs then still work when playing pads with the transport stopped.
+- A burst is a hit count, not a timer: `N = ceil(LEN_ticks / RATE_ticks)`. Hits fire at 0, r, 2r … (N−1)r, all inside LEN. This avoids timer races at the boundary, and VFAD needs N anyway.
+- ⚑ RATE and LEN are read at note-on (latched). A p-lock applies to that step's whole burst; turning a knob mid-burst affects the next burst.
+
+**Notes**
+
+- Every hit sends a note-off for the previous hit, then a new note-on, so envelopes restart and choke groups behave normally.
+- ⚑ Gate: each hit is held until the next one; the last hit's note-off comes one RATE interval after it.
+- While RTRG is on, incoming note-offs are ignored; the device owns the note-offs, so nothing sticks.
+- A new note cuts the running burst: stop metro, note-off for the sounding hit, then start the new burst, all in one scheduler event.
+- A burst also stops (with note-off) on transport stop and when RTRG changes. Changing RTRG also sends a note-off for the last incoming pitch, so a note passed through with RTRG off can't hang.
+- RTRG off: notes pass through unchanged.
+
+**Value lists**
+
+- ⚑ RATE (17): 1/1, 1/2, 1/3, 1/4, 1/5, 1/6, 1/8, 1/10, 1/12, 1/16, 1/20, 1/24, 1/32, 1/40, 1/48, 1/64, 1/80. Default 1/16.
+- ⚑ LEN (20, in steps): 0.125, 0.25, 0.5, 0.75, 1, 1.5, 2, 3, 4, 6, 8, 12, 16, 24, 32, 48, 64, 96, 128, INF. Default 4.
+- ⚑ INF runs until the next note, transport stop or RTRG change.
+
+**Velocity fade (v2)**
+
+- ⚑ VFAD is −100…+100 %, f = VFAD/100. Fade out (f < 0): v0 → v0·(1−|f|). Fade in (f > 0): v0·(1−f) → v0, so it rises *to* the played velocity, not to 127.
+- For hit i of N, t = i/(N−1) (t = 0 when N = 1). `v_lin = vs + (ve−vs)·t`, `v_exp = vs·(ve/vs)^t` with both ends clamped to ≥ 1, then the CRV blend above, rounded and clamped to 1–127. One `expr` per hit.
+- ⚑ With LEN = INF there is no fade; velocity stays constant.
+
+**Parameters**
+
+| Param | Object | Values | Default |
+| --- | --- | --- | --- |
+| RTRG | `live.toggle` | Off / On | On |
+| RATE | `live.menu` | RATE list | 1/16 |
+| LEN | `live.menu` | LEN list | 4 |
+| VFAD | `live.dial` | −100…+100 % | 0 (v2) |
+| CRV | `live.dial` | 0…100 % | 0 (v2) |
+
+One bank, "Retrig": RTRG, RATE, LEN, VFAD, CRV, then three empty slots. Banks are saved at the device level (`parameterbanks`), which a copy-and-paste into the device editor would lose, so the device is built straight to `.amxd`.
 
 ## Out of scope and open items
 
 Rack-wide features (sample assignment, pad naming, auto-inserting this device into chains) belong to the separate Kit device, not this one.
 
 - [ ] Confirm the exact RATE value list against the Elektron manual
+- [ ] Confirm the LEN value list against the Elektron manual
 - [ ] Confirm the VFAD range and how it maps to the end velocity
-- [ ] Decide fade behaviour when LEN is INF
+- [x] Decide fade behaviour when LEN is INF (no fade, see defaults)
+- [ ] Check whether tick-based `metro` runs with Live's transport stopped (the ms fallback is in place either way)
+- [ ] Check that a p-lock on a step reaches the device before that step's note
 - [ ] Test the device on Push 3 standalone early
