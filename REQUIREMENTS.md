@@ -151,15 +151,25 @@ Open questions to settle before building:
 - [ ] SFAD range, its end rate (e.g. RATE × 2 at +100 %?) and whether it uses CRV or a curve of its own.
 - [ ] SFAD with LEN = INF: no speed fade (same as VFAD)?
 
-### Stretch: option to disable triplets
+### Stretch: straight-only switch
 
-An on/off option that keeps RATE off the triplet divisions (requested 2026-11-09).
+An on/off switch that limits RATE to straight divisions (requested 2026-11-09, decided the same day).
 
-Open questions:
+| Name | Range | What it does |
+| --- | --- | --- |
+| STRT | Off / On | When on, RATE uses straight divisions only: 1/1, 1/2, 1/4, 1/8, 1/16, 1/32, 1/64. Triplets (1/3, 1/6, 1/12, 1/24, 1/48) and the odd divisions (1/5, 1/10, 1/20, 1/40, 1/80) are skipped. |
 
-- [ ] Which values does it remove? Triplets only (1/3, 1/6, 1/12, 1/24, 1/48), or also the quintuplet-style odd ones (1/5, 1/10, 1/20, 1/40, 1/80), leaving only straight values (1/1 … 1/64)?
-- [ ] Where does the switch live? The bank of 8 is full once PROB, LOCK and SFAD are in, so either a second Push bank (e.g. "Setup") or a device setting that isn't a p-lockable parameter. Note that a setting off the bank can't be changed on Push standalone.
-- [ ] How RATE behaves when it's on. Proposed: keep RATE's value list fixed, so existing automation and p-locks keep their meaning, and snap a disabled value to the nearest allowed one (e.g. 1/12 → 1/16) when a burst starts. Changing the menu's own list at runtime would shift what saved p-locks point to.
+- STRT is a `live.toggle` parameter like the others, so it can be p-locked. It goes on a **second Push bank, "Setup"**, because the first bank is full once PROB, LOCK and SFAD are in.
+- RATE's value list never changes, so saved automation and p-locks keep pointing at the same rates.
+- While STRT is on, a non-straight RATE snaps to the nearest straight one when a burst starts (e.g. 1/12 → 1/16). The snap is computed at note-on, alongside the existing RATE lookup.
+- ⚑ "Nearest" is by ratio of interval lengths, which never ties for this list. Triplets snap one step faster, odd divisions one step slower:
+
+  | RATE | 1/3 | 1/5 | 1/6 | 1/10 | 1/12 | 1/20 | 1/24 | 1/40 | 1/48 | 1/80 |
+  | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+  | STRT on | 1/4 | 1/4 | 1/8 | 1/8 | 1/16 | 1/16 | 1/32 | 1/32 | 1/64 | 1/64 |
+
+  1/80 is faster than every straight value, so it goes to the fastest, 1/64. Confirm the table when building.
+- ⚑ RATE's display still shows the non-straight value while STRT snaps it, because the menu can't hide entries without changing its list. Check on Push whether that's confusing.
 
 Design impact on the core build:
 
