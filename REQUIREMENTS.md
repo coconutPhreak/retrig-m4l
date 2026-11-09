@@ -186,9 +186,22 @@ Proposals, to settle before building:
 - [ ] LEN = INF: no speed fade, same as VFAD.
 - [ ] Cap a burst at 256 hits, since the fade (to the last hit) needs the whole schedule worked out at note-on.
 
-### Stretch: straight-only switch
+### Later: RATE variation (idea, 2026-11-09)
 
-An on/off switch that limits RATE to straight divisions (requested 2026-11-09, decided the same day).
+A variation feature that picks a random RATE, with an option to pick only straight rates (1/1, 1/2, 1/4, 1/8, 1/16, 1/32, 1/64). Noted for later; not designed yet.
+
+Questions to settle when it's picked up:
+
+- [ ] When is the random rate picked: once per burst (at note-on) or per hit? Per hit would change the speed within a burst, which overlaps with SFAD.
+- [ ] How far it can move: any value in the RATE list, or a range around the set RATE (e.g. "up to N steps faster or slower")? That would need an amount control.
+- [ ] How often it varies: every note, or with a chance (like PROB)?
+- [ ] The straight-only option: a switch on the Setup bank. It may replace STRT below, since both are about straight rates.
+- [ ] How it combines with SFAD (if per hit) and with the fade to the last hit (the hit count changes with the rate).
+- [ ] Bank 1 is full once SFAD is in, so its controls go on the Setup bank.
+
+### Stretch: straight-only switch (on hold, 2026-11-09)
+
+An on/off switch that limits RATE to straight divisions (requested 2026-11-09, decided the same day). On hold: not sure it's wanted yet, and it may fold into the RATE variation feature above.
 
 | Name | Range | What it does |
 | --- | --- | --- |
