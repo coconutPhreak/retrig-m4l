@@ -223,7 +223,7 @@ A menu rather than a number box (decided 2026-11-09), so the first entry can rea
 - CPU: idle voices cost nothing; the cost grows with the number of overlapping bursts. Re-run the 16-pad CPU test with VOICES 8 and dense overlapping notes (worst case 16 × 8 = 128 bursts at once). Eight engine copies make the patch several times larger, so also check load time on Push standalone.
 - Creates the Setup bank (bank 3).
 - v5 tested in Live and on Push 2026-11-09 (TESTING.md Y1–Y11, P1, P1d): all pass, including loading on Push standalone and the 16-pad CPU test with VOICES 8.
-- v5.1 (strict stealing, about 840 KB) loads almost instantly on Push 3 standalone (2026-11-09), so the size is not a concern.
+- v5.1 (strict stealing) tested in Live and on Push 2026-11-09 (TESTING.md Y1–Y13, P1d): all pass. At about 840 KB it still loads almost instantly on Push 3 standalone.
 
 ### Later: RATE variation (idea, 2026-11-09)
 
