@@ -170,7 +170,8 @@ What PROB decides depends on PMODE:
 - PROB, LOCK and PMODE are read at note-on, like everything else. In Note mode the roll happens as the note arrives.
 - PROB only applies while RTRG is on; with RTRG off, notes pass through untouched.
 - Rolls use native `random` (0–9999 against PROB × 100), in the scheduler thread.
-- ⚑ Check that two pads with the same PROB don't skip in lockstep (each `random` should be seeded independently).
+- Two pads with the same PROB skip independently, not in lockstep (checked 2026-11-09).
+- v3 tested in Live and on Push standalone 2026-11-09 (TESTING.md R1–R10, P1, P1a): all pass.
 
 ### v4: SFAD (on hold, 2026-11-09)
 
