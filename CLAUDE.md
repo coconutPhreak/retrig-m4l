@@ -17,12 +17,16 @@ Elektron-style per-pad retrig MIDI effect for Ableton Drum Racks, with Push 3 (s
 
 - Claude can't run Max or Live. The user opens patches in Max, tests in Live (and on Push), and pastes Max console output back.
 - Patcher source lives in `src/` as `.maxpat` (readable JSON, diffable). Prefer small, well-commented patchers.
-- Frozen `.amxd` builds go in `build/` (git-ignored) and are attached to GitHub releases.
+- `python3 scripts/build_amxd.py` wraps `src/retrig.maxpat` into `build/Retrig.amxd` (unfrozen). Build straight to `.amxd`: Push banks (`parameters.parameterbanks`), presentation mode and device width live at patcher level and are lost by copying and pasting into the device editor. `--extract` brings device-editor edits back into `src/`.
+- `.amxd` builds go in `build/` (git-ignored); release builds are attached to GitHub releases.
+- `TESTING.md` lists the load and test steps the user runs in Live and on Push.
 - Commit in small steps with clear messages.
 
 ## Repo layout
 
 - `REQUIREMENTS.md` – spec
+- `TESTING.md` – how to build, load and test
 - `src/` – patcher source
-- `build/` – frozen devices (ignored)
+- `scripts/` – build tooling (Python, not part of the device)
+- `build/` – built devices (ignored)
 - `README.md` – user-facing docs
