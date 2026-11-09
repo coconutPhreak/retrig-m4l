@@ -6,6 +6,8 @@ As of 2026-11-09. Source of truth while building; update it when decisions chang
 
 The Retrig device is a Max for Live MIDI effect that adds Elektron-style retrigs to a single Drum Rack pad.
 
+Elektron hardware is the inspiration, not a spec to match exactly. Where the device goes beyond the hardware (e.g. speed fade), design for the device's own features first.
+
 - It sits inside a pad's chain, before the instrument (Simpler, Drum Sampler, etc.).
 - One instance per pad, so every pad has its own independent retrig settings.
 - It retriggers whatever note reaches it (the chain's play note); no note filtering is needed.
@@ -111,7 +113,8 @@ Agreed 2026-11-09. Items marked ⚑ are provisional defaults until checked again
 **Velocity fade (v2)**
 
 - ⚑ VFAD is −100…+100 %, f = VFAD/100. Fade out (f < 0): v0 → v0·(1−|f|). Fade in (f > 0): v0·(1−f) → v0, so it rises *to* the played velocity, not to 127.
-- For hit i of N, t = i/(N−1) (t = 0 when N = 1). `v_lin = vs + (ve−vs)·t`, `v_exp = vs·(ve/vs)^t` with both ends clamped to ≥ 1, then the CRV blend above, rounded and clamped to 1–127. One `expr` per hit.
+- Fade position is measured by **time through LEN**, not by hit number (decided 2026-11-09): t = elapsed / LEN, where elapsed is the time from the played note to this hit. With a constant rate that is t = i·RATE / LEN for hit i. This keeps working when SFAD changes the rate mid-burst. Accepted side effect: the last hit lands just before the end of LEN, so it stops slightly short of the end velocity (e.g. 1/16 over LEN 1/4 fading 100 → 20 gives 100, 80, 60, 40).
+- `v_lin = vs + (ve−vs)·t`, `v_exp = vs·(ve/vs)^t` with both ends clamped to ≥ 1, then the CRV blend above, rounded and clamped to 1–127. One `expr` per hit.
 - ⚑ With LEN = INF there is no fade; velocity stays constant.
 
 **Parameters**
@@ -147,7 +150,7 @@ Open questions to settle before building:
 Design impact on the core build:
 
 - SFAD means the interval changes on every hit, so the hit count N is no longer known at note-on. The timing core would move from a fixed `metro` plus hit count to a `delay` re-armed on every hit (still in ticks) that stops once the elapsed time reaches LEN.
-- So VFAD should measure its position by time through LEN (t = elapsed / LEN), not by hit number. The time-based curve works with SFAD; the hit-number one doesn't. The catch: the last hit lands just before the end of LEN, so it stops slightly short of the end velocity. Decide this when building VFAD in v2, so that SFAD doesn't force a rewrite later.
+- That's why VFAD measures its position by time through LEN (see Velocity fade above): it needs no hit count, so it carries over to SFAD unchanged.
 - PROB uses a native `random` per repeat in the scheduler thread: no JS.
 
 ## Out of scope and open items
